@@ -1,12 +1,13 @@
-const express = require('express');
-const app = express();
+const http = require('http');
 const path = require('path');
 const fs = require('fs');
 const Parser = require("binary-parser").Parser;
 const streamToBuffer = require('stream-to-buffer');
 const pako = require('pako');
 
-const fileName = path.join(__dirname, 'Test1.wwd');
+const port = process.env.PORT || 3000;
+
+const fileName = path.join(__dirname, 'db', 'Test1.wwd');
 
 const wwdFlagsParser = new Parser()
   .bit6("reserved")
@@ -217,35 +218,41 @@ const wwdBodyParser = new Parser()
     length: "mainPlane.objectsNumber"
   })
   .nest("tileAttributes", { type: wwdTileAttributesParser });
- 
-app.get('/', function (req, res) {
-  const readStream = fs.createReadStream(fileName);
-  streamToBuffer(readStream, function (err, buffer) {
-    let { rest, ...wwdHeader } = wwdHeaderParser.parse(buffer);
-    
-    if (wwdHeader.flags.compressed) {
-      rest = Buffer.from(pako.inflate(rest));
-    }
-    
-    const wwdBody = wwdBodyParser.create(function () {
-      return { planesCount: wwdHeader.planesCount }; 
-    }).parse(rest);
 
-    wwdBody.tileAttributes.data = wwdBody.tileAttributes.data.map(
-      (tile, index) => {
-        tile["id"] = index;
-        return tile;
-      }
-    ).filter(
-      (tile) => {
-        return tile.type !== 1 || tile.atrib !== 0;
-      }
-    );
-	
-    const { data, ...out } = wwdBody;
-    
-    res.json(out);
-  });
-});
- 
-app.listen(3000);
+// Start minimal UI endpoint
+http.createServer(function (req, res) {
+    if (req.url === '/') {
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        const readStream = fs.createReadStream(fileName);
+        streamToBuffer(readStream, function (err, buffer) {
+            let { rest, ...wwdHeader } = wwdHeaderParser.parse(buffer);
+
+            if (wwdHeader.flags.compressed) {
+                rest = Buffer.from(pako.inflate(rest));
+            }
+
+            const wwdBody = wwdBodyParser.create(function () {
+                return { planesCount: wwdHeader.planesCount };
+            }).parse(rest);
+
+            wwdBody.tileAttributes.data = wwdBody.tileAttributes.data.map(
+                (tile, index) => {
+                    tile["id"] = index;
+                    return tile;
+                }
+            ).filter(
+                (tile) => {
+                    return tile.type !== 1 || tile.atrib !== 0;
+                }
+            );
+
+            const { data, ...out } = wwdBody;
+
+            res.write(JSON.stringify(out), null, 4);
+            res.end();
+        });
+    } else {
+        res.writeHead(404);
+        res.end();
+    }
+}).listen(port);
