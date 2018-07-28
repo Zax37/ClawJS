@@ -11,10 +11,11 @@
     "claw",
     "js"
   ],
+  "repository": "https://github.com/Zax37/ClawJS",
   "author": "Zax37",
   "license": "ISC",
   "dependencies": {
-    "binary-parser": "^1.3.2",
+    "binary-parser": "github:Zax37/binary-parser",
     "pako": "^1.0.6",
     "stream-to-buffer": "^0.1.0"
   }
