@@ -17,6 +17,8 @@
   "dependencies": {
     "binary-parser": "github:Zax37/binary-parser",
     "pako": "^1.0.6",
+    "phaser": "^3.11.0",
     "stream-to-buffer": "^0.1.0"
-  }
+  },
+  "devDependencies": {}
 }

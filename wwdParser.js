@@ -188,20 +188,7 @@ const wwdTileAttributesParser = new Parser()
 const wwdPlaneBodyParser = new Parser()
   .array("data", {
     type: "uint32le",
-    length: "dataLength",
-    formatter: function (data) {
-      return String.fromCharCode.apply(String, data);
-    }
-  });
-
-const wwdPlanesBodyParser = new Parser()
-  .nest("planes[vars.i]", {
-    type: wwdPlaneBodyParser,
-    formatter: function (data) {
-      this.i++;
-      return data;
-    },
-    alreadyExists: true
+    length: "dataLength"
   });
 
 const wwdPlaneImageSetsParser = new Parser()
@@ -228,7 +215,18 @@ const wwdBodyParser = new Parser()
   .array("planes", {
     type: wwdPlaneBodyParser,
     length: "planesCount",
-    alreadyExists: true
+    alreadyExists: true,
+    formatter: function (planes) {
+      console.log(planes);
+      planes.map(plane => {
+        plane.data = [].concat.apply([],
+          plane.data.map(function(data,i) {
+            return i%plane.tilesWide ? [] : [plane.data.slice(i,i+plane.tilesWide)];
+          })
+        );
+      });
+      return planes;
+    }
   })
   .array("planes", {
     type: wwdPlaneImageSetsParser,
@@ -263,7 +261,7 @@ class WwdParser {
       return { i: 0, planesCount: wwdHeader.planesCount };
     }).parse(rest);
 
-    return { wwdHeader, wwdBody };
+    return { ...wwdHeader, ...wwdBody };
   }
 }
 
