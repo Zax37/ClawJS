@@ -13,7 +13,13 @@ const wwdHeaderParser = new Parser()
   .skip(4)
   .nest("flags", { type: wwdFlagsParser })
   .skip(4)
-  .string("name", { encoding: "ascii", length: 64, stripNull: true })
+  .string("name", {
+    encoding: "ascii", length: 64, stripNull: true,
+    assert: function (name) {
+      vars.baseLevel = parseInt(name.match(/\d+$/)[0]);
+      return vars.baseLevel > 0 && vars.baseLevel <= 14;
+    }
+  })
   .string("author", { encoding: "ascii", length: 64, stripNull: true })
   .string("date", { encoding: "ascii", length: 64, stripNull: true })
   .string("rezPath", { encoding: "ascii", length: 256, stripNull: true })
@@ -217,7 +223,6 @@ const wwdBodyParser = new Parser()
     length: "planesCount",
     alreadyExists: true,
     formatter: function (planes) {
-      console.log(planes);
       planes.map(plane => {
         plane.data = [].concat.apply([],
           plane.data.map(function(data,i) {

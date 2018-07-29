@@ -31,4 +31,29 @@ function getContentType(url){
   }
 }
 
-module.exports = { serveFile };
+function mapDataIfSchemaSupplied(wwd) {
+  const mapping = {};
+  const pre = "L"+wwd.baseLevel+"_";
+  wwd.planes.forEach(plane => {
+    plane.imageSets.forEach(imageSet => {
+      const name = pre + imageSet + ".json";
+      const file = path.join(__dirname, 'resources', name);
+      if (mapping[name] === undefined) {
+        try {
+          mapping[name] = JSON.parse(fs.readFileSync(file));
+        } catch (e) {
+          mapping[name] = null;
+        }
+      }
+
+      if (mapping[name] !== null) {
+        plane.data.forEach((chunk, i) => {
+          plane.data[i] = chunk.map(id => mapping[name].indexOf(id));
+        });
+      }
+    });
+  });
+  return wwd;
+}
+
+module.exports = { serveFile, mapDataIfSchemaSupplied };

@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const streamToBuffer = require('stream-to-buffer');
 const WwdParser = require('./wwdParser');
-const { serveFile } = require('./utils');
+const { serveFile, mapDataIfSchemaSupplied } = require('./utils');
 
 const port = process.env.PORT || 3000;
 const fileName = path.join(__dirname, 'db', 'Test1.wwd');
@@ -25,8 +25,12 @@ http.createServer(function (req, res) {
         return;
       }
       const wwd = wwdParser.parse(buffer);
+      mapDataIfSchemaSupplied(wwd);
       res.writeHead(200, {'Content-Type': 'text/javascript'});
-      res.write("const level = " + JSON.stringify(wwd.planes[0].data) + ";");
+      res.write(`
+        const startX = ${wwd.startX};
+        const startY = ${wwd.startY};
+        const level = ${JSON.stringify(wwd.planes[1].data)};`);
       res.end();
     });
   } else {
