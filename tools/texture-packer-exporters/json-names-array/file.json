@@ -1,0 +1,4 @@
+[
+	{% for sprite in allSprites %}{{sprite.trimmedName|floatformat:0}}{% if not forloop.last %}, {% if forloop.counter|divisibleby:8 %}
+	{% endif %}{% endif %}{% endfor %}
+]

@@ -1,5 +1,11 @@
 const Parser = require("binary-parser").Parser;
 const pako = require('pako');
+const path = require('path');
+const fs = require('fs');
+
+const gameData = JSON.parse(fs.readFileSync(path.join(__dirname, 'resources', 'CLAW.json')));
+
+const WWD_COLOR_FILL = 4008636142;
 
 const wwdFlagsParser = new Parser()
   .bit6("reserved")
@@ -16,7 +22,7 @@ const wwdHeaderParser = new Parser()
   .string("name", {
     encoding: "ascii", length: 64, stripNull: true,
     assert: function (name) {
-      vars.baseLevel = parseInt(name.match(/\d+$/)[0]);
+      vars.baseLevel = parseInt(name.match(/.*(\d+).*/)[1]);
       return vars.baseLevel > 0 && vars.baseLevel <= 14;
     }
   })
@@ -63,7 +69,7 @@ const wwdPlaneHeaderParser = new Parser()
   .uint32("pxWide")
   .uint32("pxHigh")
   .uint32("tileWidth")
-  .uint32("tileHeigh")
+  .uint32("tileHeight")
   .uint32("tilesWide")
   .uint32("tilesHigh")
   .skip(8)
@@ -267,6 +273,33 @@ class WwdParser {
     }).parse(rest);
 
     return { ...wwdHeader, ...wwdBody };
+  }
+
+  parseToPhaser(buffer) {
+    let wwd = this.parse(buffer);
+
+    const levelData = gameData.levels[wwd.baseLevel - 1]; // 0-based array
+    const tileSetsNumber = levelData.tileSets.length;
+
+    wwd.planes.forEach(plane => {
+      plane.fillColor = levelData.palette[plane.fillColor];
+      plane.imageSets.forEach(imageSet => {
+        for (let i = 0; i < tileSetsNumber; i++) {
+          if (levelData.tileSets[i].name === imageSet) {
+            const mapping = levelData.tileSets[i].mapping;
+            plane.data.forEach((chunk, i) => {
+              plane.data[i] = chunk.map(id => {
+                  return mapping.indexOf(id);
+                }
+              );
+            });
+            break;
+          }
+        }
+      });
+    });
+
+    return wwd;
   }
 }
 

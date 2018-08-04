@@ -3,10 +3,10 @@ const path = require('path');
 const fs = require('fs');
 const streamToBuffer = require('stream-to-buffer');
 const WwdParser = require('./wwdParser');
-const { serveFile, mapDataIfSchemaSupplied } = require('./utils');
+const { serveFile } = require('./utils');
 
 const port = process.env.PORT || 3000;
-const fileName = path.join(__dirname, 'db', 'Test1.wwd');
+const mapFileName = path.join(__dirname, 'resources/maps', 'RETAIL1.wwd');
 
 const wwdParser = new WwdParser();
 
@@ -14,26 +14,29 @@ const wwdParser = new WwdParser();
 http.createServer(function (req, res) {
   if (req.url === '/') {
     serveFile(path.join(__dirname, 'frontend/index.html'), res);
+  } else if (req.url === '/index.js') {
+    serveFile(path.join(__dirname, 'frontend/index.js'), res);
   } else if (req.url === '/phaser.js') {
     serveFile(path.join(__dirname, 'node_modules/phaser/dist/phaser-arcade-physics.js'), res);
   } else if (req.url === '/data.js') {
-    const readStream = fs.createReadStream(fileName);
+    const readStream = fs.createReadStream(mapFileName);
     streamToBuffer(readStream, function (err, buffer) {
       if (err) {
         res.writeHead(500);
         res.end();
         return;
       }
-      const wwd = wwdParser.parse(buffer);
-      mapDataIfSchemaSupplied(wwd);
-      res.writeHead(200, {'Content-Type': 'text/javascript'});
-      res.write(`
-        const startX = ${wwd.startX};
-        const startY = ${wwd.startY};
-        const level = ${JSON.stringify(wwd.planes[1].data)};`);
+      const wwd = wwdParser.parseToPhaser(buffer);
+      res.writeHead(200, {'Content-Type': 'application/javascript'});
+      res.write('const level = ' + JSON.stringify({
+        base: wwd.baseLevel,
+        startX: wwd.startX,
+        startY: wwd.startY,
+        layers: wwd.planes
+      }) + ';');
       res.end();
     });
   } else {
-    serveFile(path.join(__dirname, 'frontend', req.url), res);
+    serveFile(path.join(__dirname, 'resources', req.url), res);
   }
 }).listen(port);

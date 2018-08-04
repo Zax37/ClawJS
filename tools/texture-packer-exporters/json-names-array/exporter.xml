@@ -1,0 +1,70 @@
+<exporter version="1.0">
+    <!-- identifier of the exporter -->
+    <name>jsonNamesArray</name>
+	
+    <!-- display name of the exporter for the combo box -->
+    <displayName>JSON Names Array</displayName>
+	
+    <!-- description of the exporter -->
+    <description>Exporter to demonstrate how to crate your own exporters</description>
+
+    <!-- exporter version -->
+    <version>1.0</version>
+	
+    <files>
+
+        <file>
+            <!-- name of this file variable -->
+            <name>jsonFile</name>
+
+            <!-- human readable name (for GUI) -->
+            <displayName>JSON file</displayName>
+
+            <!-- file extension for the file -->
+            <fileExtension>json</fileExtension>
+
+            <!-- description what the file contains, used in tooltips in the GUI -->
+            <description>File containing names array.</description>
+
+            <!-- name of the template file -->
+            <template>file.json</template>
+
+            <!-- write this file only for the first AutoSD variation -->
+            <!-- values are: all (default), first, last -->
+            <hasSeparateAutoSDFiles>first</hasSeparateAutoSDFiles>
+
+            <!-- do not write a file for each multipack variation -->
+            <hasSeparateMultiPackFiles>false</hasSeparateMultiPackFiles>
+        </file>
+    </files>
+	
+	<!-- target framework supports trimming -->
+    <supportsTrimming>false</supportsTrimming>
+
+    <!-- target framework supports rotated sprites -->
+    <supportsRotation>false</supportsRotation>
+
+    <!-- supports npot sizes -->
+    <supportsNPOT>true</supportsNPOT>
+
+    <!-- supports file name stripping (remove .png etc) -->
+    <supportsTrimSpriteNames>yes</supportsTrimSpriteNames>
+
+    <!-- supports texure subpath -->
+    <supportsTextureSubPath>yes</supportsTextureSubPath>
+
+    <!-- default values, applied when the exporter is activated in the UI or command line -->
+    <defaults>
+        <!-- this is currently only a subset of settings -->
+		<algorithm>Basic</algorithm>
+        <extrude>0</extrude>
+        <shapePadding>0</shapePadding>
+        <borderPadding>0</borderPadding>
+        <trimMode>Trim</trimMode>
+        <writePivotPoints>false</writePivotPoints>
+        <sizeConstraints>AnySize</sizeConstraints>
+    </defaults>
+
+</exporter>
+
+
