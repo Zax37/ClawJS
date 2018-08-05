@@ -6,7 +6,7 @@ const WwdParser = require('./wwdParser');
 const { serveFile } = require('./utils');
 
 const port = process.env.PORT || 3000;
-const mapFileName = path.join(__dirname, 'resources/maps', 'RETAIL1.wwd');
+const mapFileName = path.join(__dirname, 'resources/maps', 'RETAIL3.wwd');
 
 const wwdParser = new WwdParser();
 
@@ -16,6 +16,8 @@ http.createServer(function (req, res) {
     serveFile(path.join(__dirname, 'frontend/index.html'), res);
   } else if (req.url === '/index.js') {
     serveFile(path.join(__dirname, 'frontend/index.js'), res);
+  } else if (req.url === '/mapFactory.js') {
+    serveFile(path.join(__dirname, 'frontend/mapFactory.js'), res);
   } else if (req.url === '/phaser.js') {
     serveFile(path.join(__dirname, 'node_modules/phaser/dist/phaser-arcade-physics.js'), res);
   } else if (req.url === '/data.js') {
@@ -32,6 +34,7 @@ http.createServer(function (req, res) {
         base: wwd.baseLevel,
         startX: wwd.startX,
         startY: wwd.startY,
+        mainLayerIndex: wwd.planes.indexOf(wwd.mainPlane),
         layers: wwd.planes
       }) + ';');
       res.end();

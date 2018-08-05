@@ -227,17 +227,7 @@ const wwdBodyParser = new Parser()
   .array("planes", {
     type: wwdPlaneBodyParser,
     length: "planesCount",
-    alreadyExists: true,
-    formatter: function (planes) {
-      planes.map(plane => {
-        plane.data = [].concat.apply([],
-          plane.data.map(function(data,i) {
-            return i%plane.tilesWide ? [] : [plane.data.slice(i,i+plane.tilesWide)];
-          })
-        );
-      });
-      return planes;
-    }
+    alreadyExists: true
   })
   .array("planes", {
     type: wwdPlaneImageSetsParser,
@@ -287,12 +277,8 @@ class WwdParser {
         for (let i = 0; i < tileSetsNumber; i++) {
           if (levelData.tileSets[i].name === imageSet) {
             const mapping = levelData.tileSets[i].mapping;
-            plane.data.forEach((chunk, i) => {
-              plane.data[i] = chunk.map(id => {
-                  return mapping.indexOf(id);
-                }
-              );
-            });
+            plane.fillTileIndex = mapping.length - 1;
+            plane.data = plane.data.map(id => mapping.indexOf(id));
             break;
           }
         }
