@@ -1,7 +1,3 @@
-const CANVAS_WIDTH = 800;
-const CANVAS_HEIGHT = 600;
-const centeringX = 320, centeringY = 240;
-
 Phaser.GameObjects.GameObjectFactory.register('map', function (data)
 {
   const mainLayer = data.layers[data.mainLayerIndex];

@@ -11,7 +11,6 @@ function serveFile(file, res) {
       res.writeHead(200, {'Content-Type': getContentType(file)});
       res.write(content);
       res.end();
-      console.log(`Response: 200 ${file}`);
     }
   });
 }

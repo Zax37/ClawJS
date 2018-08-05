@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const Parser = require("binary-parser").Parser;
+const WwdParser = require("./wwdParser");
 
 const colorParser = new Parser()
   .endianess("little")
@@ -19,7 +20,6 @@ const paletteParser = new Parser()
     }
   });
 
-const file = path.join(__dirname, '../resources/CLAW.json');
 const data = {
   levels: []
 };
@@ -38,4 +38,36 @@ for (let i = 1; i <= 14; i++) {
   });
 }
 
-fs.writeFileSync(file, JSON.stringify(data));
+const mapsDir = path.join(__dirname, '../resources/maps');
+const wwdParser = new WwdParser();
+
+[...Array(14)].forEach((_, i) => {
+  const mapFileName = path.join(mapsDir, `RETAIL${i+1}.WWD`);
+  const wwd = wwdParser.parse(fs.readFileSync(mapFileName));
+
+  const levelData = data.levels[wwd.baseLevel - 1]; // 0-based array
+  const tileSetsNumber = levelData.tileSets.length;
+
+  wwd.planes.forEach(plane => {
+    plane.fillColor = levelData.palette[plane.fillColor];
+    plane.imageSets.forEach(imageSet => {
+      for (let i = 0; i < tileSetsNumber; i++) {
+        if (levelData.tileSets[i].name === imageSet) {
+          const mapping = levelData.tileSets[i].mapping;
+          plane.fillTileIndex = mapping.length - 1;
+          plane.data = plane.data.map(id => mapping.indexOf(id));
+          break;
+        }
+      }
+    });
+  });
+
+  const outputFileName = path.join(mapsDir, `RETAIL${i+1}.json`);
+  fs.writeFileSync(outputFileName, JSON.stringify({
+    base: wwd.baseLevel,
+    startX: wwd.startX,
+    startY: wwd.startY,
+    mainLayerIndex: wwd.planes.indexOf(wwd.mainPlane),
+    layers: wwd.planes
+  }));
+});

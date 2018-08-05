@@ -15,10 +15,10 @@
   "author": "Zax37",
   "license": "ISC",
   "dependencies": {
-    "binary-parser": "github:Zax37/binary-parser",
-    "pako": "^1.0.6",
-    "phaser": "3.6.0",
-    "stream-to-buffer": "^0.1.0"
+    "phaser": "3.6.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "binary-parser": "github:Zax37/binary-parser",
+    "pako": "1.0.6"
+  }
 }
