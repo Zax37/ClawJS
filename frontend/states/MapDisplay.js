@@ -1,4 +1,4 @@
-let cursors, controls, graphics, map, manager;
+let cursors, controls, graphics, map;
 
 class MapDisplay extends Phaser.Scene {
   constructor () {
@@ -7,7 +7,6 @@ class MapDisplay extends Phaser.Scene {
 
   preload ()
   {
-    manager = this;
     this.load.json('level', `maps/RETAIL${level}.json`);
     this.load.image("BACK", `tilesets/L${level}_BACK.png`);
     this.load.image("ACTION", `tilesets/L${level}_ACTION.png`);
@@ -18,6 +17,7 @@ class MapDisplay extends Phaser.Scene {
   {
     level = this.cache.json.get('level');
     map = this.add.map(level);
+    resize();
 
     camera = this.cameras.main;
     camera.scrollX = level.startX;

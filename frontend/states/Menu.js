@@ -1,14 +1,8 @@
-let camera, level;
+
 
 class Menu extends Phaser.Scene {
   constructor () {
     super({key: "Menu"});
-  }
-
-  resize() {
-    game.resize(document.body.clientWidth, document.body.clientHeight);
-    camera.x = (document.body.clientWidth - CANVAS_WIDTH) / 2;
-    camera.y = (document.body.clientHeight - CANVAS_HEIGHT) / 2;
   }
 
   preload ()
@@ -22,7 +16,7 @@ class Menu extends Phaser.Scene {
   create ()
   {
     camera = this.cameras.main;
-    this.resize();
+    resize();
     this.image = this.add.image(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, "MENU_BG");
     let icon1 = this.add.sprite(CANVAS_WIDTH / 2 - 64, CANVAS_HEIGHT / 2, "L1").setInteractive(),
         icon2 = this.add.image(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, "L2").setInteractive(),
@@ -45,7 +39,7 @@ class Menu extends Phaser.Scene {
       });
     });
 
-    window.addEventListener('resize', this.resize);
+    window.addEventListener('resize', resize);
     const el = document.getElementsByTagName("body")[0];
     const requestFullScreen = el.requestFullscreen || el.msRequestFullscreen
       || el.mozRequestFullScreen || el.webkitRequestFullscreen;
