@@ -16,7 +16,7 @@ const config = {
 };
 
 const game = new Phaser.Game(config);
-let camera, level;
+let camera;
 
 function resize() {
   game.resize(document.body.clientWidth, document.body.clientHeight);

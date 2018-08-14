@@ -68,6 +68,7 @@ const wwdParser = new WwdParser();
     startX: wwd.startX,
     startY: wwd.startY,
     mainLayerIndex: wwd.planes.indexOf(wwd.mainPlane),
-    layers: wwd.planes
+    layers: wwd.planes,
+    objects: wwd.objects
   }));
 });

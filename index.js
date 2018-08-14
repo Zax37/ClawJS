@@ -18,7 +18,7 @@ http.createServer(function (req, res) {
   } else if (req.url === '/states/Menu.js') {
     serveFile(path.join(__dirname, 'frontend/states/Menu.js'), res);
   } else if (req.url === '/phaser.js') {
-    serveFile(path.join(__dirname, 'node_modules/phaser/dist/phaser-arcade-physics.js'), res);
+    serveFile(path.join(__dirname, 'node_modules/phaser/dist/phaser.js'), res);
   } else {
     serveFile(path.join(__dirname, 'resources', req.url), res);
   }

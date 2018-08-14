@@ -76,7 +76,7 @@ Phaser.GameObjects.GameObjectFactory.register('map', function (data)
   const map = new Phaser.Tilemaps.Tilemap(this.scene, mapData);
 
   Object.keys(tileSets).forEach(set => {
-    tileSets[set] = map.addTilesetImage(set, undefined, undefined, undefined, 1, 2);
+    tileSets[set] = map.addTilesetImage(`L${data.base}_${set}`, undefined, undefined, undefined, 1, 2);
   });
 
   layersData.forEach((layer, i) => {
@@ -85,6 +85,9 @@ Phaser.GameObjects.GameObjectFactory.register('map', function (data)
       layer = map.createDynamicLayer(i, tileSets[layer.properties.imageSet], CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
     } else {
       layer = map.createStaticLayer(i, tileSets[layer.properties.imageSet], CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+    }
+    if (layer === mainLayer) {
+      map.createFromObjects(name, id, spriteConfig);
     }
     layer.scrollFactorX = speedX;
     layer.scrollFactorY = speedY;

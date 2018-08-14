@@ -1,8 +1,13 @@
-
-
 class Menu extends Phaser.Scene {
   constructor () {
     super({key: "Menu"});
+  }
+
+  init (backFromGame)
+  {
+    if (backFromGame === true) {
+      //this.scene.stop("MapDisplay");
+    }
   }
 
   preload ()
@@ -16,9 +21,8 @@ class Menu extends Phaser.Scene {
   create ()
   {
     camera = this.cameras.main;
-    resize();
     this.image = this.add.image(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, "MENU_BG");
-    let icon1 = this.add.sprite(CANVAS_WIDTH / 2 - 64, CANVAS_HEIGHT / 2, "L1").setInteractive(),
+    let icon1 = this.add.image(CANVAS_WIDTH / 2 - 64, CANVAS_HEIGHT / 2, "L1").setInteractive(),
         icon2 = this.add.image(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, "L2").setInteractive(),
         icon3 = this.add.image(CANVAS_WIDTH / 2 + 64, CANVAS_HEIGHT / 2, "L3").setInteractive();
 
@@ -34,8 +38,7 @@ class Menu extends Phaser.Scene {
 
       icon.on('pointerdown', function (event) {
         this.setTint(0x00ff00);
-        level = i + 1;
-        manager.scene.start("MapDisplay");
+        manager.scene.start("MapDisplay", i + 1);
       });
     });
 
@@ -46,7 +49,7 @@ class Menu extends Phaser.Scene {
 
     if(requestFullScreen)
     {
-      el.addEventListener("click", requestFullScreen);
+      el.addEventListener("dblclick", requestFullScreen);
     }
   }
 }

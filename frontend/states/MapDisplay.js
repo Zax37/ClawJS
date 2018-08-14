@@ -1,27 +1,33 @@
-let cursors, controls, graphics, map;
+let cursors, controls, graphics;
 
 class MapDisplay extends Phaser.Scene {
   constructor () {
     super({key: "MapDisplay"});
   }
 
+  init (baseLevel)
+  {
+    this.baseLevel = baseLevel;
+    this.level = null;
+    this.map = null;
+  }
+
   preload ()
   {
-    this.load.json('level', `maps/RETAIL${level}.json`);
-    this.load.image("BACK", `tilesets/L${level}_BACK.png`);
-    this.load.image("ACTION", `tilesets/L${level}_ACTION.png`);
-    this.load.image("FRONT", `tilesets/L${level}_FRONT.png`);
+    this.load.json(`level${this.baseLevel}`, `maps/RETAIL${this.baseLevel}.json`);
+    this.load.image(`L${this.baseLevel}_BACK`, `tilesets/L${this.baseLevel}_BACK.png`);
+    this.load.image(`L${this.baseLevel}_ACTION`, `tilesets/L${this.baseLevel}_ACTION.png`);
+    this.load.image(`L${this.baseLevel}_FRONT`, `tilesets/L${this.baseLevel}_FRONT.png`);
+    this.load.image(`zax37`, `zax37.jpg`);
   }
 
   create ()
   {
-    level = this.cache.json.get('level');
-    map = this.add.map(level);
-    resize();
-
+    this.level = this.cache.json.get(`level${this.baseLevel}`);
+    this.map = this.add.map(this.level);
     camera = this.cameras.main;
-    camera.scrollX = level.startX;
-    camera.scrollY = level.startY;
+    camera.scrollX = this.level.startX;
+    camera.scrollY = this.level.startY;
     //camera.centerOn(level.startX, level.startY);
 
     cursors = this.input.keyboard.createCursorKeys();
@@ -35,9 +41,18 @@ class MapDisplay extends Phaser.Scene {
     };
     controls = new Phaser.Cameras.Controls.FixedKeyControl(controlConfig);
 
-    /*graphics = this.add.graphics();
+    /*
+    graphics = this.add.graphics();
     graphics.fillStyle(0xff0000, 1);
-    graphics.fillRect(0, 0, 100, 100);*/
+    graphics.fillRect(camera.scrollX + CANVAS_WIDTH / 2 - 50, camera.scrollY + CANVAS_HEIGHT / 2 - 70, 100, 140);
+     */
+
+    console.log(this.level);
+    let image = this.add.image(camera.scrollX + CANVAS_WIDTH / 2, camera.scrollY + CANVAS_HEIGHT / 2, 'zax37');
+    image.setOrigin(0.5, 0.5);
+    image.setScale(0.5, 0.5);
+
+    let manager = this;
 
     let drag = false;
     this.input.on('pointerdown', function (pointer) {
@@ -59,12 +74,18 @@ class MapDisplay extends Phaser.Scene {
         camera.scrollY = drag.cameraY + drag.startY - pointer.position.y;
       }
     });
+
+    this.input.keyboard.on('keydown_ESC', function() {
+      manager.scene.start("Menu", true);
+    });
   }
 
   update (time, delta)
   {
     controls.update(delta);
-    map.update(camera);
+    if (this.map) {
+      this.map.update(camera);
+    }
   }
 
 }

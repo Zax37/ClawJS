@@ -15,7 +15,7 @@
   "author": "Zax37",
   "license": "ISC",
   "dependencies": {
-    "phaser": "3.6.0"
+    "phaser": "3.12.0-beta2"
   },
   "devDependencies": {
     "binary-parser": "github:Zax37/binary-parser",
