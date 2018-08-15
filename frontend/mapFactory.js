@@ -106,11 +106,11 @@ Phaser.GameObjects.GameObjectFactory.register('map', function (data)
       }
 
       if (layer.properties.repeatY) {
-        while (camera.scrollY * layer.properties.speedY - layer.tilemapLayer.y + CANVAS_HEIGHT * 4 > layer.heightInPixels / layer.repeatY) {
+        while (camera.scrollY * layer.properties.speedY - layer.tilemapLayer.y + CANVAS_HEIGHT > layer.heightInPixels / layer.repeatY) {
           layer.tilemapLayer.y += layer.heightInPixels / layer.repeatY;
         }
 
-        while (camera.scrollY * layer.properties.speedY - layer.tilemapLayer.y + CANVAS_HEIGHT * 4 < layer.heightInPixels / layer.repeatY) {
+        while (camera.scrollY * layer.properties.speedY - layer.tilemapLayer.y + CANVAS_HEIGHT < layer.heightInPixels / layer.repeatY) {
           layer.tilemapLayer.y -= layer.heightInPixels / layer.repeatY;
         }
       }

@@ -13,31 +13,35 @@ class Menu extends Phaser.Scene {
   preload ()
   {
     this.load.image("MENU_BG", `screens/MENU.png`);
-    this.load.image("L1", `icons/1.png`);
-    this.load.image("L2", `icons/2.png`);
-    this.load.image("L3", `icons/3.png`);
+    for (let i = 1; i <= 14; i++) {
+      this.load.image(`L${i}`, `icons/${i}.png`);
+    }
   }
 
   create ()
   {
     camera = this.cameras.main;
     this.image = this.add.image(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, "MENU_BG");
-    let icon1 = this.add.image(CANVAS_WIDTH / 2 - 64, CANVAS_HEIGHT / 2, "L1").setInteractive(),
-        icon2 = this.add.image(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, "L2").setInteractive(),
-        icon3 = this.add.image(CANVAS_WIDTH / 2 + 64, CANVAS_HEIGHT / 2, "L3").setInteractive();
+    let icons = [];
+    for (let i = 0; i < 14; i++) {
+      icons.push(this.add.image(
+        CANVAS_WIDTH / 2 - 192 + (i%7 * 64),
+        CANVAS_HEIGHT / 2 + (i>=7 ? 32 : -32),
+        `L${i+1}`
+      ).setInteractive({ useHandCursor: true }));
+    }
 
     let manager = this;
-    [icon1, icon2, icon3].forEach((icon, i) => {
-      icon.on('pointerover', function (event) {
+    icons.forEach((icon, i) => {
+      icon.on('pointerover', function () {
         this.setTint(0xff0000);
       });
 
-      icon.on('pointerout', function (event) {
+      icon.on('pointerout', function () {
         this.clearTint();
       });
 
-      icon.on('pointerdown', function (event) {
-        this.setTint(0x00ff00);
+      icon.on('pointerdown', function () {
         manager.scene.start("MapDisplay", i + 1);
       });
     });
