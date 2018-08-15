@@ -1,4 +1,4 @@
-let cursors, controls, graphics;
+let camera, cursors, controls, graphics;
 
 class MapDisplay extends Phaser.Scene {
   constructor () {

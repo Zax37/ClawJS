@@ -6,20 +6,13 @@ const config = {
   width: CANVAS_WIDTH,
   height: CANVAS_HEIGHT,
   scene: [ Menu, MapDisplay ],
+  parent: 'game',
   physics: {
     default: "arcade",
     arcade: {
       gravity: { y: 0 }
     }
-  },
-  autoResize: true
+  }
 };
 
 const game = new Phaser.Game(config);
-let camera;
-
-function resize() {
-  game.resize(document.body.clientWidth, document.body.clientHeight);
-  camera.x = (document.body.clientWidth - CANVAS_WIDTH) / 2;
-  camera.y = (document.body.clientHeight - CANVAS_HEIGHT) / 2;
-}

@@ -13,21 +13,19 @@ class Menu extends Phaser.Scene {
   preload ()
   {
     this.load.image("MENU_BG", `screens/MENU.png`);
-    for (let i = 1; i <= 14; i++) {
-      this.load.image(`L${i}`, `icons/${i}.png`);
-    }
+    this.load.multiatlas('icons', 'icons/icons.json', 'icons');
   }
 
   create ()
   {
-    camera = this.cameras.main;
     this.image = this.add.image(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, "MENU_BG");
     let icons = [];
     for (let i = 0; i < 14; i++) {
       icons.push(this.add.image(
         CANVAS_WIDTH / 2 - 192 + (i%7 * 64),
-        CANVAS_HEIGHT / 2 + (i>=7 ? 32 : -32),
-        `L${i+1}`
+        CANVAS_HEIGHT / 2 + (i>=7 ? 64 : 0),
+        'icons',
+        `${i+1}.png`
       ).setInteractive({ useHandCursor: true }));
     }
 
@@ -46,7 +44,6 @@ class Menu extends Phaser.Scene {
       });
     });
 
-    window.addEventListener('resize', resize);
     const el = document.getElementsByTagName("body")[0];
     const requestFullScreen = el.requestFullscreen || el.msRequestFullscreen
       || el.mozRequestFullScreen || el.webkitRequestFullscreen;
