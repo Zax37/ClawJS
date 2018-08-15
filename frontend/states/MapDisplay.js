@@ -54,8 +54,15 @@ class MapDisplay extends Phaser.Scene {
       repeat: -1
     });
 
+    this.anims.create({
+      key: 'run',
+      frames: this.anims.generateFrameNames('CLAW', { prefix: 'FRAME', start: 1, end: 10, zeroPad: 3, suffix: '.png' }),
+      frameRate: 10,
+      repeat: -1
+    });
+
     let claw = this.add.sprite(camera.scrollX + CANVAS_WIDTH / 2, camera.scrollY + CANVAS_HEIGHT / 2, 'CLAW');
-    claw.anims.play('stand');
+    claw.anims.play('run');
 
     let manager = this;
 

@@ -74,24 +74,28 @@ const wwdParser = new WwdParser();
   }));
 });
 
-function parseDir(dir) {
-  const items = fs.readdirSync(dir);
-
-  return items.map(item => {
-    let itemPath = path.resolve(dir, item);
-    if (item.endsWith(".PID")) {
-      return { item, ...pidParser.parse(fs.readFileSync(itemPath)) };
-    } else {
-      return { item, contents: parseDir(itemPath) };
-    }
-  });
-}
-
 if (process.argv[2]) {
   let directory = path.resolve(process.argv[2]);
-  console.log("Parsing pids in: " + directory);
-  const outputFileName = path.join(__dirname, '../resources/temp.json');
-  fs.writeFileSync(outputFileName, JSON.stringify(parseDir(directory)));
+  console.log("Parsing imagesets in: " + directory);
+
+  const items = fs.readdirSync(directory);
+  items.forEach(imageset => {
+    const imageSetFileName = path.join(__dirname, '../resources/imagesets', `${imageset}.json`);
+    try {
+      const pidFilesPath = path.join(directory, imageset, 'IMAGES');
+      const imageSetData = JSON.parse(fs.readFileSync(imageSetFileName));
+      imageSetData.textures[0].frames.forEach(frame => {
+        const pid = pidParser.parse(fs.readFileSync(path.join(pidFilesPath, frame.filename.replace('.png', '.pid'))));
+        frame.anchor = {
+          x: 0.5 - (pid.offsetX / pid.width).toPrecision(4),
+          y: 0.5 - (pid.offsetY / pid.height).toPrecision(4)
+        };
+      });
+      fs.writeFileSync(imageSetFileName,JSON.stringify(imageSetData));
+    } catch (e) {
+      console.log(`${imageset} imageset not found or corrupt, skipping`);
+    }
+  });
 } else {
   console.log("No REZ supplied, skipping pids parsing.")
 }
