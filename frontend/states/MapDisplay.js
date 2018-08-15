@@ -18,7 +18,7 @@ class MapDisplay extends Phaser.Scene {
     this.load.image(`L${this.baseLevel}_BACK`, `tilesets/L${this.baseLevel}_BACK.png`);
     this.load.image(`L${this.baseLevel}_ACTION`, `tilesets/L${this.baseLevel}_ACTION.png`);
     this.load.image(`L${this.baseLevel}_FRONT`, `tilesets/L${this.baseLevel}_FRONT.png`);
-    this.load.multiatlas('CLAW', 'imagesets/CLAW.json', 'imagesets');
+    this.load.atlas('CLAW', 'imagesets/CLAW.png', 'imagesets/CLAW.json');
   }
 
   create ()
@@ -47,8 +47,15 @@ class MapDisplay extends Phaser.Scene {
     graphics.fillRect(camera.scrollX + CANVAS_WIDTH / 2 - 50, camera.scrollY + CANVAS_HEIGHT / 2 - 70, 100, 140);
      */
 
-    console.log(this.level);
-    let image = this.add.sprite(camera.scrollX + CANVAS_WIDTH / 2, camera.scrollY + CANVAS_HEIGHT / 2, 'CLAW', 'FRAME011.png');
+    this.anims.create({
+      key: 'stand',
+      frames: this.anims.generateFrameNames('CLAW', { prefix: 'FRAME', start: 11, end: 18, zeroPad: 3, suffix: '.png' }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    let claw = this.add.sprite(camera.scrollX + CANVAS_WIDTH / 2, camera.scrollY + CANVAS_HEIGHT / 2, 'CLAW');
+    claw.anims.play('stand');
 
     let manager = this;
 

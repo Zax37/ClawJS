@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const Parser = require("binary-parser").Parser;
+const pidParser = require("./pidParser");
 const WwdParser = require("./wwdParser");
 
 const colorParser = new Parser()
@@ -72,3 +73,25 @@ const wwdParser = new WwdParser();
     objects: wwd.objects
   }));
 });
+
+function parseDir(dir) {
+  const items = fs.readdirSync(dir);
+
+  return items.map(item => {
+    let itemPath = path.resolve(dir, item);
+    if (item.endsWith(".PID")) {
+      return { item, ...pidParser.parse(fs.readFileSync(itemPath)) };
+    } else {
+      return { item, contents: parseDir(itemPath) };
+    }
+  });
+}
+
+if (process.argv[2]) {
+  let directory = path.resolve(process.argv[2]);
+  console.log("Parsing pids in: " + directory);
+  const outputFileName = path.join(__dirname, '../resources/temp.json');
+  fs.writeFileSync(outputFileName, JSON.stringify(parseDir(directory)));
+} else {
+  console.log("No REZ supplied, skipping pids parsing.")
+}
