@@ -85,11 +85,16 @@ if (process.argv[2]) {
       const pidFilesPath = path.join(directory, imageset, 'IMAGES');
       const imageSetData = JSON.parse(fs.readFileSync(imageSetFileName));
       imageSetData.textures[0].frames.forEach(frame => {
-        const pid = pidParser.parse(fs.readFileSync(path.join(pidFilesPath, frame.filename.replace('.png', '.pid'))));
-        frame.anchor = {
-          x: 0.5 - (pid.offsetX / pid.width).toPrecision(4),
-          y: 0.5 - (pid.offsetY / pid.height).toPrecision(4)
-        };
+        const pidPath = path.join(pidFilesPath, frame.filename.replace('.png', '.pid'));
+        try {
+          const pid = pidParser.parse(fs.readFileSync(pidPath));
+          frame.anchor = {
+            x: 0.5 - (pid.offsetX / pid.width).toPrecision(4),
+            y: 0.5 - (pid.offsetY / pid.height).toPrecision(4)
+          };
+        } catch (e) {
+          console.error("Failed to process " + pidPath);
+        }
       });
       fs.writeFileSync(imageSetFileName,JSON.stringify(imageSetData));
     } catch (e) {

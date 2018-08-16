@@ -19,6 +19,18 @@ class MapDisplay extends Phaser.Scene {
     this.load.image(`L${this.baseLevel}_ACTION`, `tilesets/L${this.baseLevel}_ACTION.png`);
     this.load.image(`L${this.baseLevel}_FRONT`, `tilesets/L${this.baseLevel}_FRONT.png`);
     this.load.atlas('CLAW', 'imagesets/CLAW.png', 'imagesets/CLAW.json');
+    this.load.atlas('GAME', 'imagesets/GAME.png', 'imagesets/GAME.json');
+
+    let manager = this;
+    this.load.on('complete', function () {
+      manager.anims.create({
+        key: 'stand',
+        frames: manager.anims.generateFrameNames('CLAW',
+          { prefix: 'FRAME', start: 11, end: 18, zeroPad: 3, suffix: '.png' }),
+        frameRate: 10,
+        repeat: -1
+      });
+    });
   }
 
   create ()
@@ -41,28 +53,27 @@ class MapDisplay extends Phaser.Scene {
     };
     controls = new Phaser.Cameras.Controls.FixedKeyControl(controlConfig);
 
-    /*
-    graphics = this.add.graphics();
-    graphics.fillStyle(0xff0000, 1);
-    graphics.fillRect(camera.scrollX + CANVAS_WIDTH / 2 - 50, camera.scrollY + CANVAS_HEIGHT / 2 - 70, 100, 140);
-     */
-
-    this.anims.create({
-      key: 'stand',
-      frames: this.anims.generateFrameNames('CLAW', { prefix: 'FRAME', start: 11, end: 18, zeroPad: 3, suffix: '.png' }),
-      frameRate: 10,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'run',
-      frames: this.anims.generateFrameNames('CLAW', { prefix: 'FRAME', start: 1, end: 10, zeroPad: 3, suffix: '.png' }),
-      frameRate: 10,
-      repeat: -1
-    });
-
-    let claw = this.add.sprite(camera.scrollX + CANVAS_WIDTH / 2, camera.scrollY + CANVAS_HEIGHT / 2, 'CLAW');
-    claw.anims.play('run');
+    // graphics = this.add.graphics();
+    // graphics.fillStyle(0xff0000, 1);
+    // graphics.fillRect(camera.scrollX + CANVAS_WIDTH / 2 - 50, camera.scrollY + CANVAS_HEIGHT / 2 - 70, 100, 140);
+    // this.anims.create({
+    //   key: 'run',
+    //   frames: this.anims.generateFrameNames('CLAW', { prefix: 'FRAME', start: 1, end: 10, zeroPad: 3, suffix: '.png' }),
+    //   frameRate: 10,
+    //   repeat: -1
+    // });
+    //
+    // this.anims.create({
+    //   key: 'boom',
+    //   frames: this.anims.generateFrameNames('GAME', { prefix: 'DYNAMITEEXPLO/FRAME', start: 1, end: 18, zeroPad: 2, suffix: '.png' }),
+    //   frameRate: 10,
+    //   repeat: -1
+    // });
+    //
+    // let claw = this.add.sprite(camera.scrollX + CANVAS_WIDTH / 2, camera.scrollY + CANVAS_HEIGHT / 2, 'CLAW');
+    // claw.anims.play('run');
+    //
+    // boom.anims.play('boom');
 
     let manager = this;
 

@@ -86,8 +86,11 @@ Phaser.GameObjects.GameObjectFactory.register('map', function (data)
     } else {
       layer = map.createStaticLayer(i, tileSets[layer.properties.imageSet], CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
     }
-    if (layer === mainLayer) {
-      map.createFromObjects(name, id, spriteConfig);
+    if (i === data.mainLayerIndex) {
+      let claw = this.scene.add.sprite(data.startX + CANVAS_WIDTH / 2, data.startY + CANVAS_HEIGHT / 2, 'CLAW', "FRAME011.png");
+      claw.anims.play('stand');
+      // layer.objects = [{ x: data.startX, y: data.startY, rectangle: true, width: 100, height: 180 }];
+      // console.log(layer.objects);
     }
     layer.scrollFactorX = speedX;
     layer.scrollFactorY = speedY;
