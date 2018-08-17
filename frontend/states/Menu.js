@@ -40,9 +40,13 @@ class Menu extends Phaser.Scene {
       });
 
       icon.on('pointerdown', function () {
-        manager.scene.start("MapDisplay", i + 1);
+        let level = i + 1;
+        history.pushState(null, 'ClawJS Level ' + level, '#RETAIL' + level);
+        manager.scene.start("MapDisplay", level);
       });
     });
+
+    history.replaceState(null, 'ClawJS Menu', '.');
 
     const el = document.getElementsByTagName("body")[0];
     const requestFullScreen = el.requestFullscreen || el.msRequestFullscreen

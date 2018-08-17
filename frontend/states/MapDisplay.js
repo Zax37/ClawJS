@@ -1,4 +1,4 @@
-let camera, cursors, controls, graphics, gameAnimsLoaded = false;
+let camera, cursors, controls, graphics, gameAnimsLoaded = false, goToMenu = false;
 
 class MapDisplay extends Phaser.Scene {
   constructor () {
@@ -107,12 +107,11 @@ class MapDisplay extends Phaser.Scene {
     });
 
     function backToMenu() {
-      manager.scene.start("Menu", true);
+      goToMenu = true;
     }
 
     this.input.keyboard.on('keydown_ESC', backToMenu);
-    window.onhashchange = backToMenu;
-    document.addEventListener("backbutton", backToMenu, false);
+    window.addEventListener('popstate', backToMenu);
   }
 
   update (time, delta)
@@ -120,6 +119,10 @@ class MapDisplay extends Phaser.Scene {
     controls.update(delta);
     if (this.map) {
       this.map.update(camera);
+    }
+    if (goToMenu) {
+      goToMenu = false;
+      this.scene.start("Menu", true);
     }
   }
 
