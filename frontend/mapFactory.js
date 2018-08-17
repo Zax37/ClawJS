@@ -57,7 +57,6 @@ Phaser.GameObjects.GameObjectFactory.register('map', function (data)
             : new Phaser.Tilemaps.Tile(layer, tileIndex, x + rx * layer.width, y + ry * layer.height, layer.tileWidth, layer.tileHeight);
 
           if (tileIndex === layer.properties.fillTileIndex) {
-            layer.dynamic = true;
             tile.tint = layer.properties.fillColor;
           }
 
@@ -81,11 +80,7 @@ Phaser.GameObjects.GameObjectFactory.register('map', function (data)
 
   layersData.forEach((layer, i) => {
     const {speedX, speedY} = layer.properties;
-    if (layer.dynamic) {
-      layer = map.createDynamicLayer(i, tileSets[layer.properties.imageSet], CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
-    } else {
-      layer = map.createStaticLayer(i, tileSets[layer.properties.imageSet], CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
-    }
+    layer = map.createDynamicLayer(i, tileSets[layer.properties.imageSet], CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
     if (i === data.mainLayerIndex) {
       let claw = this.scene.add.sprite(data.startX + CANVAS_WIDTH / 2, data.startY + CANVAS_HEIGHT / 2, 'CLAW', "FRAME011.png");
       claw.anims.play('stand');

@@ -1,4 +1,4 @@
-let camera, cursors, controls, graphics;
+let camera, cursors, controls, graphics, gameAnimsLoaded = false;
 
 class MapDisplay extends Phaser.Scene {
   constructor () {
@@ -23,13 +23,21 @@ class MapDisplay extends Phaser.Scene {
 
     let manager = this;
     this.load.on('complete', function () {
-      manager.anims.create({
-        key: 'stand',
-        frames: manager.anims.generateFrameNames('CLAW',
-          { prefix: 'FRAME', start: 11, end: 18, zeroPad: 3, suffix: '.png' }),
-        frameRate: 10,
-        repeat: -1
-      });
+      /*
+       * global animations should be created only once after loading first level,
+       * they live even after leaving this scene and are same for all levels
+       */
+      if (!gameAnimsLoaded) {
+        gameAnimsLoaded = true;
+
+        manager.anims.create({
+          key: 'stand',
+          frames: manager.anims.generateFrameNames('CLAW',
+            {prefix: 'FRAME', start: 11, end: 18, zeroPad: 3, suffix: '.png'}),
+          frameRate: 10,
+          repeat: -1
+        });
+      }
     });
   }
 
@@ -101,6 +109,10 @@ class MapDisplay extends Phaser.Scene {
     this.input.keyboard.on('keydown_ESC', function() {
       manager.scene.start("Menu", true);
     });
+
+    window.onhashchange = function() {
+      manager.scene.start("Menu", true);
+    }
   }
 
   update (time, delta)
