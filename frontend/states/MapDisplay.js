@@ -110,7 +110,9 @@ class MapDisplay extends Phaser.Scene {
       goToMenu = true;
     }
 
-    this.input.keyboard.on('keydown_ESC', backToMenu);
+    this.input.keyboard.on('keydown_ESC', function() {
+      history.back();
+    });
     window.addEventListener('popstate', backToMenu);
   }
 
@@ -122,7 +124,7 @@ class MapDisplay extends Phaser.Scene {
     }
     if (goToMenu) {
       goToMenu = false;
-      this.scene.start("Menu", true);
+      this.scene.start("Menu");
     }
   }
 
