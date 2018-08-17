@@ -106,13 +106,13 @@ class MapDisplay extends Phaser.Scene {
       }
     });
 
-    this.input.keyboard.on('keydown_ESC', function() {
-      manager.scene.start("Menu", true);
-    });
-
-    window.onhashchange = function() {
+    function backToMenu() {
       manager.scene.start("Menu", true);
     }
+
+    this.input.keyboard.on('keydown_ESC', backToMenu);
+    window.onhashchange = backToMenu;
+    document.addEventListener("backbutton", backToMenu, false);
   }
 
   update (time, delta)
