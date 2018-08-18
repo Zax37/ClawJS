@@ -81,19 +81,58 @@ const wwdPlaneHeaderParser = new Parser()
   .skip(12);
 
 const wwdObjectAddFlagsParser = new Parser()
-  .skip(1);
+  .bit2("reserved")
+  .bit1("fastCPU")
+  .bit1("extraMemory")
+  .bit1("multiplayer")
+  .bit1("highDetail")
+  .bit1("eyeCandy")
+  .bit1("difficult");
 
 const wwdObjectDynamicFlagsParser = new Parser()
-  .skip(1);
+  .bit4("reserved")
+  .bit1("autoHitDamage")
+  .bit1("safe")
+  .bit1("alwaysActive")
+  .bit1("noHit");
 
 const wwdObjectDrawFlagsParser = new Parser()
-  .skip(1);
+  .bit4("reserved")
+  .bit1("flash")
+  .bit1("invert")
+  .bit1("mirror")
+  .bit1("noDraw")
+  ;
 
 const wwdObjectUserFlagsParser = new Parser()
-  .skip(2);
+  .bit4("reserved")
+  .bit1("userFlag12")
+  .bit1("userFlag11")
+  .bit1("userFlag10")
+  .bit1("userFlag9")
+  .bit1("userFlag8")
+  .bit1("userFlag7")
+  .bit1("userFlag6")
+  .bit1("userFlag5")
+  .bit1("userFlag4")
+  .bit1("userFlag3")
+  .bit1("userFlag2")
+  .bit1("userFlag1");
 
 const wwdObjectTypeFlagsParser = new Parser()
-  .skip(2);
+  .bit4("reserved")
+  .bit1("user4")
+  .bit1("user3")
+  .bit1("user2")
+  .bit1("user1")
+  .bit1("special")
+  .bit1("eshot")
+  .bit1("pshot")
+  .bit1("shot")
+  .bit1("powerup")
+  .bit1("enemy")
+  .bit1("player")
+  .bit1("generic");
 
 const wwdObjectParser = new Parser()
   .endianess("little")
@@ -105,7 +144,7 @@ const wwdObjectParser = new Parser()
   .uint32("x")
   .uint32("y")
   .uint32("z")
-  .uint32("frame")
+  .int32("frame")
   .nest("addFlags", { type: wwdObjectAddFlagsParser })
   .skip(3)
   .nest("dynamicFlags", { type: wwdObjectDynamicFlagsParser })

@@ -85,10 +85,16 @@ Phaser.GameObjects.GameObjectFactory.register('map', function (data)
       for (let object of data.objects) {
         let imageSetPath = object.imageSet.split("_");
         let set = imageSetPath[0] === 'LEVEL' ? 'LEVEL' + data.base : imageSetPath[0];
-        this.scene.add.sprite(
+        let sprite = this.scene.add.sprite(
           object.x + CANVAS_WIDTH / 2,
           object.y + CANVAS_HEIGHT / 2,
-          set, object.imageSet + 1); // first frame of animation
+          set, object.imageSet + (object.frame > 0 ? object.frame : 1)); // first frame of animation
+        if (object.drawFlags.mirror) {
+          sprite.flipX = true;
+        }
+        if (object.drawFlags.invert) {
+          sprite.flipY = true;
+        }
       }
       let claw = this.scene.add.sprite(data.startX + CANVAS_WIDTH / 2, data.startY + CANVAS_HEIGHT / 2, 'CLAW');
       claw.anims.play('stand');
