@@ -82,10 +82,16 @@ Phaser.GameObjects.GameObjectFactory.register('map', function (data)
     const {speedX, speedY} = layer.properties;
     layer = map.createDynamicLayer(i, tileSets[layer.properties.imageSet], CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
     if (i === data.mainLayerIndex) {
-      let claw = this.scene.add.sprite(data.startX + CANVAS_WIDTH / 2, data.startY + CANVAS_HEIGHT / 2, 'CLAW', "FRAME011.png");
+      for (let object of data.objects) {
+        let imageSetPath = object.imageSet.split("_");
+        let set = imageSetPath[0] === 'LEVEL' ? 'LEVEL' + data.base : imageSetPath[0];
+        this.scene.add.sprite(
+          object.x + CANVAS_WIDTH / 2,
+          object.y + CANVAS_HEIGHT / 2,
+          set, object.imageSet + 1); // first frame of animation
+      }
+      let claw = this.scene.add.sprite(data.startX + CANVAS_WIDTH / 2, data.startY + CANVAS_HEIGHT / 2, 'CLAW');
       claw.anims.play('stand');
-      // layer.objects = [{ x: data.startX, y: data.startY, rectangle: true, width: 100, height: 180 }];
-      // console.log(layer.objects);
     }
     layer.scrollFactorX = speedX;
     layer.scrollFactorY = speedY;

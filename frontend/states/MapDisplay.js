@@ -20,6 +20,11 @@ class MapDisplay extends Phaser.Scene {
     this.load.image(`L${this.baseLevel}_FRONT`, `tilesets/L${this.baseLevel}_FRONT.png`);
     this.load.atlas('CLAW', 'imagesets/CLAW.png', 'imagesets/CLAW.json');
     this.load.atlas('GAME', 'imagesets/GAME.png', 'imagesets/GAME.json');
+    this.load.atlas(
+      'LEVEL' + this.baseLevel,
+      `imagesets/LEVEL${this.baseLevel}.png`,
+      `imagesets/LEVEL${this.baseLevel}.json`
+    );
 
     let manager = this;
     this.load.on('complete', function () {
@@ -33,7 +38,7 @@ class MapDisplay extends Phaser.Scene {
         manager.anims.create({
           key: 'stand',
           frames: manager.anims.generateFrameNames('CLAW',
-            {prefix: 'FRAME', start: 11, end: 18, zeroPad: 3, suffix: '.png'}),
+            {prefix: 'CLAW_', start: 11, end: 18}),
           frameRate: 10,
           repeat: -1
         });
