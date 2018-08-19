@@ -5,19 +5,19 @@ class MapDisplay extends Phaser.Scene {
     super({key: "MapDisplay"});
   }
 
-  init (baseLevel)
+  init (level)
   {
-    this.baseLevel = baseLevel;
-    this.level = null;
+    this.level = level;
+    this.baseLevel = level === 15 ? 9 : level;
     this.map = null;
   }
 
   preload ()
   {
-    this.load.json(`level${this.baseLevel}`, `maps/RETAIL${this.baseLevel}.json`);
-    this.load.image(`L${this.baseLevel}_BACK`, `tilesets/L${this.baseLevel}_BACK.png`);
-    this.load.image(`L${this.baseLevel}_ACTION`, `tilesets/L${this.baseLevel}_ACTION.png`);
-    this.load.image(`L${this.baseLevel}_FRONT`, `tilesets/L${this.baseLevel}_FRONT.png`);
+    this.load.json(`level${this.level}`, `maps/RETAIL${this.level}.json`);
+    this.load.spritesheet(`L${this.baseLevel}_BACK`, `tilesets/L${this.baseLevel}_BACK.png`, { frameWidth: 64, frameHeight: 64, margin: 1, spacing: 2 });
+    this.load.spritesheet(`L${this.baseLevel}_ACTION`, `tilesets/L${this.baseLevel}_ACTION.png`, { frameWidth: 64, frameHeight: 64, margin: 1, spacing: 2 });
+    this.load.spritesheet(`L${this.baseLevel}_FRONT`, `tilesets/L${this.baseLevel}_FRONT.png`, { frameWidth: 64, frameHeight: 64, margin: 1, spacing: 2 });
     this.load.atlas('CLAW', 'imagesets/CLAW.png', 'imagesets/CLAW.json');
     this.load.atlas('GAME', 'imagesets/GAME.png', 'imagesets/GAME.json');
     this.load.atlas(
@@ -52,7 +52,7 @@ class MapDisplay extends Phaser.Scene {
 
   create ()
   {
-    this.level = this.cache.json.get(`level${this.baseLevel}`);
+    this.level = this.cache.json.get(`level${this.level}`);
     this.map = this.add.map(this.level);
     camera = this.cameras.main;
     camera.scrollX = this.level.startX;

@@ -20,7 +20,7 @@ class Menu extends Phaser.Scene {
   {
     if(window.location.hash && window.location.hash.startsWith('#RETAIL')) {
       let level = parseInt(window.location.hash.match(/([^0-9]*)([0-9]*).*$/)[2]);
-      if (level >= 1 && level <=14) {
+      if (level >= 1 && level <=15) {
         this.goToLevel(level, true);
       } else {
         console.error("Level " + level + " does not exist.")
@@ -44,13 +44,15 @@ class Menu extends Phaser.Scene {
   {
     this.image = this.add.image(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, "MENU_BG");
     let icons = [];
-    for (let i = 0; i < 14; i++) {
-      icons.push(this.add.image(
-        CANVAS_WIDTH / 2 - 192 + (i%7 * 64),
-        CANVAS_HEIGHT / 2 + (i>=7 ? 64 : 0),
-        'icons',
-        `${i+1}.png`
-      ).setInteractive({ useHandCursor: true }));
+    for (let i = 0; i < 15; i++) {
+      let x = CANVAS_WIDTH / 2, y = CANVAS_HEIGHT / 2;
+      if (i === 14) {
+        y += 128;
+      } else {
+        x += i%7 * 64 - 192;
+        y += i>=7 ? 64 : 0;
+      }
+      icons.push(this.add.image(x, y, 'icons', `${i+1}.png`).setInteractive({ useHandCursor: true }));
     }
 
     let music = this.music = this.sound.add('music');

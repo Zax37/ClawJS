@@ -88,6 +88,18 @@ Phaser.GameObjects.GameObjectFactory.register('map', function (data)
         let imageSetPath = object.imageSet.split("_");
         let set = imageSetPath[0] === 'LEVEL' ? 'LEVEL' + data.base : imageSetPath[0];
 
+        if (object.imageSet === 'BACK') {
+          set = `L${data.base}_BACK`;
+          object.imageSet = 0;
+        } else
+        if (object.imageSet === 'ACTION') {
+          set = `L${data.base}_ACTION`;
+          object.imageSet = 0;
+        } else if (object.imageSet === 'FRONT') {
+          set = `L${data.base}_FRONT`;
+          object.imageSet = 0;
+        }
+
         let sprite;
         let warn = console.warn;
         let imageNotFound = false;
@@ -105,15 +117,17 @@ Phaser.GameObjects.GameObjectFactory.register('map', function (data)
           imageNotFound = false;
           sprite.setFrame(object.imageSet + 1);
           if (imageNotFound) {
-            console.error(`Imageset not found: ${object.imageSet}. Couldn't fall back to default frame.`);
+            console.error(`Imageset not found: ${object.imageSet + 1}. Couldn't fall back to default frame.`);
           }
         }
 
-        if (object.drawFlags.mirror) {
-          sprite.flipX = true;
-        }
-        if (object.drawFlags.invert) {
-          sprite.flipY = true;
+        if (object.drawFlags) {
+          if (object.drawFlags.mirror) {
+            sprite.flipX = true;
+          }
+          if (object.drawFlags.invert) {
+            sprite.flipY = true;
+          }
         }
 
         if (LOGICS[object.logic]) {
