@@ -1,3 +1,5 @@
+let objectsArray = [];
+
 Phaser.GameObjects.GameObjectFactory.register('map', function (data)
 {
   const mainLayer = data.layers[data.mainLayerIndex];
@@ -85,16 +87,41 @@ Phaser.GameObjects.GameObjectFactory.register('map', function (data)
       for (let object of data.objects) {
         let imageSetPath = object.imageSet.split("_");
         let set = imageSetPath[0] === 'LEVEL' ? 'LEVEL' + data.base : imageSetPath[0];
-        let sprite = this.scene.add.sprite(
+
+        let sprite;
+        let warn = console.warn;
+        let imageNotFound = false;
+
+        console.warn = function() {
+          imageNotFound = true;
+        };
+
+        sprite = this.scene.add.sprite(
           object.x + CANVAS_WIDTH / 2,
           object.y + CANVAS_HEIGHT / 2,
           set, object.imageSet + (object.frame > 0 ? object.frame : 1)); // first frame of animation
+
+        if (imageNotFound) {
+          imageNotFound = false;
+          sprite.setFrame(object.imageSet + 1);
+          if (imageNotFound) {
+            console.error(`Imageset not found: ${object.imageSet}. Couldn't fall back to default frame.`);
+          }
+        }
+
         if (object.drawFlags.mirror) {
           sprite.flipX = true;
         }
         if (object.drawFlags.invert) {
           sprite.flipY = true;
         }
+
+        if (LOGICS[object.logic]) {
+          sprite.logic = LOGICS[object.logic](object);
+          objectsArray.push(sprite);
+        }
+
+        console.warn = warn;
       }
       let claw = this.scene.add.sprite(data.startX + CANVAS_WIDTH / 2, data.startY + CANVAS_HEIGHT / 2, 'CLAW');
       claw.anims.play('stand');
@@ -125,5 +152,7 @@ Phaser.GameObjects.GameObjectFactory.register('map', function (data)
         }
       }
     });
+
+    objectsArray.forEach(object => object.logic(object));
   }};
 });

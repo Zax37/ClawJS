@@ -11,6 +11,8 @@ http.createServer(function (req, res) {
     serveFile(path.join(__dirname, 'frontend/index.html'), res);
   } else if (req.url === '/index.js') {
     serveFile(path.join(__dirname, 'frontend/index.js'), res);
+  } else if (req.url === '/logics.js') {
+    serveFile(path.join(__dirname, 'frontend/logics.js'), res);
   } else if (req.url === '/mapFactory.js') {
     serveFile(path.join(__dirname, 'frontend/mapFactory.js'), res);
   } else if (req.url === '/states/MapDisplay.js') {

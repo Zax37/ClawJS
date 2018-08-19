@@ -10,6 +10,10 @@ class Menu extends Phaser.Scene {
       history.pushState(null, 'ClawJS Level ' + level, '#RETAIL' + level);
     }
     this.scene.start("MapDisplay", level);
+
+    if (this.music) {
+      this.music.stop();
+    }
   }
 
   init ()
@@ -30,6 +34,10 @@ class Menu extends Phaser.Scene {
   {
     this.load.image("MENU_BG", `screens/MENU.png`);
     this.load.multiatlas('icons', 'icons/icons.json', 'icons');
+
+    this.load.audio('music', [
+      `music/MENU.ogg`,
+    ]);
   }
 
   create ()
@@ -45,6 +53,9 @@ class Menu extends Phaser.Scene {
       ).setInteractive({ useHandCursor: true }));
     }
 
+    let music = this.music = this.sound.add('music');
+    this.music.play();
+
     let manager = this;
     icons.forEach((icon, i) => {
       icon.on('pointerover', function () {
@@ -56,6 +67,11 @@ class Menu extends Phaser.Scene {
       });
 
       icon.on('pointerdown', function () {
+        this.setTint(0x660000);
+      });
+
+      icon.on('pointerup', function () {
+        music.stop();
         manager.goToLevel(i + 1);
       });
     });

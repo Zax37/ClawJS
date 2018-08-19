@@ -26,6 +26,10 @@ class MapDisplay extends Phaser.Scene {
       `imagesets/LEVEL${this.baseLevel}.json`
     );
 
+    this.load.audio(`L${this.baseLevel}_MUSIC`, [
+      `music/LEVEL${this.baseLevel}.ogg`,
+    ]);
+
     let manager = this;
     this.load.on('complete', function () {
       /*
@@ -88,7 +92,8 @@ class MapDisplay extends Phaser.Scene {
     //
     // boom.anims.play('boom');
 
-    let manager = this;
+    this.music = this.sound.add(`L${this.baseLevel}_MUSIC`);
+    this.music.play();
 
     let drag = false;
     this.input.on('pointerdown', function (pointer) {
@@ -130,6 +135,7 @@ class MapDisplay extends Phaser.Scene {
     if (goToMenu) {
       goToMenu = false;
       this.scene.start("Menu");
+      this.music.stop();
     }
   }
 
