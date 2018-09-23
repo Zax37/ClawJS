@@ -5,9 +5,6 @@ const LOGICS = {
     let minY = object.minY, maxY = object.maxY;
 
     if (minX && maxX) {
-      minX += CANVAS_WIDTH / 2;
-      maxX += CANVAS_WIDTH / 2;
-
       return function logic(self) {
         if (state === 0) {
           self.x += 2;
@@ -22,9 +19,6 @@ const LOGICS = {
         }
       }
     } else if (minY && maxY) {
-      minY += CANVAS_HEIGHT / 2;
-      maxY += CANVAS_HEIGHT / 2;
-
       return function logic(self) {
         if (state === 0) {
           self.y += 2;

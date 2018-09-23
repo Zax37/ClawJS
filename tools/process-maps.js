@@ -17,7 +17,9 @@ function processMaps(targetArray) {
       return plane.flags.noDraw === 0;
     });
 
-    wwd.planes.forEach(plane => {
+    let mainPlaneMappings;
+
+    wwd.planes.forEach((plane, i) => {
       plane.fillColor = levelData.palette[plane.fillColor];
       plane.imageSets.forEach(imageSet => {
         for (let i = 0; i < tileSetsNumber; i++) {
@@ -25,6 +27,7 @@ function processMaps(targetArray) {
             const mapping = levelData.tileSets[i].mapping;
             plane.fillTileIndex = mapping.length - 1;
             plane.data = plane.data.map(id => mapping.indexOf(id));
+            if (plane === wwd.mainPlane) mainPlaneMappings = mapping;
             break;
           }
         }
@@ -77,7 +80,10 @@ function processMaps(targetArray) {
       layers: wwd.planes,
       objects: wwd.objects.sort((a,b) => {
         return a.z - b.z;
-      })
+      }),
+      tileAttributes: wwd.tileAttributes.filter((ta, i) =>
+        mainPlaneMappings.includes(i)
+      ),
     }));
   });
 }

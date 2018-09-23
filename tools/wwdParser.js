@@ -276,12 +276,7 @@ const wwdBodyParser = new Parser()
   .nest("tileAttributes", {
     type: wwdTileAttributesParser,
     formatter: function (attributes) {
-      return attributes.data.map((tile, index) => {
-        tile["id"] = index;
-        return tile;
-      }).filter(tile => {
-        return tile.type !== 1 || tile.atrib !== 0;
-      });
+      return attributes.data;
     }
   });
 

@@ -2,7 +2,7 @@ let objectsArray = [];
 
 Phaser.GameObjects.GameObjectFactory.register('map', function (data)
 {
-  const mainLayer = data.layers[data.mainLayerIndex];
+  let mainLayer = data.layers[data.mainLayerIndex];
 
   const tileSets = {};
   const layersData = data.layers.map(layer => {
@@ -80,9 +80,14 @@ Phaser.GameObjects.GameObjectFactory.register('map', function (data)
     tileSets[set] = map.addTilesetImage(`L${data.base}_${set}`, undefined, undefined, undefined, 1, 2);
   });
 
+  let claw;
+  let xOffset = CANVAS_WIDTH / 2;
+  let yOffset = CANVAS_HEIGHT / 2;
+
   layersData.forEach((layer, i) => {
     const {speedX, speedY} = layer.properties;
-    layer = map.createDynamicLayer(i, tileSets[layer.properties.imageSet], CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+    layer = map.createDynamicLayer(i, tileSets[layer.properties.imageSet],
+      i === data.mainLayerIndex ? 0 : xOffset * (1 - speedX), i === data.mainLayerIndex ? 0 : yOffset * (1 - speedY));
     if (i === data.mainLayerIndex) {
       for (let object of data.objects) {
         let imageSetPath = object.imageSet.split("_");
@@ -109,8 +114,8 @@ Phaser.GameObjects.GameObjectFactory.register('map', function (data)
         };
 
         sprite = this.scene.add.sprite(
-          object.x + CANVAS_WIDTH / 2,
-          object.y + CANVAS_HEIGHT / 2,
+          object.x,
+          object.y,
           set, object.imageSet + (object.frame > 0 ? object.frame : 1)); // first frame of animation
 
         if (imageNotFound) {
@@ -137,14 +142,18 @@ Phaser.GameObjects.GameObjectFactory.register('map', function (data)
 
         console.warn = warn;
       }
-      let claw = this.scene.add.sprite(data.startX + CANVAS_WIDTH / 2, data.startY + CANVAS_HEIGHT / 2, 'CLAW');
+      claw = this.scene.add.sprite(data.startX, data.startY, 'CLAW');
       claw.anims.play('stand');
+
+      const colliding = data.tileAttributes.map((ta, id) => ({...ta, id})).filter(ta => ta.type === 1 && ta.atrib === 1).map(ta => ta.id);
+      layer.setCollision(colliding);
+      mainLayer = layer;
     }
     layer.scrollFactorX = speedX;
     layer.scrollFactorY = speedY;
   });
 
-  return { map, update: function (camera) {
+  return { claw, mainLayer, map, update: function (camera) {
     layersData.forEach(layer => {
       if (layer.properties.repeatX) {
         while (camera.scrollX * layer.properties.speedX - layer.tilemapLayer.x + CANVAS_WIDTH > layer.widthInPixels / layer.repeatX) {

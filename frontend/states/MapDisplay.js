@@ -1,4 +1,4 @@
-let camera, cursors, controls, graphics, gameAnimsLoaded = false, goToMenu = false;
+let camera, claw, cursors, controls, graphics, gameAnimsLoaded = false, goToMenu = false;
 
 class MapDisplay extends Phaser.Scene {
   constructor () {
@@ -55,9 +55,15 @@ class MapDisplay extends Phaser.Scene {
     this.level = this.cache.json.get(`level${this.level}`);
     this.map = this.add.map(this.level);
     camera = this.cameras.main;
-    camera.scrollX = this.level.startX;
-    camera.scrollY = this.level.startY;
-    //camera.centerOn(level.startX, level.startY);
+    //camera.scrollX = this.level.startX;
+    //camera.scrollY = this.level.startY;
+    camera.centerOn(this.level.startX, this.level.startY);
+
+    claw = this.map.claw;
+    this.physics.add.existing(claw, false);
+    this.physics.add.collider(claw, this.map.mainLayer);
+    claw.body.setSize(32, 112, -16, -52); //32, 50, -16, 10 for crouching
+    claw.body.velocity.y = -100;
 
     cursors = this.input.keyboard.createCursorKeys();
     var controlConfig = {
@@ -70,7 +76,13 @@ class MapDisplay extends Phaser.Scene {
     };
     controls = new Phaser.Cameras.Controls.FixedKeyControl(controlConfig);
 
-    // graphics = this.add.graphics();
+    graphics = this.add.graphics();
+    this.map.mainLayer.renderDebug(graphics, {
+      tileColor: null, // Non-colliding tiles
+      collidingTileColor: new Phaser.Display.Color(243, 134, 48, 200), // Colliding tiles
+      faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Colliding face edges
+    });
+
     // graphics.fillStyle(0xff0000, 1);
     // graphics.fillRect(camera.scrollX + CANVAS_WIDTH / 2 - 50, camera.scrollY + CANVAS_HEIGHT / 2 - 70, 100, 140);
     // this.anims.create({
@@ -138,5 +150,4 @@ class MapDisplay extends Phaser.Scene {
       this.music.stop();
     }
   }
-
 }
