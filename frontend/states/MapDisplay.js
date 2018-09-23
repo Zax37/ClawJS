@@ -105,7 +105,7 @@ class MapDisplay extends Phaser.Scene {
     // boom.anims.play('boom');
 
     this.music = this.sound.add(`L${this.baseLevel}_MUSIC`);
-    this.music.play();
+    this.music.play('', { loop: true, volume: 0.5 });
 
     let drag = false;
     this.input.on('pointerdown', function (pointer) {
