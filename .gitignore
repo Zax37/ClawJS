@@ -1,4 +1,7 @@
+.awcache
+.env
 .idea
+build
+dist
 node_modules
 resources
-frontend/assets

@@ -71,6 +71,32 @@ function processMaps(targetArray) {
       }
     });
 
+    const tileAttributes = wwd.tileAttributes.filter((ta, i) =>
+        mainPlaneMappings.includes(i)
+    );
+    const collisionGroups = { solid: [], ground: [], climb: [], death: [] };
+    const collisionMasks = [];
+
+    tileAttributes.forEach((ta, i) => {
+      switch (ta.atrib) {
+        case 1:
+          collisionGroups.solid.push(i);
+        case 2:
+          collisionGroups.ground.push(i);
+        case 3:
+          collisionGroups.climb.push(i);
+        case 4:
+          collisionGroups.death.push(i);
+      }
+
+      switch (ta.type) {
+        case 1:
+          collisionMasks.push(0);
+        case 2:
+          collisionMasks.push(0);
+      }
+    });
+
     const outputFileName = path.join(mapsDir, `RETAIL${i+1}.json`);
     fs.writeFileSync(outputFileName, JSON.stringify({
       base: wwd.baseLevel,
@@ -81,9 +107,6 @@ function processMaps(targetArray) {
       objects: wwd.objects.sort((a,b) => {
         return a.z - b.z;
       }),
-      tileAttributes: wwd.tileAttributes.filter((ta, i) =>
-        mainPlaneMappings.includes(i)
-      ),
     }));
   });
 }

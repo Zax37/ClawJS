@@ -1,11 +1,25 @@
-let camera, claw, cursors, controls, graphics, gameAnimsLoaded = false, goToMenu = false;
+import MapFactory from "../MapFactory";
 
-class MapDisplay extends Phaser.Scene {
+export default class MapDisplay extends Phaser.Scene {
+  private camera: Phaser.Cameras.Scene2D.Camera;
+  private claw: Phaser.GameObjects.GameObject;
+  private cursors: Phaser.Input.Keyboard.CursorKeys;
+  private controls: Phaser.Cameras.Controls.FixedKeyControl;
+  private graphics: Phaser.GameObjects.Graphics;
+
+  private level: any;
+  private baseLevel: number;
+  private map: any;
+  private music: Phaser.Sound.BaseSound;
+
+  private gameAnimsLoaded = false;
+  private goToMenu = false;
+
   constructor () {
     super({key: "MapDisplay"});
   }
 
-  init (level)
+  init (level: any)
   {
     this.level = level;
     this.baseLevel = level === 15 ? 9 : level;
@@ -36,8 +50,8 @@ class MapDisplay extends Phaser.Scene {
        * global animations should be created only once after loading first level,
        * they live even after leaving this scene and are same for all levels
        */
-      if (!gameAnimsLoaded) {
-        gameAnimsLoaded = true;
+      if (!manager.gameAnimsLoaded) {
+        manager.gameAnimsLoaded = true;
 
         manager.anims.create({
           key: 'stand',
@@ -53,31 +67,29 @@ class MapDisplay extends Phaser.Scene {
   create ()
   {
     this.level = this.cache.json.get(`level${this.level}`);
-    this.map = this.add.map(this.level);
-    camera = this.cameras.main;
-    //camera.scrollX = this.level.startX;
-    //camera.scrollY = this.level.startY;
-    camera.centerOn(this.level.startX, this.level.startY);
+    this.map = MapFactory.parse(this, this.level);
+    this.camera = this.cameras.main;
+    this.camera.centerOn(this.level.startX, this.level.startY);
 
-    claw = this.map.claw;
+    let claw = this.map.claw;
     this.physics.add.existing(claw, false);
     this.physics.add.collider(claw, this.map.mainLayer);
     claw.body.setSize(32, 112, -16, -52); //32, 50, -16, 10 for crouching
     claw.body.velocity.y = -100;
 
-    cursors = this.input.keyboard.createCursorKeys();
+    this.cursors = this.input.keyboard.createCursorKeys();
     var controlConfig = {
-      camera: camera,
-      left: cursors.left,
-      right: cursors.right,
-      up: cursors.up,
-      down: cursors.down,
+      camera: this.camera,
+      left: this.cursors.left,
+      right: this.cursors.right,
+      up: this.cursors.up,
+      down: this.cursors.down,
       speed: 1
     };
-    controls = new Phaser.Cameras.Controls.FixedKeyControl(controlConfig);
+    this.controls = new Phaser.Cameras.Controls.FixedKeyControl(controlConfig);
 
-    graphics = this.add.graphics();
-    this.map.mainLayer.renderDebug(graphics, {
+    this.graphics = this.add.graphics();
+    this.map.mainLayer.renderDebug(this.graphics, {
       tileColor: null, // Non-colliding tiles
       collidingTileColor: new Phaser.Display.Color(243, 134, 48, 200), // Colliding tiles
       faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Colliding face edges
@@ -107,13 +119,14 @@ class MapDisplay extends Phaser.Scene {
     this.music = this.sound.add(`L${this.baseLevel}_MUSIC`);
     this.music.play('', { loop: true, volume: 0.5 });
 
-    let drag = false;
-    this.input.on('pointerdown', function (pointer) {
+    let manager = this;
+    let drag: any = false;
+    this.input.on('pointerdown', function (pointer: Phaser.Input.Pointer) {
       drag = {
         startX: pointer.position.x,
         startY: pointer.position.y,
-        cameraX: camera.scrollX,
-        cameraY: camera.scrollY
+        cameraX: manager.camera.scrollX,
+        cameraY: manager.camera.scrollY
       };
     });
 
@@ -121,15 +134,15 @@ class MapDisplay extends Phaser.Scene {
       drag = false;
     });
 
-    this.input.on('pointermove', function (pointer) {
+    this.input.on('pointermove', function (pointer: Phaser.Input.Pointer) {
       if (drag) {
-        camera.scrollX = drag.cameraX + drag.startX - pointer.position.x;
-        camera.scrollY = drag.cameraY + drag.startY - pointer.position.y;
+        manager.camera.scrollX = drag.cameraX + drag.startX - pointer.position.x;
+        manager.camera.scrollY = drag.cameraY + drag.startY - pointer.position.y;
       }
     });
 
     function backToMenu() {
-      goToMenu = true;
+      manager.goToMenu = true;
     }
 
     this.input.keyboard.on('keydown_ESC', function() {
@@ -138,14 +151,14 @@ class MapDisplay extends Phaser.Scene {
     window.addEventListener('popstate', backToMenu);
   }
 
-  update (time, delta)
+  update (time: number, delta: number)
   {
-    controls.update(delta);
+    this.controls.update(delta);
     if (this.map) {
-      this.map.update(camera);
+      this.map.update(this.camera);
     }
-    if (goToMenu) {
-      goToMenu = false;
+    if (this.goToMenu) {
+      this.goToMenu = false;
       this.scene.start("Menu");
       this.music.stop();
     }
