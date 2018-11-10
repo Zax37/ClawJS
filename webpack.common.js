@@ -9,11 +9,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: './src/index.html',
-      templateParameters: {
-        webglRenderer: process.env.WEBGL_RENDERER === 'true',
-        canvasRenderer: process.env.CANVAS_RENDERER === 'true'
-      }
+      template: './src/index.html'
     }),
   ],
   module: {

@@ -25,20 +25,27 @@ First, you need to prepare all your resources to be served. Steps I took:
 
 ### Building and running
 
-Set of useful global dependencies to install:
+Build and run the project in dev environment:
 
 ```
-npm i -g nodemon
+npm run dev
 ```
 
-After installing them simply:
+It restarts automatically after each code change.
+
+See the results locally: http://localhost:8080/
+
+To make a production build:
 
 ```
-npm i
-nodemon
+npm run build
 ```
 
-So you don't have to restart the server manually.
+To serve a ready production build on node server:
+
+```
+node .
+```
 
 See the results locally: http://localhost:3000/
 

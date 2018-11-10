@@ -4,7 +4,7 @@
   "description": "Claw remake implemented in node.js!",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack.common.js",
+    "build": "webpack --config webpack.prod.js",
     "dev": "webpack-dev-server --config webpack.dev.js"
   },
   "keywords": [
@@ -16,20 +16,17 @@
   "author": "Zax37",
   "license": "ISC",
   "dependencies": {
-    "phaser": "3.13.0"
+    "phaser": "3.15.1"
   },
   "devDependencies": {
     "awesome-typescript-loader": "5.2.1",
     "babel-core": "6.26.3",
     "binary-parser": "github:Zax37/binary-parser",
-    "browser-sync": "2.24.6",
-    "dotenv": "6.0.0",
-    "gulp": "3.9.1",
-    "gulp-nodemon": "2.2.1",
+    "browser-sync": "2.26.3",
     "html-webpack-plugin": "3.2.0",
     "pako": "1.0.6",
     "typescript": "3.1.1",
-    "uglifyjs-webpack-plugin": "^2.0.1",
+    "uglifyjs-webpack-plugin": "2.0.1",
     "webpack": "4.20.2",
     "webpack-cli": "3.1.2",
     "webpack-dev-server": "3.1.9",
