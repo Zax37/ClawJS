@@ -26,6 +26,7 @@ export default class MapFactory {
           speedY: layer.moveYPercent / 100,
           repeatX: layer.flags.xWrapping === 1,
           repeatY: layer.flags.yWrapping === 1,
+          z: layer.zCoord,
         }
       })
     });
@@ -86,9 +87,10 @@ export default class MapFactory {
     let yOffset = CANVAS_HEIGHT / 2;
 
     layersData.forEach((layer: any, i: number) => {
-      const {speedX, speedY} = layer.properties;
+      const { speedX, speedY, z } = layer.properties;
       layer = map.createDynamicLayer(i, tileSets[layer.properties.imageSet],
         i === data.mainLayerIndex ? 0 : xOffset * (1 - speedX), i === data.mainLayerIndex ? 0 : yOffset * (1 - speedY));
+      layer.depth = z;
       if (i === data.mainLayerIndex) {
         for (let object of data.objects) {
           let imageSetPath = object.imageSet.split("_");
@@ -124,6 +126,8 @@ export default class MapFactory {
             sprite = scene.add.sprite(object.x, object.y, object.imageSet, object.frame);
           }
 
+          sprite.depth = object.z;
+
           if (imageNotFound) {
             imageNotFound = false;
             sprite.setFrame(imgSet + 1);
@@ -144,6 +148,7 @@ export default class MapFactory {
           console.warn = warn;
         }
         claw = scene.add.sprite(data.startX, data.startY, 'CLAW');
+        claw.depth = 4000;
         claw.anims.play('stand');
 
         const colliding = data.tileAttributes.map((ta: any, id: number) => ({...ta, id})).filter((ta: any) => ta.type === 1 && ta.atrib === 1).map((ta: any) => ta.id);
