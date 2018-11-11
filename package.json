@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.prod.js",
-    "dev": "webpack-dev-server --config webpack.dev.js"
+    "dev": "webpack-dev-server --config webpack.dev.js",
+    "start": "node ."
   },
   "keywords": [
     "captain",
@@ -16,7 +17,7 @@
   "author": "Zax37",
   "license": "ISC",
   "dependencies": {
-    "phaser": "3.15.1"
+    "phaser": "3.13.0"
   },
   "devDependencies": {
     "awesome-typescript-loader": "5.2.1",
