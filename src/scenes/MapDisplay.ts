@@ -74,7 +74,8 @@ export default class MapDisplay extends Phaser.Scene {
     let claw = this.map.claw;
     this.physics.add.existing(claw, false);
     this.physics.add.collider(claw, this.map.mainLayer);
-    claw.body.setSize(32, 112, -16, -52); //32, 50, -16, 10 for crouching
+    claw.body.setSize(32, 112);
+    claw.body.setOffset(32, 1);
     claw.body.velocity.y = -100;
 
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -144,6 +145,20 @@ export default class MapDisplay extends Phaser.Scene {
     function backToMenu() {
       manager.goToMenu = true;
     }
+
+    this.input.keyboard.on('keydown_A', function() {
+      claw.body.velocity.x = -100;
+    });
+
+    this.input.keyboard.on('keydown_S', function() {
+      claw.body.setSize(32, 50);
+      claw.body.setOffset(32, 63);
+    });
+
+    this.input.keyboard.on('keyup_S', function() {
+      claw.body.setSize(32, 112);
+      claw.body.setOffset(32, 1);
+    });
 
     this.input.keyboard.on('keydown_ESC', function() {
       history.back();

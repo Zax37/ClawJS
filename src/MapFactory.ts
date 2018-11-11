@@ -92,23 +92,23 @@ export default class MapFactory {
         i === data.mainLayerIndex ? 0 : xOffset * (1 - speedX), i === data.mainLayerIndex ? 0 : yOffset * (1 - speedY));
       layer.depth = z;
       if (i === data.mainLayerIndex) {
-        for (let object of data.objects) {
-          let imageSetPath = object.imageSet.split("_");
+        for (let objectData of data.objects) {
+          let imageSetPath = objectData.imageSet.split("_");
           let set = imageSetPath[0] === 'LEVEL' ? 'LEVEL' + data.base : imageSetPath[0];
 
-          if (object.imageSet === 'BACK') {
+          if (objectData.imageSet === 'BACK') {
             set = `L${data.base}_BACK`;
-            object.imageSet = 0;
+            objectData.imageSet = 0;
           } else
-          if (object.imageSet === 'ACTION') {
+          if (objectData.imageSet === 'ACTION') {
             set = `L${data.base}_ACTION`;
-            object.imageSet = 0;
-          } else if (object.imageSet === 'FRONT') {
+            objectData.imageSet = 0;
+          } else if (objectData.imageSet === 'FRONT') {
             set = `L${data.base}_FRONT`;
-            object.imageSet = 0;
+            objectData.imageSet = 0;
           }
 
-          let sprite;
+          let object;
           let warn = console.warn;
           let imageNotFound = false;
 
@@ -116,32 +116,34 @@ export default class MapFactory {
             imageNotFound = true;
           };
 
-          const imgSet = object.imageSet;
-          object.frame = object.imageSet + (object.frame > 0 ? object.frame : 1); // first frame of animation
-          object.imageSet = set;
+          const imgSet = objectData.imageSet;
+          objectData.frame = objectData.imageSet + (objectData.frame > 0 ? objectData.frame : 1); // first frame of animation
+          objectData.imageSet = set;
 
-          if (logics[object.logic]) {
-            sprite = new logics[object.logic](scene, object);
+          if (logics[objectData.logic]) {
+            object = new logics[objectData.logic](scene, objectData);
           } else {
-            sprite = scene.add.sprite(object.x, object.y, object.imageSet, object.frame);
+            object = scene.add.sprite(objectData.x, objectData.y, objectData.imageSet, objectData.frame);
           }
 
-          sprite.depth = object.z;
+          if (objectData.z) {
+            object.depth = objectData.z;
+          }
 
           if (imageNotFound) {
             imageNotFound = false;
-            sprite.setFrame(imgSet + 1);
+            object.setFrame(imgSet + 1);
             if (imageNotFound) {
               console.error(`Imageset not found: ${imgSet + 1}. Couldn't fall back to default frame.`);
             }
           }
 
-          if (object.drawFlags) {
-            if (object.drawFlags.mirror) {
-              sprite.flipX = true;
+          if (objectData.drawFlags) {
+            if (objectData.drawFlags.mirror) {
+              object.flipX = true;
             }
-            if (object.drawFlags.invert) {
-              sprite.flipY = true;
+            if (objectData.drawFlags.invert) {
+              object.flipY = true;
             }
           }
 

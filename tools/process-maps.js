@@ -104,9 +104,8 @@ function processMaps(targetArray) {
       startY: wwd.startY,
       mainLayerIndex: wwd.planes.indexOf(wwd.mainPlane),
       layers: wwd.planes,
-      objects: wwd.objects.sort((a,b) => {
-        return a.z - b.z;
-      }),
+      objects: wwd.objects,
+      tileAttributes,
     }));
   });
 }
