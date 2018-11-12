@@ -1,21 +1,14 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../config";
+import Game from "../game";
 
 export default class Menu extends Phaser.Scene {
   private background: Phaser.GameObjects.Image;
-  private music: Phaser.Sound.BaseSound;
 
-  goToLevel(level: any, replace?: boolean) {
-    if (replace) {
-      history.replaceState(null, 'ClawJS Level ' + level, '#RETAIL' + level);
-    } else {
-      history.pushState(null, 'ClawJS Level ' + level, '#RETAIL' + level);
-    }
+  game: Game;
+  static key = 'Menu';
 
-    this.scene.start("MapDisplay", level);
-
-    if (this.music) {
-      this.music.stop();
-    }
+  constructor() {
+    super({ key: Menu.key });
   }
 
   preload() {
@@ -41,8 +34,7 @@ export default class Menu extends Phaser.Scene {
       icons.push(this.add.image(x, y, 'icons', `${i + 1}.png`).setInteractive({useHandCursor: true}));
     }
 
-    this.music = this.sound.add('music');
-    this.music.play();
+    this.game.musicManager.play(this.sound.add('music'));
 
     let manager = this;
     icons.forEach((icon, i) => {
@@ -59,8 +51,7 @@ export default class Menu extends Phaser.Scene {
       });
 
       icon.on('pointerup', function (this: Phaser.GameObjects.Image) {
-        manager.music.stop();
-        manager.goToLevel(i + 1);
+        manager.game.startLevel(i + 1);
       });
     });
 

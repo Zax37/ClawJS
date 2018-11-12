@@ -60168,7 +60168,7 @@ declare namespace Phaser {
              * @param key The Scene to start.
              * @param data Optional data object to pass to Scene.Settings and Scene.init.
              */
-            start(key: string, data?: object): Phaser.Scenes.SceneManager;
+            start(key: string, data?: any): Phaser.Scenes.SceneManager;
 
             /**
              * Stops the given Scene.

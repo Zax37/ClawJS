@@ -1,5 +1,6 @@
 import Sprite = Phaser.GameObjects.Sprite;
 import Scene = Phaser.Scene;
+import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 
 export default class Elevator extends Sprite {
   minX: number;
@@ -9,8 +10,8 @@ export default class Elevator extends Sprite {
   goingRight: boolean;
   goingDown: boolean;
 
-  constructor(scene: Scene, object: any) {
-    super(scene, object.x, object.y, object.imageSet, object.frame);
+  constructor(scene: Scene, mainLayer: DynamicTilemapLayer, object: any) {
+    super(scene, object.x, object.y, object.imageSet, object.image + object.frame);
 
     scene.sys.displayList.add(this);
     scene.sys.updateList.add(this);

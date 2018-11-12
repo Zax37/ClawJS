@@ -1,5 +1,7 @@
-import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./config";
-import logics from "./logics";
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../config";
+import logics from "../logics/index";
+import Tile from "./Tile";
+import CaptainClaw from "../logics/CaptainClaw";
 
 export default class MapFactory {
   static parse(scene: Phaser.Scene, data: any) {
@@ -56,15 +58,10 @@ export default class MapFactory {
             i = start;
             for (let x = 0; x < layer.width; x++, i++) {
               const tileIndex = layer.data[i];
-              const tile = tileIndex === -1
+
+              row.push(tileIndex === -1
                 ? null
-                : new Phaser.Tilemaps.Tile(layer, tileIndex, x + rx * layer.width, y + ry * layer.height, layer.tileWidth, layer.tileHeight, layer.tileWidth, layer.tileHeight);
-
-              if (tileIndex === layer.properties.fillTileIndex && tile) {
-                tile.tint = layer.properties.fillColor;
-              }
-
-              row.push(tile);
+                : new Tile(layer, tileIndex, x + rx * layer.width, y + ry * layer.height, layer.tileWidth, layer.tileHeight));
             }
           }
           newData.push(row);
@@ -92,6 +89,15 @@ export default class MapFactory {
         i === data.mainLayerIndex ? 0 : xOffset * (1 - speedX), i === data.mainLayerIndex ? 0 : yOffset * (1 - speedY));
       layer.depth = z;
       if (i === data.mainLayerIndex) {
+        const colliding = data.tileAttributes.map((ta: any, id: number) => ({...ta, id})).filter((ta: any) => ta.type === 1 && ta.atrib === 1).map((ta: any) => ta.id);
+        layer.setCollision(colliding);
+
+        claw = new CaptainClaw(scene, layer, {
+          x: data.startX,
+          y: data.startY,
+          imageSet: 'CLAW',
+        });
+
         for (let objectData of data.objects) {
           let imageSetPath = objectData.imageSet.split("_");
           let set = imageSetPath[0] === 'LEVEL' ? 'LEVEL' + data.base : imageSetPath[0];
@@ -116,14 +122,17 @@ export default class MapFactory {
             imageNotFound = true;
           };
 
-          const imgSet = objectData.imageSet;
-          objectData.frame = objectData.imageSet + (objectData.frame > 0 ? objectData.frame : 1); // first frame of animation
+          if (objectData.frame <= 0) {
+            objectData.frame = 1; // first frame of animation
+          }
+
+          objectData.image = objectData.imageSet;
           objectData.imageSet = set;
 
           if (logics[objectData.logic]) {
-            object = new logics[objectData.logic](scene, objectData);
+            object = new logics[objectData.logic](scene, layer, objectData);
           } else {
-            object = scene.add.sprite(objectData.x, objectData.y, objectData.imageSet, objectData.frame);
+            object = scene.add.sprite(objectData.x, objectData.y, objectData.imageSet, objectData.image + objectData.frame);
           }
 
           if (objectData.z) {
@@ -132,9 +141,9 @@ export default class MapFactory {
 
           if (imageNotFound) {
             imageNotFound = false;
-            object.setFrame(imgSet + 1);
+            object.setFrame(objectData.image + 1);
             if (imageNotFound) {
-              console.error(`Imageset not found: ${imgSet + 1}. Couldn't fall back to default frame.`);
+              console.error(`Imageset not found: ${objectData.image + 1}. Couldn't fall back to default frame.`);
             }
           }
 
@@ -149,19 +158,13 @@ export default class MapFactory {
 
           console.warn = warn;
         }
-        claw = scene.add.sprite(data.startX, data.startY, 'CLAW');
-        claw.depth = 4000;
-        claw.anims.play('stand');
-
-        const colliding = data.tileAttributes.map((ta: any, id: number) => ({...ta, id})).filter((ta: any) => ta.type === 1 && ta.atrib === 1).map((ta: any) => ta.id);
-        layer.setCollision(colliding);
         mainLayer = layer;
       }
       layer.scrollFactorX = speedX;
       layer.scrollFactorY = speedY;
     });
 
-    return { claw, mainLayer, map, update: function (camera: Phaser.Cameras.Scene2D.Camera) {
+    return { claw, map, mainLayer, update: function (camera: Phaser.Cameras.Scene2D.Camera) {
       layersData.forEach((layer: any) => {
         if (layer.properties.repeatX) {
           while (camera.scrollX * layer.properties.speedX - layer.tilemapLayer.x + CANVAS_WIDTH > layer.widthInPixels / layer.repeatX) {
@@ -183,8 +186,6 @@ export default class MapFactory {
           }
         }
       });
-
-      //objectsArray.forEach(object => object.logic(object));
     }};
   }
 }

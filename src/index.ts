@@ -1,13 +1,22 @@
 import 'phaser'
 
 import { config } from './config';
+import Game from "./game";
 
-export class Game extends Phaser.Game {
-    constructor (config: GameConfig) {
-        super(config);
+function checkHash() {
+  if(window.location.hash && window.location.hash.startsWith('#RETAIL')) {
+    const level = parseInt(window.location.hash.match(/([^0-9]*)([0-9]*).*$/)![2]);
+    if (level >= 1 && level <= 15) {
+      game.startLevel(level, true);
+    } else {
+      console.error("Level " + level + " does not exist.")
     }
+  } else {
+    game.goToMainMenu();
+  }
 }
 
-window.onload = () => {
-    new Game(config)
-};
+const game = new Game(config);
+
+window.onload = checkHash;
+window.onhashchange = checkHash;
