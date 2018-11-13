@@ -45,7 +45,7 @@ export default class MapFactory {
       heightInPixels: mainLayer.pxHigh
     });
 
-    layersData.forEach((layer: any) => {
+    layersData.forEach((layer: any, index: number) => {
       layer.repeatX = layer.properties.repeatX ? 1 + Math.ceil(CANVAS_WIDTH / layer.widthInPixels) : 1;
       layer.repeatY = layer.properties.repeatY ? 1 + Math.ceil(CANVAS_HEIGHT / layer.heightInPixels) : 1;
 
@@ -61,7 +61,9 @@ export default class MapFactory {
 
               row.push(tileIndex === -1
                 ? null
-                : new Tile(layer, tileIndex, x + rx * layer.width, y + ry * layer.height, layer.tileWidth, layer.tileHeight));
+                : new Tile(layer, tileIndex, x + rx * layer.width, y + ry * layer.height,
+                    layer.tileWidth, layer.tileHeight, index === data.mainLayerIndex ? data.tileAttributes[tileIndex] : null));
+
             }
           }
           newData.push(row);
@@ -89,7 +91,10 @@ export default class MapFactory {
         i === data.mainLayerIndex ? 0 : xOffset * (1 - speedX), i === data.mainLayerIndex ? 0 : yOffset * (1 - speedY));
       layer.depth = z;
       if (i === data.mainLayerIndex) {
-        const colliding = data.tileAttributes.map((ta: any, id: number) => ({...ta, id})).filter((ta: any) => ta.type === 1 && ta.atrib === 1).map((ta: any) => ta.id);
+        const colliding = data.tileAttributes
+          .map((ta: any, id: number) => ({...ta, id}))
+          .filter((ta: any) => ta.type === 1 && ta.atrib === 1)
+          .map((ta: any) => ta.id);
         layer.setCollision(colliding);
 
         claw = new CaptainClaw(scene, layer, {

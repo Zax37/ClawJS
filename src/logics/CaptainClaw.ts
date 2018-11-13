@@ -4,6 +4,7 @@ import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 export default class CaptainClaw extends Phaser.Physics.Arcade.Sprite {
   inputs = {
     JUMP: false,
+    UP: false,
     DOWN: false,
     LEFT: false,
     RIGHT: false,

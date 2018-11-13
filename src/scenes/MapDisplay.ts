@@ -83,6 +83,8 @@ export default class MapDisplay extends Phaser.Scene {
     this.input.keyboard.on('keyup_RIGHT', () => claw.inputs.RIGHT = false);
     this.input.keyboard.on('keydown_DOWN', () => claw.inputs.DOWN = true);
     this.input.keyboard.on('keyup_DOWN', () => claw.inputs.DOWN = false);
+    this.input.keyboard.on('keydown_UP', () => claw.inputs.UP = true);
+    this.input.keyboard.on('keyup_UP', () => claw.inputs.UP = false);
     this.input.keyboard.on('keydown_SPACE', () => claw.inputs.JUMP = true);
     this.input.keyboard.on('keyup_SPACE', () => claw.inputs.JUMP = false);
 
