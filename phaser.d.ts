@@ -66472,7 +66472,7 @@ declare namespace Phaser {
             /**
              * Tile collision callback.
              */
-            collisionCallback: Function;
+            collisionCallback?: Function;
 
             /**
              * The context in which the collision callback will be called.

@@ -94,7 +94,7 @@ export default class MapFactory {
       if (i === data.mainLayerIndex) {
         const colliding = data.tileAttributes
           .map((ta: any, id: number) => ({...ta, id}))
-          .filter((ta: any) => (ta.atrib === 1 || ta.inside === 1))
+          .filter((ta: any) => ta.atrib === 1)
           .map((ta: any) => ta.id);
         layer.setCollision(colliding);
 

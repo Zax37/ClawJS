@@ -4,7 +4,6 @@ import CaptainClaw from "../logics/CaptainClaw";
 
 export default class MapDisplay extends Phaser.Scene {
   private camera: Phaser.Cameras.Scene2D.Camera;
-  private graphics: Phaser.GameObjects.Graphics;
   claw: CaptainClaw;
 
   private level: any;
@@ -20,7 +19,6 @@ export default class MapDisplay extends Phaser.Scene {
       physics: {
         default: 'arcade',
         arcade: {
-          debug: true,
           gravity: { y: 850 },
           timeScale: 0.6,
         }
@@ -64,13 +62,6 @@ export default class MapDisplay extends Phaser.Scene {
     this.camera.centerOn(this.level.startX, this.level.startY);
 
     this.camera.startFollow(this.claw);
-
-    this.graphics = this.add.graphics();
-    this.map.mainLayer.renderDebug(this.graphics, {
-      tileColor: null, // Non-colliding tiles
-      collidingTileColor: new Phaser.Display.Color(243, 134, 48, 200), // Colliding tiles
-      faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Colliding face edges
-    });
 
     this.game.musicManager.play(this.sound.add(`L${this.baseLevel}_MUSIC`));
 

@@ -100,6 +100,13 @@ export default class CaptainClaw extends Phaser.Physics.Arcade.Sprite {
           }
 
           if (this.inputs.DOWN) {
+            if (this.body.blocked.down) {
+              this.climbing = false;
+              this.body.allowGravity = true;
+              this.anims.play('stand');
+              return;
+            }
+
             velY = 150;
             if (!this.climbingDown) {
               this.climbingDown = true;
@@ -145,7 +152,7 @@ export default class CaptainClaw extends Phaser.Physics.Arcade.Sprite {
 
       this.touchingLadder = false;
     } else {
-      if (this.body.blocked.down && (this.anims.currentAnim.key === 'jump' || this.anims.currentAnim.key === 'fall')) {
+      if (this.body.blocked.down && this.body.velocity.y === 0 && (this.anims.currentAnim.key === 'jump' || this.anims.currentAnim.key === 'fall')) {
         this.anims.play('stand');
       }
 
@@ -155,8 +162,11 @@ export default class CaptainClaw extends Phaser.Physics.Arcade.Sprite {
       } else {
         if (this.wasDownPressed) {
           this.setCrouching(false);
-          this.anims.play('stand');
           this.wasDownPressed = false;
+
+          if (this.body.velocity.y === 0) {
+            this.anims.play('stand');
+          }
         }
 
         if (this.inputs.LEFT && !this.wasRightPressed && !this.body.blocked.left) {

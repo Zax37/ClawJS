@@ -25,24 +25,45 @@ export default class Tile extends Phaser.Tilemaps.Tile {
         }
       }
 
+      if (tileAttributes.inside === TileType.solid) {
+        this.setCollisionCallback(function (claw: CaptainClaw, tile: Tile) {
+          tile.setCollision(true, true, true, true, false);
+          tile.collisionCallback = undefined;
+        }, this);
+      }
+
       if (tileAttributes.inside === TileType.ground) {
-        this.setCollision(false, false, true, false);
+        this.setCollisionCallback(function (claw: CaptainClaw, tile: Tile) {
+          tile.setCollision(false, false, true, false, false);
+          tile.collisionCallback = undefined;
+        }, this);
       }
     }
 
     if (tileAttributes && (tileAttributes.atrib === TileType.climb || tileAttributes.inside === TileType.climb)) {
       let found = false;
-      const width = tileAttributes.x2 ? tileAttributes.x2 + 1 : this.width;
-      const height = tileAttributes.y2 ? tileAttributes.y2 + 1 : this.height;
+      let ladderTop = this.pixelY + (tileAttributes.y1 || 0);
+      const ladderLeft = this.pixelX + (tileAttributes.x1 || 0);
+      const ladderWidth = tileAttributes.x2 ? tileAttributes.x2 + 1 : this.width;
+      const ladderHeight = tileAttributes.y2 ? tileAttributes.y2 + 1 : this.height;
+      const ladderRight = this.pixelX + ladderWidth;
+
       for (const ladder of ladders) {
-        if (ladder.bottom === this.pixelY && ladder.left === this.pixelX && ladder.right === this.pixelX + width) {
+        if (ladder.bottom === ladderTop && ladder.left === ladderLeft && ladder.right === ladderRight) {
           found = true;
-          ladder.bottom = this.pixelY + height;
+          ladder.bottom = this.pixelY + ladderHeight;
+          ladderTop = ladder.top;
           break;
         }
       }
+
       if (!found) {
-        ladders.push({ top: this.pixelY, left: this.pixelX, right: this.pixelX + width, bottom: this.pixelY + height });
+        ladders.push({
+          top: ladderTop,
+          left: ladderLeft,
+          right: ladderRight,
+          bottom: this.pixelY + ladderHeight
+        });
       }
 
       this.setCollisionCallback(function (claw: CaptainClaw, tile: Tile) {
@@ -52,21 +73,21 @@ export default class Tile extends Phaser.Tilemaps.Tile {
           const climbingTop = tile.pixelY + (tileAttributes.y1 || 0);
 
           if (claw.body.top >= climbingTop) {
-            if (claw.inputs.UP && !claw.climbing) {
+            if (claw.inputs.UP && !claw.climbing && claw.x >= ladderLeft && claw.x <= ladderRight) {
               claw.setX(tile.getCenterX());
               claw.startClimbing();
-              claw.climbingTop = climbingTop;
-            } else if (claw.climbing && climbingTop < claw.climbingTop) {
-              claw.climbingTop = climbingTop;
+              claw.climbingTop = ladderTop;
             }
-          } else {
-            if (claw.inputs.DOWN && !claw.inputs.UP && (claw.anims.currentAnim.key === 'walk' || claw.anims.currentAnim.key === 'stand')) {
+          } else if (!found) { // this is a ladder top
+            if (claw.inputs.DOWN && !claw.inputs.UP && claw.x >= ladderLeft && claw.x <= ladderRight
+            && (claw.anims.currentAnim.key === 'walk' || claw.anims.currentAnim.key === 'stand')) {
               claw.setX(tile.getCenterX());
               claw.startClimbing(true);
+              claw.climbingTop = ladderTop;
             }
 
             const dy = claw.body.deltaY();
-            if (dy >= 0 && claw.body.bottom <= climbingTop + claw.body.deltaY() && !found) {
+            if (dy >= 0 && claw.body.bottom <= climbingTop + claw.body.deltaY()) {
               tile.setCollision(false, false, true, false);
             } else {
               tile.setCollision(false, false, false, false);
