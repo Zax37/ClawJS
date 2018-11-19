@@ -66372,7 +66372,7 @@ declare namespace Phaser {
              * support multiple tileset sizes within one map, but they are still placed at intervals of the
              * base tile height.
              */
-            constructor(layer: Phaser.Tilemaps.LayerData, index: integer, x: integer, y: integer, width: integer, height: integer, baseWidth: integer, baseHeight: integer);
+            constructor(layer: Phaser.Tilemaps.LayerData, index: integer, x: integer, y: integer, width: integer, height: integer);
 
             /**
              * The LayerData in the Tilemap data that this tile belongs to.
@@ -66404,18 +66404,6 @@ declare namespace Phaser {
              * The height of the tile in pixels.
              */
             height: integer;
-
-            /**
-             * The map's base width of a tile in pixels. Tiled maps support multiple tileset sizes
-             * within one map, but they are still placed at intervals of the base tile size.
-             */
-            baseWidth: integer;
-
-            /**
-             * The map's base height of a tile in pixels. Tiled maps support multiple tileset sizes
-             * within one map, but they are still placed at intervals of the base tile size.
-             */
-            baseHeight: integer;
 
             /**
              * The x coordinate of the top left of this tile in pixels. This is relative to the top left

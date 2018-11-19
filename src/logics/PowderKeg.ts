@@ -1,9 +1,9 @@
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
-import Scene = Phaser.Scene;
+import MapDisplay from "../scenes/MapDisplay";
 
 export default class PowderKeg extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene: Scene, mainLayer: DynamicTilemapLayer, object: any) {
-    super(scene, object.x, object.y, object.imageSet, object.image + object.frame);
+  constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: any) {
+    super(scene, object.x, object.y, object.texture, object.image + object.frame);
     this.depth = 4000;
 
     scene.sys.displayList.add(this);

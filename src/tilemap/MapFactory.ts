@@ -1,10 +1,11 @@
-import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../config";
+import {CANVAS_HEIGHT, CANVAS_WIDTH} from "../config";
 import logics from "../logics/index";
 import Tile from "./Tile";
 import CaptainClaw from "../logics/CaptainClaw";
+import MapDisplay from "../scenes/MapDisplay";
 
 export default class MapFactory {
-  static parse(scene: Phaser.Scene, data: any) {
+  static parse(scene: MapDisplay, data: any) {
     let mainLayer = data.layers[data.mainLayerIndex];
 
     const tileSets = {};
@@ -93,7 +94,7 @@ export default class MapFactory {
       if (i === data.mainLayerIndex) {
         const colliding = data.tileAttributes
           .map((ta: any, id: number) => ({...ta, id}))
-          .filter((ta: any) => ta.type === 1 && ta.atrib === 1)
+          .filter((ta: any) => (ta.atrib === 1 || ta.inside === 1))
           .map((ta: any) => ta.id);
         layer.setCollision(colliding);
 
@@ -105,18 +106,20 @@ export default class MapFactory {
 
         for (let objectData of data.objects) {
           let imageSetPath = objectData.imageSet.split("_");
-          let set = imageSetPath[0] === 'LEVEL' ? 'LEVEL' + data.base : imageSetPath[0];
+          let texture = imageSetPath[0] === 'LEVEL' ? 'LEVEL' + data.base : imageSetPath[0];
+
+          objectData.image = objectData.imageSet;
 
           if (objectData.imageSet === 'BACK') {
-            set = `L${data.base}_BACK`;
-            objectData.imageSet = 0;
+            texture = `L${data.base}_BACK`;
+            objectData.image = 0;
           } else
           if (objectData.imageSet === 'ACTION') {
-            set = `L${data.base}_ACTION`;
-            objectData.imageSet = 0;
+            texture = `L${data.base}_ACTION`;
+            objectData.image = 0;
           } else if (objectData.imageSet === 'FRONT') {
-            set = `L${data.base}_FRONT`;
-            objectData.imageSet = 0;
+            texture = `L${data.base}_FRONT`;
+            objectData.image = 0;
           }
 
           let object;
@@ -131,33 +134,33 @@ export default class MapFactory {
             objectData.frame = 1; // first frame of animation
           }
 
-          objectData.image = objectData.imageSet;
-          objectData.imageSet = set;
-
           if (logics[objectData.logic]) {
+            objectData.texture = texture;
             object = new logics[objectData.logic](scene, layer, objectData);
           } else {
-            object = scene.add.sprite(objectData.x, objectData.y, objectData.imageSet, objectData.image + objectData.frame);
+            object = scene.add.sprite(objectData.x, objectData.y, texture, objectData.image + objectData.frame);
           }
 
-          if (objectData.z) {
-            object.depth = objectData.z;
-          }
+          if (object) {
+            if (objectData.z) {
+              object.depth = objectData.z;
+            }
 
-          if (imageNotFound) {
-            imageNotFound = false;
-            object.setFrame(objectData.image + 1);
             if (imageNotFound) {
-              console.error(`Imageset not found: ${objectData.image + 1}. Couldn't fall back to default frame.`);
+              imageNotFound = false;
+              object.setFrame(objectData.image + 1);
+              if (imageNotFound) {
+                console.error(`Imageset not found: ${objectData.image + 1}. Couldn't fall back to default frame.`);
+              }
             }
-          }
 
-          if (objectData.drawFlags) {
-            if (objectData.drawFlags.mirror) {
-              object.flipX = true;
-            }
-            if (objectData.drawFlags.invert) {
-              object.flipY = true;
+            if (objectData.drawFlags) {
+              if (objectData.drawFlags.mirror) {
+                object.flipX = true;
+              }
+              if (objectData.drawFlags.invert) {
+                object.flipY = true;
+              }
             }
           }
 
@@ -169,7 +172,7 @@ export default class MapFactory {
       layer.scrollFactorY = speedY;
     });
 
-    return { claw, map, mainLayer, update: function (camera: Phaser.Cameras.Scene2D.Camera) {
+    return { map, mainLayer, update: function (camera: Phaser.Cameras.Scene2D.Camera) {
       layersData.forEach((layer: any) => {
         if (layer.properties.repeatX) {
           while (camera.scrollX * layer.properties.speedX - layer.tilemapLayer.x + CANVAS_WIDTH > layer.widthInPixels / layer.repeatX) {

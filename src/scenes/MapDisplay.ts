@@ -1,11 +1,11 @@
 import Game from "../game";
 import MapFactory from "../tilemap/MapFactory";
-import {config} from "../config";
+import CaptainClaw from "../logics/CaptainClaw";
 
 export default class MapDisplay extends Phaser.Scene {
   private camera: Phaser.Cameras.Scene2D.Camera;
-  private claw: Phaser.GameObjects.GameObject;
   private graphics: Phaser.GameObjects.Graphics;
+  claw: CaptainClaw;
 
   private level: any;
   private baseLevel: number;
@@ -14,8 +14,6 @@ export default class MapDisplay extends Phaser.Scene {
   game: Game;
   static key = 'MapDisplay';
 
-  private gameAnimsLoaded = false;
-
   constructor () {
     super({
       key: MapDisplay.key,
@@ -23,8 +21,8 @@ export default class MapDisplay extends Phaser.Scene {
         default: 'arcade',
         arcade: {
           debug: true,
-          gravity: { y: 2000 },
-          fps: 480,
+          gravity: { y: 850 },
+          timeScale: 0.6,
         }
       },
     });
@@ -65,8 +63,7 @@ export default class MapDisplay extends Phaser.Scene {
     this.camera = this.cameras.main;
     this.camera.centerOn(this.level.startX, this.level.startY);
 
-    let claw = this.map.claw;
-    this.camera.startFollow(claw);
+    this.camera.startFollow(this.claw);
 
     this.graphics = this.add.graphics();
     this.map.mainLayer.renderDebug(this.graphics, {
@@ -77,16 +74,16 @@ export default class MapDisplay extends Phaser.Scene {
 
     this.game.musicManager.play(this.sound.add(`L${this.baseLevel}_MUSIC`));
 
-    this.input.keyboard.on('keydown_LEFT', () => claw.inputs.LEFT = true);
-    this.input.keyboard.on('keyup_LEFT', () => claw.inputs.LEFT = false);
-    this.input.keyboard.on('keydown_RIGHT', () => claw.inputs.RIGHT = true);
-    this.input.keyboard.on('keyup_RIGHT', () => claw.inputs.RIGHT = false);
-    this.input.keyboard.on('keydown_DOWN', () => claw.inputs.DOWN = true);
-    this.input.keyboard.on('keyup_DOWN', () => claw.inputs.DOWN = false);
-    this.input.keyboard.on('keydown_UP', () => claw.inputs.UP = true);
-    this.input.keyboard.on('keyup_UP', () => claw.inputs.UP = false);
-    this.input.keyboard.on('keydown_SPACE', () => claw.inputs.JUMP = true);
-    this.input.keyboard.on('keyup_SPACE', () => claw.inputs.JUMP = false);
+    this.input.keyboard.on('keydown_LEFT', () => this.claw.inputs.LEFT = true);
+    this.input.keyboard.on('keyup_LEFT', () => this.claw.inputs.LEFT = false);
+    this.input.keyboard.on('keydown_RIGHT', () => this.claw.inputs.RIGHT = true);
+    this.input.keyboard.on('keyup_RIGHT', () => this.claw.inputs.RIGHT = false);
+    this.input.keyboard.on('keydown_DOWN', () => this.claw.inputs.DOWN = true);
+    this.input.keyboard.on('keyup_DOWN', () => this.claw.inputs.DOWN = false);
+    this.input.keyboard.on('keydown_UP', () => this.claw.inputs.UP = true);
+    this.input.keyboard.on('keyup_UP', () => this.claw.inputs.UP = false);
+    this.input.keyboard.on('keydown_SPACE', () => this.claw.inputs.JUMP = true);
+    this.input.keyboard.on('keyup_SPACE', () => this.claw.inputs.JUMP = false);
 
     this.input.keyboard.on('keydown_ESC', () => this.game.goToMainMenu());
     window.addEventListener('popstate', () => this.game.goToMainMenu());

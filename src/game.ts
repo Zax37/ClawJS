@@ -2,6 +2,7 @@ import Menu from "./scenes/Menu";
 import MapDisplay from "./scenes/MapDisplay";
 import MusicManager from "./managers/music";
 import AnimationManager from "./managers/animation";
+import DataManager from "./managers/data";
 
 enum GameState {
   InMenu,
@@ -11,7 +12,8 @@ enum GameState {
 export default class Game extends Phaser.Game {
   private state = GameState.InMenu;
   animationManager = new AnimationManager(this);
-  musicManager = new MusicManager();
+  dataManager = new DataManager();
+  musicManager = new MusicManager(this);
 
   constructor (config: GameConfig) {
     super(config);
