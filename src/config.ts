@@ -5,13 +5,13 @@ import scenes from './scenes';
 export const config: GameConfig = {
   title: 'ClawJS',
   url: 'http://clawjs.us.openode.io/',
-  version: '0.1',
+  version: '1.0.2',
   disableContextMenu: true,
   fps: {
-    min: 40,
+    min: 10,
     target: 60,
-    panicMax: 100,
-    deltaHistory: 20,
+    panicMax: 120,
+    deltaHistory: 10,
   },
   type: Phaser.AUTO,
   width: CANVAS_WIDTH,

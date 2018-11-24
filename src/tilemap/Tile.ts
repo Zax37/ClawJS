@@ -70,7 +70,7 @@ export default class Tile extends Phaser.Tilemaps.Tile {
         if (claw instanceof CaptainClaw) {
           claw.touchingLadder = true;
 
-          const climbingTop = tile.pixelY + (tileAttributes.y1 || 0);
+          const climbingTop = tile.pixelY + (tileAttributes.y1 || 0) + 1;
 
           if (claw.body.top >= climbingTop) {
             if (claw.inputs.UP && !claw.climbing && claw.x >= ladderLeft && claw.x <= ladderRight) {

@@ -1,14 +1,11 @@
-import Sprite = Phaser.GameObjects.Sprite;
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 import MapDisplay from "../scenes/MapDisplay";
+import GenericObjectWithDefaults from "./abstract/GenericObjectWithDefaults";
+import {DEFAULTS} from "./abstract/Defaults";
 
-export default class BehindCandy extends Sprite {
+export default class BehindCandy extends GenericObjectWithDefaults {
   constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: any) {
-    super(scene, object.x, object.y, object.texture, object.image + object.frame);
-
-    if (!object.z) {
-      object.z = 990;
-    }
+    super(scene, mainLayer, object, DEFAULTS.BEHIND);
 
     scene.sys.displayList.add(this);
   }

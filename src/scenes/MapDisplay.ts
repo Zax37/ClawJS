@@ -19,8 +19,7 @@ export default class MapDisplay extends Phaser.Scene {
       physics: {
         default: 'arcade',
         arcade: {
-          gravity: { y: 850 },
-          timeScale: 0.6,
+          gravity: { y: 2100 },
         }
       },
     });
@@ -61,7 +60,7 @@ export default class MapDisplay extends Phaser.Scene {
     this.camera = this.cameras.main;
     this.camera.centerOn(this.level.startX, this.level.startY);
 
-    this.camera.startFollow(this.claw);
+    this.camera.startFollow(this.claw, true);
 
     this.game.musicManager.play(this.sound.add(`L${this.baseLevel}_MUSIC`));
 

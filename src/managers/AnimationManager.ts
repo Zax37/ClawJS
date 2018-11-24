@@ -34,6 +34,14 @@ export default class AnimationManager {
       });
 
       this.game.anims.create({
+        key: 'walk_catnip',
+        frames: this.game.anims.generateFrameNames('CLAW',
+          {prefix: 'CLAW_', start: 1, end: 10}),
+        frameRate: 16,
+        repeat: -1
+      });
+
+      this.game.anims.create({
         key: 'jump',
         frames: this.game.anims.generateFrameNames('CLAW',
           {prefix: 'CLAW_', start: 271, end: 278}),
@@ -53,7 +61,7 @@ export default class AnimationManager {
         key: 'climb',
         frames: this.game.anims.generateFrameNames('CLAW',
           {prefix: 'CLAW_', start: 371, end: 382}),
-        frameRate: 30,
+        frameRate: 18,
         repeat: -1
       });
     }

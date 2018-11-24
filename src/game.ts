@@ -1,8 +1,9 @@
 import Menu from "./scenes/Menu";
 import MapDisplay from "./scenes/MapDisplay";
-import MusicManager from "./managers/music";
-import AnimationManager from "./managers/animation";
-import DataManager from "./managers/data";
+import MusicManager from "./managers/MusicManager";
+import AnimationManager from "./managers/AnimationManager";
+import DataManager from "./managers/DataManager";
+import TreasureRegistry from "./managers/TreasureRegistry";
 
 enum GameState {
   InMenu,
@@ -14,6 +15,7 @@ export default class Game extends Phaser.Game {
   animationManager = new AnimationManager(this);
   dataManager = new DataManager();
   musicManager = new MusicManager(this);
+  treasureRegistry = new TreasureRegistry();
 
   constructor (config: GameConfig) {
     super(config);

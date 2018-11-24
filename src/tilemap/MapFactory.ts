@@ -101,7 +101,7 @@ export default class MapFactory {
         claw = new CaptainClaw(scene, layer, {
           x: data.startX,
           y: data.startY,
-          imageSet: 'CLAW',
+          texture: 'CLAW',
         });
 
         for (let objectData of data.objects) {
