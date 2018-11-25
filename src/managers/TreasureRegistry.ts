@@ -1,15 +1,3 @@
-enum TreasureType {
-  SKULL,
-  CROWN,
-  GECKO,
-  SCEPTER,
-  CROSS,
-  CHALICE,
-  RING,
-  GOLDBAR,
-  COIN
-}
-
 export default class TreasureRegistry {
   private registeredTreasure: { [key: number]: number; } = {};
   private collectedTreasure: { [key: number]: number; } = {};

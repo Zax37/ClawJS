@@ -7,6 +7,8 @@ import FrontCandy from "./FrontCandy";
 import PowderKeg from "./PowderKeg";
 import TreasurePowerup from "./TreasurePowerup";
 import GlitterPowerup from "./GlitterPowerup";
+import TogglePeg from "./TogglePeg";
+import StartElevator from "./StartElevator";
 
 
 export default {
@@ -20,6 +22,14 @@ export default {
   "FrontCandy": FrontCandy,
   "GlitterlessPowerup": TreasurePowerup,
   "GoldPowerup": TreasurePowerup,
+  "OneWayStartElevator": StartElevator,
+  "OneWayTriggerElevator": StartElevator,
   "PowderKeg": PowderKeg,
+  "StartElevator": StartElevator,
   "TreasurePowerup": GlitterPowerup,
+  "TriggerElevator": StartElevator,
+  "TogglePeg": TogglePeg,
+  "TogglePeg2": TogglePeg,
+  "TogglePeg3": TogglePeg,
+  "TogglePeg4": TogglePeg,
 };

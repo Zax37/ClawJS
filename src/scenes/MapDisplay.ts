@@ -1,6 +1,7 @@
 import Game from "../game";
 import MapFactory from "../tilemap/MapFactory";
 import CaptainClaw from "../logics/CaptainClaw";
+import {LevelBasedData, LevelData} from "../model/LevelBasedData";
 
 export default class MapDisplay extends Phaser.Scene {
   private camera: Phaser.Cameras.Scene2D.Camera;
@@ -9,6 +10,7 @@ export default class MapDisplay extends Phaser.Scene {
   private level: any;
   private baseLevel: number;
   private map: any;
+  private levelData: LevelData;
 
   game: Game;
   static key = 'MapDisplay';
@@ -19,6 +21,7 @@ export default class MapDisplay extends Phaser.Scene {
       physics: {
         default: 'arcade',
         arcade: {
+          debug: true,
           gravity: { y: 2100 },
         }
       },
@@ -55,6 +58,7 @@ export default class MapDisplay extends Phaser.Scene {
 
   create ()
   {
+    this.levelData = LevelBasedData[this.level - 1];
     this.level = this.cache.json.get(`level${this.level}`);
     this.map = MapFactory.parse(this, this.level);
     this.camera = this.cameras.main;
@@ -75,6 +79,8 @@ export default class MapDisplay extends Phaser.Scene {
     this.input.keyboard.on('keydown_SPACE', () => this.claw.inputs.JUMP = true);
     this.input.keyboard.on('keyup_SPACE', () => this.claw.inputs.JUMP = false);
 
+    this.input.keyboard.on('keydown_R', () => this.claw.x += 130);
+
     this.input.keyboard.on('keydown_ESC', () => this.game.goToMainMenu());
     window.addEventListener('popstate', () => this.game.goToMainMenu());
   }
@@ -84,5 +90,9 @@ export default class MapDisplay extends Phaser.Scene {
     if (this.map) {
       this.map.update(this.camera);
     }
+  }
+
+  getLevelData() {
+    return { ...this.levelData };
   }
 }

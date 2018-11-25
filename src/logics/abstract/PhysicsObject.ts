@@ -4,7 +4,6 @@ import MapDisplay from "../../scenes/MapDisplay";
 export default class PhysicsObject extends Phaser.Physics.Arcade.Sprite {
   constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: any) {
     super(scene, object.x, object.y, object.texture, object.image ? object.image + object.frame : undefined);
-    this.depth = 4000;
 
     scene.sys.displayList.add(this);
     scene.sys.updateList.add(this);

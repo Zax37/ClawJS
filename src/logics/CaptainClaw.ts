@@ -1,7 +1,7 @@
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 import MapDisplay from "../scenes/MapDisplay";
 import PhysicsObject from "./abstract/PhysicsObject";
-import {EPowerup} from "./abstract/Powerup";
+import {PowerupType} from "../model/PowerupType";
 
 const DEFAULT_JUMP_HEIGHT = 505;
 const RUNNING_LEAP_JUMP_HEIGHT = DEFAULT_JUMP_HEIGHT * 1.15;
@@ -10,7 +10,7 @@ const CATNIP_JUMP_HEIGHT = RUNNING_LEAP_JUMP_HEIGHT;
 const JUMP_TIME_BASE = 265;
 const DEFAULT_JUMP_TIME = JUMP_TIME_BASE * 1.5;
 const RUNNING_LEAP_JUMP_TIME = JUMP_TIME_BASE * 1.55;
-const CATNIP_JUMP_TIME = JUMP_TIME_BASE * 1.6;
+const CATNIP_JUMP_TIME = JUMP_TIME_BASE * 1.8;
 
 const DEFAULT_CLIMBING_SPEED = 200;
 
@@ -23,6 +23,9 @@ const MAX_X_VELOCITY = 450;
 const MAX_Y_VELOCITY = 900;
 
 const RUNNING_LEAP_DELAY = 1700;
+
+//const CLAW_MOVE_RECT = new Rect(-16, -52, 16, 60);
+//const CLAW_MOVE_RECT_CROUCHING = new Rect(-16, 10, 16, 60);
 
 export default class CaptainClaw extends PhysicsObject {
   inputs = {
@@ -48,7 +51,7 @@ export default class CaptainClaw extends PhysicsObject {
   runningLeapDelay: number;
 
   isOnGround = true;
-  powerup?: EPowerup;
+  powerup?: PowerupType;
 
   spawnX: number;
   spawnY: number;
@@ -56,6 +59,7 @@ export default class CaptainClaw extends PhysicsObject {
   constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: any) {
     super(scene, mainLayer, object);
     this.anims.play('stand');
+    this.depth = 4000;
 
     scene.claw = this;
     this.spawnX = object.x;
@@ -166,21 +170,21 @@ export default class CaptainClaw extends PhysicsObject {
   }
 
   private getJumpHeight(): number {
-    if (this.powerup === EPowerup.CATNIP) {
+    if (this.powerup === PowerupType.CATNIP) {
       return CATNIP_JUMP_HEIGHT;
     }
     return this.runningLeapDelay <= 0 ? RUNNING_LEAP_JUMP_HEIGHT : DEFAULT_JUMP_HEIGHT;
   }
 
   private getJumpTime() {
-    if (this.powerup === EPowerup.CATNIP) {
+    if (this.powerup === PowerupType.CATNIP) {
       return CATNIP_JUMP_TIME;
     }
     return this.runningLeapDelay <= 0 ? RUNNING_LEAP_JUMP_TIME : DEFAULT_JUMP_TIME;
   }
 
   private getMovingSpeed(): number {
-    if (this.powerup === EPowerup.CATNIP) {
+    if (this.powerup === PowerupType.CATNIP) {
       return CATNIP_MOVING_SPEED;
     }
     return this.runningLeapDelay <= 0 ? RUNNING_LEAP_MOVING_SPEED : DEFAULT_MOVING_SPEED;
@@ -276,7 +280,7 @@ export default class CaptainClaw extends PhysicsObject {
         if (this.anims.currentAnim.key === 'stand') {
           this.anims.play('walk');
         }
-        if (this.powerup === EPowerup.CATNIP && this.anims.currentAnim.key === 'walk') {
+        if (this.powerup === PowerupType.CATNIP && this.anims.currentAnim.key === 'walk') {
           this.anims.play('walk_catnip');
         }
       }
@@ -300,14 +304,14 @@ export default class CaptainClaw extends PhysicsObject {
     if (on) {
       this.setVelocityX(0);
       this.setSize(32, 50);
-      this.setOffset(32, 53);
+      this.setOffset(32, 54);
       this.setFrame('CLAW_67');
 
       if (this.inputs.LEFT && !this.flipX) this.flipX = true;
       else if (this.inputs.RIGHT) this.flipX = false;
     } else {
       this.setSize(32, 112);
-      this.setOffset(32, -9);
+      this.setOffset(32, -8);
     }
   }
 }
