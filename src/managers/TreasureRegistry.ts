@@ -1,3 +1,5 @@
+import {TreasureType} from "../model/TreasureType";
+
 export default class TreasureRegistry {
   private registeredTreasure: { [key: number]: number; } = {};
   private collectedTreasure: { [key: number]: number; } = {};
@@ -8,10 +10,12 @@ export default class TreasureRegistry {
   }
 
   register(treasure: TreasureType) {
-    this.registeredTreasure[treasure]++;
+    const registered = this.registeredTreasure[treasure];
+    this.registeredTreasure[treasure] = registered ? registered + 1 : 1;
   }
 
   collect(treasure: TreasureType) {
-    this.collectedTreasure[treasure]++;
+    const collected = this.collectedTreasure[treasure];
+    this.collectedTreasure[treasure] = collected ? collected + 1 : 1;
   }
 }

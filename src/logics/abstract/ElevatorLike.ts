@@ -14,9 +14,11 @@ export default class ElevatorLike extends Phaser.Physics.Arcade.Sprite {
     scene.physics.add.existing(this, false);
 
     scene.physics.add.collider(scene.claw, this, function (standing: PhysicsObject, elevator: ElevatorLike) {
-      elevator.objectStandingOnIt = standing;
-      standing.body.blocked.none = false;
-      standing.body.blocked.down = true;
+      if (standing.body.bottom - 4 <= elevator.body.top) {
+        elevator.objectStandingOnIt = standing;
+        standing.body.blocked.none = false;
+        standing.body.blocked.down = true;
+      }
     }, undefined);
 
     this.body.allowGravity = false;

@@ -4,14 +4,18 @@ import MusicManager from "./managers/MusicManager";
 import AnimationManager from "./managers/AnimationManager";
 import DataManager from "./managers/DataManager";
 import TreasureRegistry from "./managers/TreasureRegistry";
+import Booty from "./scenes/Booty";
+import GameHUD from "./scenes/GameHUD";
 
 enum GameState {
   InMenu,
   InGame,
+  BootyScreen,
 }
 
 export default class Game extends Phaser.Game {
   private state = GameState.InMenu;
+  private retailLevelNumber: number;
   animationManager = new AnimationManager(this);
   dataManager = new DataManager();
   musicManager = new MusicManager(this);
@@ -21,40 +25,54 @@ export default class Game extends Phaser.Game {
     super(config);
   }
 
-  async stopCurrentScene() {
-    let key: string;
+  async stopCurrentScenes() {
+    let keys: string[] = [];
 
     switch (this.state) {
       case GameState.InMenu:
-        key = Menu.key;
+        keys.push(Menu.key);
         break;
       case GameState.InGame:
-        key = MapDisplay.key;
+        keys.push(MapDisplay.key);
+        keys.push(GameHUD.key);
+        break;
+      case GameState.BootyScreen:
+        keys.push(Booty.key);
         break;
     }
 
-    await new Promise((resolve) =>
+    await Promise.all(keys.map(key => new Promise((resolve) =>
       this.scene.getScene(key).events.once('postupdate', () => {
         this.scene.stop(key);
         resolve();
       }
-    ));
+    ))));
   }
 
   async goToMainMenu() {
-    if (this.state == GameState.InMenu) return;
-    this.stopCurrentScene().then(() => this.scene.start(Menu.key));
+    if (this.state === GameState.InMenu) return;
+    this.stopCurrentScenes().then(() => this.scene.start(Menu.key));
     this.state = GameState.InMenu;
     history.pushState(null, 'ClawJS Menu', '.');
   }
 
   async startLevel(level: number, replaceState?: boolean) {
-    this.stopCurrentScene().then(() => this.scene.start(MapDisplay.key, level));
+    this.stopCurrentScenes().then(() => {
+      this.scene.start(MapDisplay.key, level);
+      this.scene.start(GameHUD.key, level);
+    });
     this.state = GameState.InGame;
     if (replaceState) {
       history.replaceState(null, 'ClawJS Level ' + level, '#RETAIL' + level);
     } else {
       history.pushState(null, 'ClawJS Level ' + level, '#RETAIL' + level);
     }
+    this.retailLevelNumber = level;
+  }
+
+  goToBootyScreen() {
+    if (this.state !== GameState.InGame) return;
+    this.stopCurrentScenes().then(() => this.scene.start(Booty.key, this.retailLevelNumber));
+    this.state = GameState.BootyScreen;
   }
 }

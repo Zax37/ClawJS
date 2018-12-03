@@ -80,14 +80,14 @@ export default class Tile extends Phaser.Tilemaps.Tile {
             }
           } else if (!found) { // this is a ladder top
             if (claw.inputs.DOWN && !claw.inputs.UP && claw.x >= ladderLeft && claw.x <= ladderRight
-            && (claw.anims.currentAnim.key === 'walk' || claw.anims.currentAnim.key === 'stand')) {
+            && (claw.anims.currentAnim.key === 'ClawWalk' || claw.anims.currentAnim.key === 'ClawWalkCatnip' || claw.anims.currentAnim.key === 'ClawStand')) {
               claw.setX(tile.getCenterX());
               claw.startClimbing(true);
               claw.climbingTop = ladderTop;
             }
 
             const dy = claw.body.deltaY();
-            if (dy >= 0 && claw.body.bottom <= climbingTop + claw.body.deltaY()) {
+            if (dy >= 0 && claw.body.bottom <= climbingTop + dy + 4) {
               tile.setCollision(false, false, true, false);
             } else {
               tile.setCollision(false, false, false, false);

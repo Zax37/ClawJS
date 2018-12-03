@@ -24,6 +24,8 @@ const MAX_Y_VELOCITY = 900;
 
 const RUNNING_LEAP_DELAY = 1700;
 
+export const MAX_HEALTH = 100;
+
 //const CLAW_MOVE_RECT = new Rect(-16, -52, 16, 60);
 //const CLAW_MOVE_RECT_CROUCHING = new Rect(-16, 10, 16, 60);
 
@@ -49,16 +51,21 @@ export default class CaptainClaw extends PhysicsObject {
 
   jumpStartTime: number;
   runningLeapDelay: number;
-
   isOnGround = true;
+
   powerup?: PowerupType;
+  powerupTime: number;
 
   spawnX: number;
   spawnY: number;
 
+  health = MAX_HEALTH;
+  score = 0;
+  attempt = 0;
+
   constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: any) {
     super(scene, mainLayer, object);
-    this.anims.play('stand');
+    this.anims.play('ClawStand');
     this.depth = 4000;
 
     scene.claw = this;
@@ -75,9 +82,17 @@ export default class CaptainClaw extends PhysicsObject {
   preUpdate(time: number, delta: number) {
     super.preUpdate(time, delta);
 
+    if (this.powerup) {
+      this.powerupTime -= delta;
+      if (this.powerupTime <= 0) {
+        this.powerup = undefined;
+        this.powerupTime = 0;
+      }
+    }
+
     if (this.body.blocked.up) {
       this.setVelocityY(20);
-      this.anims.play('fall');
+      this.anims.play('ClawFall');
       this.jumpStartTime = -JUMP_TIME_BASE;
     }
 
@@ -85,8 +100,8 @@ export default class CaptainClaw extends PhysicsObject {
       this.processClimbing(time);
     } else {
       if (this.body.blocked.down && this.body.velocity.y === 0) {
-        if (!this.isOnGround || this.anims.currentAnim.key === 'fall') {
-          this.anims.play('stand');
+        if (!this.isOnGround || this.anims.currentAnim.key === 'ClawFall') {
+          this.anims.play('ClawStand');
           this.isOnGround = true;
         }
       }
@@ -100,7 +115,7 @@ export default class CaptainClaw extends PhysicsObject {
           this.wasDownPressed = false;
 
           if (this.body.velocity.y === 0) {
-            this.anims.play('stand');
+            this.anims.play('ClawStand');
           }
         }
 
@@ -128,7 +143,7 @@ export default class CaptainClaw extends PhysicsObject {
       }
 
       if (this.body.velocity.y > 0 && this.isOnGround) {
-        this.anims.play('fall');
+        this.anims.play('ClawFall');
         this.isOnGround = false;
         this.wasJumpPressed = true;
       }
@@ -137,7 +152,7 @@ export default class CaptainClaw extends PhysicsObject {
 
   jump(time: number) {
     this.setVelocityY(-this.getJumpHeight());
-    this.anims.play('jump');
+    this.anims.play('ClawJump');
     this.wasJumpPressed = true;
     this.isOnGround = false;
     this.jumpStartTime = time;
@@ -151,21 +166,21 @@ export default class CaptainClaw extends PhysicsObject {
     if (down) {
       this.y += 10;
       this.setCrouching(false);
-      this.anims.playReverse('climb');
+      this.anims.playReverse('ClawClimb');
       this.anims.pause();
       this.setFrame('CLAW_389');
       this.climbingDown = true;
     } else {
-      this.anims.play('climb');
+      this.anims.play('ClawClimb');
       this.anims.pause();
     }
   }
 
   private animComplete(animation: Phaser.Animations.Animation, frame: Phaser.Animations.AnimationFrame)
   {
-    if(animation.key === 'jump')
+    if(animation.key === 'ClawJump')
     {
-      this.anims.play('fall');
+      this.anims.play('ClawFall');
     }
   }
 
@@ -198,7 +213,7 @@ export default class CaptainClaw extends PhysicsObject {
         velY = -DEFAULT_CLIMBING_SPEED;
         if (this.climbingDown) {
           this.climbingDown = false;
-          this.anims.play('climb', true, this.anims.currentFrame.index);
+          this.anims.play('ClawClimb', true, this.anims.currentFrame.index);
           this.anims.pause();
         }
       } else {
@@ -210,14 +225,14 @@ export default class CaptainClaw extends PhysicsObject {
           if (this.body.blocked.down) {
             this.climbing = false;
             this.body.allowGravity = true;
-            this.anims.play('stand');
+            this.anims.play('ClawStand');
             return;
           }
 
           velY = DEFAULT_CLIMBING_SPEED;
           if (!this.climbingDown) {
             this.climbingDown = true;
-            this.anims.playReverse('climb', true, this.anims.currentFrame.index);
+            this.anims.playReverse('ClawClimb', true, this.anims.currentFrame.index);
           }
         }
 
@@ -232,7 +247,7 @@ export default class CaptainClaw extends PhysicsObject {
           this.climbing = false;
           this.body.allowGravity = true;
           this.setVelocityY(MAX_Y_VELOCITY);
-          this.anims.play('stand');
+          this.anims.play('ClawStand');
           return;
         }
       } else if (velY) {
@@ -252,8 +267,8 @@ export default class CaptainClaw extends PhysicsObject {
       if (!this.touchingLadder) {
         this.climbing = false;
         this.body.allowGravity = true;
-        this.anims.play('fall');
-        this.setVelocityY(MAX_Y_VELOCITY);
+        this.anims.play('ClawFall');
+        this.setVelocityY(MAX_Y_VELOCITY / 4);
       }
     }
 
@@ -277,11 +292,11 @@ export default class CaptainClaw extends PhysicsObject {
     if (vel) {
       if (this.isOnGround) {
         this.runningLeapDelay -= delta;
-        if (this.anims.currentAnim.key === 'stand') {
-          this.anims.play('walk');
+        if (this.anims.currentAnim.key === 'ClawStand') {
+          this.anims.play('ClawWalk');
         }
-        if (this.powerup === PowerupType.CATNIP && this.anims.currentAnim.key === 'walk') {
-          this.anims.play('walk_catnip');
+        if (this.powerup === PowerupType.CATNIP && this.anims.currentAnim.key === 'ClawWalk') {
+          this.anims.play('ClawWalkCatnip');
         }
       }
     } else {
@@ -294,8 +309,8 @@ export default class CaptainClaw extends PhysicsObject {
         this.wasRightPressed = false;
       }
 
-      if ((this.anims.currentAnim.key === 'walk' || this.anims.currentAnim.key === 'walk_catnip') && !this.inputs.LEFT && !this.inputs.RIGHT) {
-        this.anims.play('stand');
+      if ((this.anims.currentAnim.key === 'ClawWalk' || this.anims.currentAnim.key === 'ClawWalkCatnip') && !this.inputs.LEFT && !this.inputs.RIGHT) {
+        this.anims.play('ClawStand');
       }
     }
   }
@@ -313,5 +328,25 @@ export default class CaptainClaw extends PhysicsObject {
       this.setSize(32, 112);
       this.setOffset(32, -8);
     }
+  }
+
+  addPowerup(powerup: PowerupType, time: number) {
+    if (this.powerup != powerup) {
+      this.powerup = powerup;
+      this.powerupTime = time;
+    } else {
+      this.powerupTime += time;
+    }
+  }
+
+  backToSpawn() {
+    this.x = this.spawnX;
+    this.y = this.spawnY;
+    this.attempt++;
+  }
+
+  setSpawn(x: number, y: number) {
+    this.spawnX = x;
+    this.spawnY = y;
   }
 }

@@ -21,14 +21,14 @@ export default class MapDisplay extends Phaser.Scene {
       physics: {
         default: 'arcade',
         arcade: {
-          debug: true,
+          // debug: true,
           gravity: { y: 2100 },
         }
       },
     });
   }
 
-  init (level: any)
+  init (level: number)
   {
     this.level = level;
     this.baseLevel = level === 15 ? 9 : level;
@@ -58,6 +58,7 @@ export default class MapDisplay extends Phaser.Scene {
 
   create ()
   {
+    this.game.treasureRegistry.reset();
     this.levelData = LevelBasedData[this.level - 1];
     this.level = this.cache.json.get(`level${this.level}`);
     this.map = MapFactory.parse(this, this.level);
@@ -79,7 +80,7 @@ export default class MapDisplay extends Phaser.Scene {
     this.input.keyboard.on('keydown_SPACE', () => this.claw.inputs.JUMP = true);
     this.input.keyboard.on('keyup_SPACE', () => this.claw.inputs.JUMP = false);
 
-    this.input.keyboard.on('keydown_R', () => this.claw.x += 130);
+    this.input.keyboard.on('keydown_R', this.claw.backToSpawn.bind(this.claw));
 
     this.input.keyboard.on('keydown_ESC', () => this.game.goToMainMenu());
     window.addEventListener('popstate', () => this.game.goToMainMenu());

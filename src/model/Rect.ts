@@ -25,6 +25,6 @@ export class Rect {
     this.width = this.right - this.left;
     this.height = this.bottom - this.top;
     this.offsetX = Math.abs(this.right) - Math.abs(this.left);
-    this.offsetY = Math.abs(this.bottom) - Math.abs(this.top) - 10;
+    this.offsetY = Math.abs(this.bottom) - Math.abs(this.top) + this.height * 0.8 - 48;
   }
 }

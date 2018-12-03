@@ -1,4 +1,4 @@
-enum TreasureType {
+export enum TreasureType {
   SKULL,
   CROWN,
   GECKO,
@@ -7,5 +7,6 @@ enum TreasureType {
   CHALICE,
   RING,
   GOLDBAR,
-  COIN
+  COIN,
+  NECKLACE
 }

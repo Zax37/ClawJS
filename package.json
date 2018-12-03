@@ -1,6 +1,6 @@
 {
   "name": "clawjs",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Claw remake implemented in Phaser 3, served with node.js!",
   "main": "index.js",
   "scripts": {

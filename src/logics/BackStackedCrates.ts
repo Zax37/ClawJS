@@ -1,9 +1,9 @@
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 import MapDisplay from "../scenes/MapDisplay";
 import {DEFAULTS} from "./abstract/Defaults";
-import AniCycle from "./AniCycle";
+import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import GenericStackedCrates from "./abstract/GenericStackedCrates";
 
-export default class BehindAniCandy extends AniCycle {
+export default class BackStackedCrates extends GenericStackedCrates {
   constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: any) {
     super(scene, mainLayer, object, DEFAULTS.BEHIND);
   }

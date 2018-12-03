@@ -15,7 +15,7 @@ export default class Menu extends Phaser.Scene {
     this.load.image("MENU_BG", `screens/MENU.png`);
     this.load.multiatlas('icons', 'icons/icons.json', 'icons');
 
-    this.load.audio('music', [
+    this.load.audio('menu_music', [
       `music/MENU.ogg`,
     ]);
   }
@@ -34,7 +34,7 @@ export default class Menu extends Phaser.Scene {
       icons.push(this.add.image(x, y, 'icons', `${i + 1}.png`).setInteractive({useHandCursor: true}));
     }
 
-    this.game.musicManager.play(this.sound.add('music'));
+    this.game.musicManager.play(this.sound.add('menu_music'));
 
     let manager = this;
     icons.forEach((icon, i) => {
