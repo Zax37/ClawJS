@@ -9,7 +9,7 @@ export default class AniCycle extends GenericObjectWithDefaults {
     if (scene.game.animationManager.request(object.texture, object.image, object.animation)) {
       scene.sys.displayList.add(this);
       scene.sys.updateList.add(this);
-      this.play(object.image);
+      this.play(object.texture + object.image);
     }
   }
 }

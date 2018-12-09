@@ -2,6 +2,7 @@ import Game from "../game";
 import MapFactory from "../tilemap/MapFactory";
 import CaptainClaw from "../logics/CaptainClaw";
 import {LevelBasedData, LevelData} from "../model/LevelBasedData";
+import GameHUD from "./GameHUD";
 
 export default class MapDisplay extends Phaser.Scene {
   private camera: Phaser.Cameras.Scene2D.Camera;
@@ -13,7 +14,10 @@ export default class MapDisplay extends Phaser.Scene {
   private levelData: LevelData;
 
   game: Game;
+  hud: GameHUD;
   static key = 'MapDisplay';
+
+  powerupMusic: Phaser.Sound.BaseSound;
 
   constructor () {
     super({
@@ -21,8 +25,14 @@ export default class MapDisplay extends Phaser.Scene {
       physics: {
         default: 'arcade',
         arcade: {
-          // debug: true,
-          gravity: { y: 2100 },
+          gravity: { y: 660 },
+          timeScale: 0.7,
+        },
+        fps: {
+          min: 50,
+          target: 60,
+          panicMax: 80,
+          deltaHistory: 3,
         }
       },
     });
@@ -49,6 +59,7 @@ export default class MapDisplay extends Phaser.Scene {
       `imagesets/LEVEL${this.baseLevel}.json`
     );
 
+    this.load.audio('POWERUP', [ 'music/POWERUP.ogg' ]);
     this.load.audio(`L${this.baseLevel}_MUSIC`, [
       `music/LEVEL${this.baseLevel}.ogg`,
     ]);
@@ -58,16 +69,22 @@ export default class MapDisplay extends Phaser.Scene {
 
   create ()
   {
+    this.hud = this.scene.get(GameHUD.key) as GameHUD;
     this.game.treasureRegistry.reset();
     this.levelData = LevelBasedData[this.level - 1];
     this.level = this.cache.json.get(`level${this.level}`);
     this.map = MapFactory.parse(this, this.level);
+
+    // this.map.mainLayer.renderDebug(this.add.graphics());
+
     this.camera = this.cameras.main;
     this.camera.centerOn(this.level.startX, this.level.startY);
 
     this.camera.startFollow(this.claw, true);
 
+    this.powerupMusic = this.sound.add('POWERUP');
     this.game.musicManager.play(this.sound.add(`L${this.baseLevel}_MUSIC`));
+    this.game.cheatManager.registerCheats(this);
 
     this.input.keyboard.on('keydown_LEFT', () => this.claw.inputs.LEFT = true);
     this.input.keyboard.on('keyup_LEFT', () => this.claw.inputs.LEFT = false);
@@ -79,8 +96,8 @@ export default class MapDisplay extends Phaser.Scene {
     this.input.keyboard.on('keyup_UP', () => this.claw.inputs.UP = false);
     this.input.keyboard.on('keydown_SPACE', () => this.claw.inputs.JUMP = true);
     this.input.keyboard.on('keyup_SPACE', () => this.claw.inputs.JUMP = false);
-
-    this.input.keyboard.on('keydown_R', this.claw.backToSpawn.bind(this.claw));
+    this.input.keyboard.on('keydown_CTRL', () => this.claw.inputs.ATTACK = true);
+    this.input.keyboard.on('keyup_CTRL', () => this.claw.inputs.ATTACK = false);
 
     this.input.keyboard.on('keydown_ESC', () => this.game.goToMainMenu());
     window.addEventListener('popstate', () => this.game.goToMainMenu());

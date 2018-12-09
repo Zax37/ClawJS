@@ -7,6 +7,6 @@ export default class TogglePeg extends ElevatorLike {
     super(scene, mainLayer, object);
     let levelData = scene.getLevelData();
     this.body.setSize(levelData.TogglePegDefRect.width, levelData.TogglePegDefRect.height);
-    this.body.setOffset(levelData.TogglePegDefRect.offsetX, levelData.TogglePegDefRect.offsetY);
+    this.body.setOffset(this.displayOriginX + levelData.TogglePegDefRect.left, this.displayOriginY + levelData.TogglePegDefRect.top);
   }
 }

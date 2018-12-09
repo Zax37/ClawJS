@@ -1,6 +1,7 @@
 import MapDisplay from "../../scenes/MapDisplay";
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 import PhysicsObject from "./PhysicsObject";
+import CaptainClaw from "../CaptainClaw";
 
 export default class ElevatorLike extends Phaser.Physics.Arcade.Sprite {
   body: Phaser.Physics.Arcade.Body;
@@ -13,11 +14,12 @@ export default class ElevatorLike extends Phaser.Physics.Arcade.Sprite {
     scene.sys.updateList.add(this);
     scene.physics.add.existing(this, false);
 
-    scene.physics.add.collider(scene.claw, this, function (standing: PhysicsObject, elevator: ElevatorLike) {
-      if (standing.body.bottom - 4 <= elevator.body.top) {
+    scene.physics.add.collider(scene.claw, this, function (standing: CaptainClaw, elevator: ElevatorLike) {
+      if (standing.body.bottom - 4 <= elevator.body.top && !standing.jumping) {
         elevator.objectStandingOnIt = standing;
         standing.body.blocked.none = false;
         standing.body.blocked.down = true;
+        standing.isOnGround = true;
       }
     }, undefined);
 

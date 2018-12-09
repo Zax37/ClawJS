@@ -17,6 +17,7 @@ import AniCycle from "./AniCycle";
 import FrontCrate from "./FrontCrate";
 import BehindCrate from "./BehindCrate";
 import SteppingStone from "./SteppingStone";
+import Enemy from "./Enemy";
 
 export default {
   "AmmoPowerup": SpecialPowerup,
@@ -31,6 +32,7 @@ export default {
   "CointPowerup": TreasurePowerup,
   "CrumblingPeg": CrumblingPeg,
   "CrumblingPegNoRespawn": CrumblingPeg,
+  "CutThroat": Enemy,
   "DoNothing": DoNothing,
   "DoNothingNormal": DoNothing,
   "Elevator": Elevator,
@@ -43,18 +45,21 @@ export default {
   "GoldPowerup": TreasurePowerup,
   "HealthPowerup": SpecialPowerup,
   "MagicPowerup": SpecialPowerup,
+  "Officer": Enemy,
   "OneTimeStartSteppingStone": SteppingStone,
   "OneWayStartElevator": StartElevator,
   "OneWayTriggerElevator": StartElevator,
   "PowderKeg": PowderKeg,
+  "RobberThief": Enemy,
   "SecondSuperCheckpoint": Checkpoint,
+  "Soldier": Enemy,
+  "SpecialPowerup": SpecialPowerup,
   "StartElevator": StartElevator,
   "StartSteppingStone": SteppingStone,
   "SteppingStone": SteppingStone,
   "SteppingStone2": SteppingStone,
   "SteppingStone3": SteppingStone,
   "SteppingStone4": SteppingStone,
-  "SpecialPowerup": SpecialPowerup,
   "SuperCheckpoint": Checkpoint,
   "TreasurePowerup": TreasurePowerup,
   "TriggerElevator": StartElevator,

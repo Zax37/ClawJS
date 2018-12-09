@@ -12,10 +12,10 @@ export default class CrumblingPeg extends ElevatorLike {
     super(scene, mainLayer, object);
     let levelData = scene.getLevelData();
     this.body.setSize(levelData.CrumblingPegDefRect.width, levelData.CrumblingPegDefRect.height);
-    this.body.setOffset(levelData.CrumblingPegDefRect.offsetX, levelData.CrumblingPegDefRect.offsetY);
+    this.body.setOffset(this.displayOriginX + levelData.CrumblingPegDefRect.left, this.displayOriginY + levelData.CrumblingPegDefRect.top);
 
     if (scene.game.animationManager.request(object.texture, object.image, 'GAME_FORWARD50')) {
-      this.animation = object.image;
+      this.animation = object.texture + object.image;
     }
 
     this.respawns = object.logic === 'CrumblingPeg';

@@ -1,11 +1,12 @@
 export const CANVAS_WIDTH = 800;
 export const CANVAS_HEIGHT = 600;
 import scenes from './scenes';
+import p from '../package.json';
 
 export const config: GameConfig = {
-  title: 'ClawJS',
-  url: 'http://clawjs.us.openode.io/',
-  version: '1.0.2',
+  title: p.title,
+  url: p.url,
+  version: p.version,
   disableContextMenu: true,
   fps: {
     min: 10,

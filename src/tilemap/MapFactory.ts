@@ -46,34 +46,34 @@ export default class MapFactory {
       heightInPixels: mainLayer.pxHigh
     });
 
-    layersData.forEach((layer: any, index: number) => {
-      layer.repeatX = layer.properties.repeatX ? 1 + Math.ceil(CANVAS_WIDTH / layer.widthInPixels) : 1;
-      layer.repeatY = layer.properties.repeatY ? 1 + Math.ceil(CANVAS_HEIGHT / layer.heightInPixels) : 1;
+    layersData.forEach((layerData: any, index: number) => {
+      layerData.repeatX = layerData.properties.repeatX ? 1 + Math.ceil(CANVAS_WIDTH / layerData.widthInPixels) : 1;
+      layerData.repeatY = layerData.properties.repeatY ? 1 + Math.ceil(CANVAS_HEIGHT / layerData.heightInPixels) : 1;
 
       const newData = [];
-      for (let ry = 0, i = 0; ry < layer.repeatY; ry++, i = 0)
-        for (let y = 0; y < layer.height; y++)
+      for (let ry = 0, i = 0; ry < layerData.repeatY; ry++, i = 0)
+        for (let y = 0; y < layerData.height; y++)
         {
           const row = []; let start = i;
-          for (let rx = 0; rx < layer.repeatX; rx++) {
+          for (let rx = 0; rx < layerData.repeatX; rx++) {
             i = start;
-            for (let x = 0; x < layer.width; x++, i++) {
-              const tileIndex = layer.data[i];
+            for (let x = 0; x < layerData.width; x++, i++) {
+              const tileIndex = layerData.data[i];
 
               row.push(tileIndex === -1
                 ? null
-                : new Tile(layer, tileIndex, x + rx * layer.width, y + ry * layer.height,
-                    layer.tileWidth, layer.tileHeight, index === data.mainLayerIndex ? data.tileAttributes[tileIndex] : null));
+                : new Tile(layerData, tileIndex, x + rx * layerData.width, y + ry * layerData.height,
+                    layerData.tileWidth, layerData.tileHeight, index === data.mainLayerIndex ? data.tileAttributes[tileIndex] : null));
 
             }
           }
           newData.push(row);
         }
-      layer.data = newData;
-      layer.width *= layer.repeatX;
-      layer.widthInPixels *= layer.repeatX;
-      layer.height *= layer.repeatY;
-      layer.heightInPixels *= layer.repeatY;
+      layerData.data = newData;
+      layerData.width *= layerData.repeatX;
+      layerData.widthInPixels *= layerData.repeatX;
+      layerData.height *= layerData.repeatY;
+      layerData.heightInPixels *= layerData.repeatY;
     });
 
     const map = new Phaser.Tilemaps.Tilemap(scene, mapData);
@@ -86,9 +86,9 @@ export default class MapFactory {
     let xOffset = CANVAS_WIDTH / 2;
     let yOffset = CANVAS_HEIGHT / 2;
 
-    layersData.forEach((layer: any, i: number) => {
-      const { speedX, speedY, z } = layer.properties;
-      layer = map.createDynamicLayer(i, tileSets[layer.properties.imageSet],
+    layersData.forEach((layerData: any, i: number) => {
+      const { speedX, speedY, z } = layerData.properties;
+      const layer = map.createDynamicLayer(i, tileSets[layerData.properties.imageSet],
         i === data.mainLayerIndex ? 0 : xOffset * (1 - speedX), i === data.mainLayerIndex ? 0 : yOffset * (1 - speedY));
       layer.depth = z;
       if (i === data.mainLayerIndex) {

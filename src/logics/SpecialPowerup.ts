@@ -16,10 +16,10 @@ export default class SpecialPowerup extends GeneralPowerup {
     let heal = 0;
     switch (object.image) {
       case 'GAME_CATNIPS_NIP1':
-        this.powerupEffect = () => scene.claw.addPowerup(PowerupType.CATNIP, 1.5);
+        this.powerupEffect = () => scene.claw.addPowerup(PowerupType.CATNIP, 15000);
         break;
       case 'GAME_CATNIPS_NIP2':
-        this.powerupEffect = () => scene.claw.addPowerup(PowerupType.CATNIP, 3);
+        this.powerupEffect = () => scene.claw.addPowerup(PowerupType.CATNIP, 30000);
         break;
       case 'GAME_HEALTH_POTION3':
         heal += 10;
@@ -61,6 +61,10 @@ export default class SpecialPowerup extends GeneralPowerup {
         this.powerupEffect = () => {
           scene.claw.x = object.speedX;
           scene.claw.y = object.speedY;
+
+          if (object.image === 'GAME_BOSSWARP') {
+            scene.claw.setSpawn(object.speedX, object.speedY);
+          }
         };
         break;
       default:

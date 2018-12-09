@@ -2,27 +2,27 @@ import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 import MapDisplay from "../scenes/MapDisplay";
 import PhysicsObject from "./abstract/PhysicsObject";
 import {PowerupType} from "../model/PowerupType";
+import Tile from "../tilemap/Tile";
 
-const DEFAULT_JUMP_HEIGHT = 505;
-const RUNNING_LEAP_JUMP_HEIGHT = DEFAULT_JUMP_HEIGHT * 1.15;
-const CATNIP_JUMP_HEIGHT = RUNNING_LEAP_JUMP_HEIGHT;
+const DEFAULT_JUMP_HEIGHT = 145;
+const RUNNING_LEAP_JUMP_HEIGHT = 171;
+const CATNIP_JUMP_HEIGHT = 195;
 
-const JUMP_TIME_BASE = 265;
-const DEFAULT_JUMP_TIME = JUMP_TIME_BASE * 1.5;
-const RUNNING_LEAP_JUMP_TIME = JUMP_TIME_BASE * 1.55;
-const CATNIP_JUMP_TIME = JUMP_TIME_BASE * 1.8;
+const DEFAULT_JUMP_TIME = 580;
+const RUNNING_LEAP_JUMP_TIME = 610;
+const CATNIP_JUMP_TIME = 630;
 
 const DEFAULT_CLIMBING_SPEED = 200;
 
-const DEFAULT_MOVING_SPEED = 240;
-const RUNNING_LEAP_MOVING_SPEED = DEFAULT_MOVING_SPEED * 1.15;
+const DEFAULT_MOVING_SPEED = 243;
+const RUNNING_LEAP_MOVING_SPEED = DEFAULT_MOVING_SPEED * 1.25;
 const CATNIP_MOVING_SPEED = DEFAULT_MOVING_SPEED * 1.2;
-const TWIN_TURBO_MOVING_SPEED = DEFAULT_MOVING_SPEED * 2;
+const TWIN_TURBO_MOVING_SPEED = DEFAULT_MOVING_SPEED * 1.5;
 
 const MAX_X_VELOCITY = 450;
-const MAX_Y_VELOCITY = 900;
+const MAX_Y_VELOCITY = 675;
 
-const RUNNING_LEAP_DELAY = 1700;
+const RUNNING_LEAP_DELAY = 1500;
 
 export const MAX_HEALTH = 100;
 
@@ -36,25 +36,31 @@ export default class CaptainClaw extends PhysicsObject {
     DOWN: false,
     LEFT: false,
     RIGHT: false,
+    ATTACK: false,
   };
 
   body: Phaser.Physics.Arcade.Body;
+  scene: MapDisplay;
 
+  attacking = false;
   climbing = false;
+  jumping = false;
+
   climbingDown = false;
   climbingTop: number;
   touchingLadder = false;
   wasJumpPressed = false;
   wasRightPressed = false;
   wasLeftPressed = false;
-  wasDownPressed = false;
+  isCrouching = false;
+  wasAttackPressed = false;
 
   jumpStartTime: number;
   runningLeapDelay: number;
   isOnGround = true;
 
   powerup?: PowerupType;
-  powerupTime: number;
+  powerupTime: number = 0;
 
   spawnX: number;
   spawnY: number;
@@ -62,6 +68,10 @@ export default class CaptainClaw extends PhysicsObject {
   health = MAX_HEALTH;
   score = 0;
   attempt = 0;
+
+  fixedX: number;
+  jumpedFromY: number;
+  fly: boolean = false;
 
   constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: any) {
     super(scene, mainLayer, object);
@@ -77,42 +87,69 @@ export default class CaptainClaw extends PhysicsObject {
 
     this.on('animationcomplete', this.animComplete, this);
     this.runningLeapDelay = RUNNING_LEAP_DELAY;
+    this.alignToGround();
   }
 
   preUpdate(time: number, delta: number) {
     super.preUpdate(time, delta);
 
-    if (this.powerup) {
+    if (this.fly) {
+      this.body.enable = false;
+      if (this.inputs.RIGHT) this.x += delta;
+      else if (this.inputs.LEFT) this.x -= delta;
+      if (this.inputs.DOWN) this.y += delta;
+      else if (this.inputs.UP) this.y -= delta;
+
+      return;
+    } else {
+      this.body.enable = true;
+    }
+
+    if (this.powerup !== undefined) {
       this.powerupTime -= delta;
       if (this.powerupTime <= 0) {
         this.powerup = undefined;
         this.powerupTime = 0;
+        this.scene.game.musicManager.resumePaused();
       }
     }
 
+    if (this.body.velocity.y === MAX_Y_VELOCITY) {
+      this.setFrame('CLAW_401');
+    }
+
     if (this.body.blocked.up) {
-      this.setVelocityY(20);
+      this.setVelocityY(4);
       this.anims.play('ClawFall');
-      this.jumpStartTime = -JUMP_TIME_BASE;
+      this.jumping = false;
+    }
+
+    if (this.inputs.ATTACK && !this.wasAttackPressed) {
+      this.wasAttackPressed = true;
+      if (this.isOnGround && (this.anims.currentAnim.key === 'ClawStand' || this.anims.currentAnim.key === 'ClawWalk' || this.anims.currentAnim.key === 'ClawWalkCatnip')) {
+        let attack = Math.floor(Math.random() * 4) + 1;
+        this.anims.play('ClawStandAttack' + attack);
+        this.attacking = true;
+      }
+    } else if (!this.inputs.ATTACK) {
+      this.wasAttackPressed = false;
     }
 
     if (this.climbing) {
-      this.processClimbing(time);
+      this.processClimbing(time, delta);
     } else {
-      if (this.body.blocked.down && this.body.velocity.y === 0) {
-        if (!this.isOnGround || this.anims.currentAnim.key === 'ClawFall') {
+      if (this.body.blocked.down) {
+        if (!this.isOnGround || this.anims.currentAnim.key === 'ClawJump' || this.anims.currentAnim.key === 'ClawFall') {
           this.anims.play('ClawStand');
           this.isOnGround = true;
         }
       }
 
-      if (this.body.blocked.down && this.inputs.DOWN) {
+      if (this.inputs.DOWN && this.body.blocked.down) {
         this.setCrouching(true);
-        this.wasDownPressed = true;
       } else {
-        if (this.wasDownPressed) {
+        if (this.isCrouching) {
           this.setCrouching(false);
-          this.wasDownPressed = false;
 
           if (this.body.velocity.y === 0) {
             this.anims.play('ClawStand');
@@ -127,42 +164,64 @@ export default class CaptainClaw extends PhysicsObject {
       }
 
       if (!this.inputs.JUMP) {
-        if (this.body.velocity.y < 0) {
-          this.setVelocityY(0);
-          this.jumpStartTime = -JUMP_TIME_BASE;
+        if (this.jumping) {
+          this.setVelocityY(4);
+          this.jumping = false;
         } else if (this.body.blocked.down) {
           this.wasJumpPressed = false;
         }
-      } else if (time - this.jumpStartTime < this.getJumpTime()) {
-        const timeSinceJump = time - this.jumpStartTime;
-        if (timeSinceJump > JUMP_TIME_BASE) {
-          this.setVelocityY(-this.getJumpHeight() * (this.getJumpTime() - time + this.jumpStartTime) / JUMP_TIME_BASE);
+      } else if (this.jumping) {
+        const jumpTop = this.jumpedFromY - this.getJumpHeight();
+        const jumpHeightLeft = this.y - jumpTop;
+        const timeFromJump = time - this.jumpStartTime;
+        const timeLeft = this.getJumpTime() - timeFromJump;
+
+        if (jumpHeightLeft > 8 && timeLeft > 25) {
+          this.setVelocityY(-25);
+          this.y -= Math.min(((jumpHeightLeft + 80) * delta / (timeLeft - 25) + (timeFromJump  * 0.012)), jumpHeightLeft - 1);
         } else {
-          this.setVelocityY(-this.getJumpHeight());
+          if (this.y > jumpTop) {
+            this.y = jumpTop + 1;
+            this.setVelocityY(15);
+          } else {
+            this.setVelocityY(30);
+          }
+          this.jumping = false;
         }
       }
 
-      if (this.body.velocity.y > 0 && this.isOnGround) {
+      if (this.body.velocity.y > 0 && this.isOnGround && !this.body.blocked.down) {
+        this.y += 6;
+        this.body.velocity.y += 30;
         this.anims.play('ClawFall');
         this.isOnGround = false;
+        this.isOnElevator = false;
+        this.isBlockedTop = false;
         this.wasJumpPressed = true;
       }
     }
   }
 
   jump(time: number) {
-    this.setVelocityY(-this.getJumpHeight());
+    this.setVelocityY(-30);
     this.anims.play('ClawJump');
     this.wasJumpPressed = true;
     this.isOnGround = false;
+    this.isOnElevator = false;
     this.jumpStartTime = time;
+    this.jumping = true;
+    this.jumpedFromY = this.y;
   }
 
-  startClimbing(down?: boolean) {
+  startClimbing(climbX: number, down?: boolean) {
+    this.x = climbX;
+    this.fixedX = climbX;
+    this.jumping = false;
     this.climbing = true;
     this.isOnGround = false;
     this.body.allowGravity = false;
     this.setVelocity(0, 0);
+    this.body.setAccelerationX(0);
     if (down) {
       this.y += 10;
       this.setCrouching(false);
@@ -178,9 +237,12 @@ export default class CaptainClaw extends PhysicsObject {
 
   private animComplete(animation: Phaser.Animations.Animation, frame: Phaser.Animations.AnimationFrame)
   {
-    if(animation.key === 'ClawJump')
-    {
+    if(animation.key === 'ClawJump') {
+      this.jumping = false;
       this.anims.play('ClawFall');
+    } else {
+      this.attacking = false;
+      this.anims.play('ClawStand');
     }
   }
 
@@ -202,10 +264,11 @@ export default class CaptainClaw extends PhysicsObject {
     if (this.powerup === PowerupType.CATNIP) {
       return CATNIP_MOVING_SPEED;
     }
-    return this.runningLeapDelay <= 0 ? RUNNING_LEAP_MOVING_SPEED : DEFAULT_MOVING_SPEED;
+    return this.runningLeapDelay <= 0 && this.isOnGround ? RUNNING_LEAP_MOVING_SPEED : DEFAULT_MOVING_SPEED;
   }
 
-  private processClimbing(time: number) {
+  private processClimbing(time: number, delta: number) {
+    this.x = this.fixedX;
     if (this.touchingLadder) {
       let velY = 0;
 
@@ -245,8 +308,9 @@ export default class CaptainClaw extends PhysicsObject {
 
         if (this.body.bottom <= this.climbingTop && !this.climbingDown) {
           this.climbing = false;
+          this.y = this.climbingTop - this.body.halfHeight;
+          this.setVelocityY(MAX_Y_VELOCITY / 4);
           this.body.allowGravity = true;
-          this.setVelocityY(MAX_Y_VELOCITY);
           this.anims.play('ClawStand');
           return;
         }
@@ -261,7 +325,8 @@ export default class CaptainClaw extends PhysicsObject {
         this.body.allowGravity = true;
         this.jump(time);
       } else {
-        this.setVelocityY(velY);
+        this.y += velY * delta / 1000;
+        this.setVelocityY(4 * Math.sign(velY));
       }
     } else {
       if (!this.touchingLadder) {
@@ -277,17 +342,17 @@ export default class CaptainClaw extends PhysicsObject {
 
   private processWalking(delta: number) {
     let vel = 0;
-    if (this.inputs.LEFT && !this.wasRightPressed) {
-      vel = -this.getMovingSpeed();
-      this.flipX = true;
-      this.wasLeftPressed = true;
-    } else if (this.inputs.RIGHT && !this.wasLeftPressed) {
-      vel = this.getMovingSpeed();
-      this.flipX = false;
-      this.wasRightPressed = true;
+    if (!this.attacking && !this.isBlockedTop) {
+      if (this.inputs.LEFT && !this.wasRightPressed) {
+        vel = -this.getMovingSpeed();
+        this.flipX = true;
+        this.wasLeftPressed = true;
+      } else if (this.inputs.RIGHT && !this.wasLeftPressed) {
+        vel = this.getMovingSpeed();
+        this.flipX = false;
+        this.wasRightPressed = true;
+      }
     }
-
-    this.setVelocityX(vel);
 
     if (vel) {
       if (this.isOnGround) {
@@ -313,29 +378,62 @@ export default class CaptainClaw extends PhysicsObject {
         this.anims.play('ClawStand');
       }
     }
+
+    if ((vel > 0 && this.body.blocked.right) || (vel < 0 && this.body.blocked.left)) {
+      vel = 0;
+    } else {
+      this.x += vel / 1000 * delta;
+    }
+
+    this.setVelocityX(Math.sign(vel));
   }
 
   private setCrouching(on: boolean) {
     if (on) {
-      this.setVelocityX(0);
-      this.setSize(32, 50);
-      this.setOffset(32, 54);
+      this.body.allowGravity = false;
+      this.setSize(34, 50);
+      this.setOffset(34, 52);
+      this.body.allowGravity = true;
       this.setFrame('CLAW_67');
+      this.body.velocity.x = 0;
+      this.isCrouching = true;
+      this.isBlockedTop = false;
 
       if (this.inputs.LEFT && !this.flipX) this.flipX = true;
       else if (this.inputs.RIGHT) this.flipX = false;
     } else {
-      this.setSize(32, 112);
-      this.setOffset(32, -8);
+      this.setSize(34, 114);
+      this.setOffset(34, -12);
+      this.isCrouching = false;
+      this.isBlockedTop = false;
+      if (this.isOnElevator) {
+        const tlx = Math.floor(this.body.left / this.mainLayer.tilemap.tileWidth);
+        const tly = Math.floor(this.body.top / this.mainLayer.tilemap.tileHeight);
+        this.mainLayer.getTilesWithin(tlx, tly - 1, 2, 2).forEach(
+          (tile: Tile) => {
+            const l = tile.physics.rect ? tile.pixelX + tile.physics.rect.left + 14 :  tile.pixelX + 14;
+            const r = tile.physics.rect ? tile.pixelX + tile.physics.rect.right - 13 :  tile.pixelX + tile.width - 14;
+            const b = tile.physics.rect ? tile.pixelY + tile.physics.rect.bottom :  tile.pixelY + tile.height;
+            if (tile.collides && !(this.body.left > r || this.body.right < l || this.y - 74 > b)) {
+              this.isBlockedTop = true;
+            }
+          }
+        )
+      }
     }
   }
 
   addPowerup(powerup: PowerupType, time: number) {
     if (this.powerup != powerup) {
+      if (this.powerup === undefined) {
+        this.scene.game.musicManager.playPausingCurrent(this.scene.powerupMusic);
+      }
       this.powerup = powerup;
       this.powerupTime = time;
+      this.scene.events.emit('PowerupTimeChange', this.powerupTime);
     } else {
       this.powerupTime += time;
+      this.scene.events.emit('PowerupTimeChange', this.powerupTime);
     }
   }
 

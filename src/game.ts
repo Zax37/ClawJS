@@ -6,6 +6,7 @@ import DataManager from "./managers/DataManager";
 import TreasureRegistry from "./managers/TreasureRegistry";
 import Booty from "./scenes/Booty";
 import GameHUD from "./scenes/GameHUD";
+import CheatManager from "./managers/CheatManager";
 
 enum GameState {
   InMenu,
@@ -17,6 +18,7 @@ export default class Game extends Phaser.Game {
   private state = GameState.InMenu;
   private retailLevelNumber: number;
   animationManager = new AnimationManager(this);
+  cheatManager = new CheatManager();
   dataManager = new DataManager();
   musicManager = new MusicManager(this);
   treasureRegistry = new TreasureRegistry();

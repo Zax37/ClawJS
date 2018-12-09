@@ -29,7 +29,7 @@ export default class AnimationManager {
         key: 'ClawWalk',
         frames: this.game.anims.generateFrameNames('CLAW',
           {prefix: 'CLAW_', start: 1, end: 10}),
-        frameRate: 13,
+        frameRate: 12,
         repeat: -1
       });
 
@@ -64,6 +64,56 @@ export default class AnimationManager {
         frameRate: 18,
         repeat: -1
       });
+
+      this.game.anims.create({
+        key: 'ClawStandAttack1',
+        frames: this.game.anims.generateFrameNames('CLAW',
+          {prefix: 'CLAW_', start: 24, end: 26}),
+        frameRate: 32
+      }).addFrame([{
+        key: 'CLAW',
+        frame: 'CLAW_27',
+        duration: 100,
+      }, {
+        key: 'CLAW',
+        frame: 'CLAW_26',
+        duration: 20,
+      }]);
+
+      this.game.anims.create({
+        key: 'ClawStandAttack2',
+        frames: this.game.anims.generateFrameNames('CLAW',
+          {prefix: 'CLAW_', start: 35, end: 36}),
+        frameRate: 12
+      }).frames[1].duration = 50;
+
+      this.game.anims.create({
+        key: 'ClawStandAttack3',
+        frames: [
+          {
+            key: 'CLAW',
+            frame: 'CLAW_37',
+            duration: 20,
+          },
+          {
+            key: 'CLAW',
+            frame: 'CLAW_38',
+            duration: 120,
+          },
+          {
+            key: 'CLAW',
+            frame: 'CLAW_37',
+            duration: 20,
+          },
+        ]
+      });
+
+      this.game.anims.create({
+        key: 'ClawStandAttack4',
+        frames: this.game.anims.generateFrameNames('CLAW',
+          {prefix: 'CLAW_', start: 57, end: 60}),
+        frameRate: 24
+      }).frames[2].duration = 60;
 
       this.game.anims.create({
         key: 'CheckpointRise',
@@ -112,7 +162,7 @@ export default class AnimationManager {
       if (!animFrames.length) return false;
 
       this.anims[name][image] = this.game.anims.create({
-        key: image,
+        key: name + image,
         frames: animFrames,
         frameRate: animation ? this.getSpeedForAnimation(animation) : 12,
         repeat: animation ? this.getRepeatCountForAnimation(animation) : -1

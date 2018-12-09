@@ -38738,11 +38738,12 @@ declare namespace Phaser {
                  */
                 readonly progress: number;
 
+                trigger: () => void;
+
                 /**
                  * Destroys this Key Combo and all of its references.
                  */
                 destroy(): void;
-
             }
 
             /**
