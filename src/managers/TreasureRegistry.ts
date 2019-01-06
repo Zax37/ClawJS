@@ -1,4 +1,4 @@
-import {TreasureType} from "../model/TreasureType";
+import { TreasureType } from '../model/TreasureType';
 
 export default class TreasureRegistry {
   private registeredTreasure: { [key: number]: number; } = {};

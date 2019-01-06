@@ -1,7 +1,7 @@
 export const CANVAS_WIDTH = 800;
 export const CANVAS_HEIGHT = 600;
-import scenes from './scenes';
 import p from '../package.json';
+import scenes from './scenes';
 
 export const config: GameConfig = {
   title: p.title,

@@ -1,10 +1,12 @@
-import Game from "../game";
-import {CANVAS_HEIGHT, CANVAS_WIDTH} from "../config";
-import MapDisplay from "./MapDisplay";
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../config';
+import Game from '../game';
+import MapDisplay from './MapDisplay';
 
 export default class GameHUD extends Phaser.Scene {
   game: Game;
   static key = 'GameHUD';
+
+  private mapDisplay: MapDisplay;
   private scoreText: Phaser.GameObjects.Text;
   private hpText: Phaser.GameObjects.Text;
   private centerText: Phaser.GameObjects.Text;
@@ -12,10 +14,13 @@ export default class GameHUD extends Phaser.Scene {
   private fpsText: Phaser.GameObjects.Text;
   private powerupTime: number = 0;
   private centerTextTime: number = 0;
+  private fade: Phaser.GameObjects.Rectangle;
   showFPS: boolean = false;
 
+  private pause = false;
+
   constructor() {
-    super({key: GameHUD.key});
+    super({ key: GameHUD.key });
   }
 
   preload() {
@@ -32,20 +37,30 @@ export default class GameHUD extends Phaser.Scene {
     this.fpsText.setOrigin(0, 1);
     this.powerupTimeText = this.add.text(10, 30, 'Time: 0', { font: '24px Arial', fill: '#ffff00' });
     this.powerupTimeText.visible = false;
-    let mapDisplay = this.scene.get(MapDisplay.key);
+    this.mapDisplay = this.scene.get(MapDisplay.key) as MapDisplay;
+    this.fade = this.add.rectangle(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, 0, 1);
+    this.fade.setOrigin(0, 0);
+    this.fade.alpha = 0;
 
-    mapDisplay.events.on('ScoreChange', function (this: GameHUD, newScoreValue: number) {
+    this.mapDisplay.events.on('ScoreChange', function (this: GameHUD, newScoreValue: number) {
       this.scoreText.setText('Score: ' + newScoreValue);
     }, this);
 
-    mapDisplay.events.on('HealthChange', function (this: GameHUD, newHealthValue: number) {
+    this.mapDisplay.events.on('HealthChange', function (this: GameHUD, newHealthValue: number) {
       this.hpText.setText('Health: ' + newHealthValue);
     }, this);
 
-    mapDisplay.events.on('PowerupTimeChange', function (this: GameHUD, newPowerupTime: number) {
+    this.mapDisplay.events.on('PowerupTimeChange', function (this: GameHUD, newPowerupTime: number) {
       this.powerupTime = newPowerupTime;
       this.powerupTimeText.visible = true;
     }, this);
+
+    this.input.keyboard.on('keydown_ESC', () => this.togglePause());
+    this.input.keyboard.on('keydown_M', () => {
+      if (this.pause) {
+        this.game.dataManager.set('musicVolume', '0.0');
+      }
+    });
   }
 
   update(time: number, delta: number) {
@@ -63,7 +78,7 @@ export default class GameHUD extends Phaser.Scene {
     }
 
     if (this.showFPS) {
-      this.fpsText.setText('FPS: ' + this.game.loop.actualFps);
+      this.fpsText.setText('FPS: ' + Math.round(this.game.loop.actualFps));
       this.fpsText.visible = true;
     } else {
       this.fpsText.visible = false;
@@ -74,5 +89,24 @@ export default class GameHUD extends Phaser.Scene {
     this.centerText.setText(text);
     this.centerText.visible = true;
     this.centerTextTime = 2000;
+  }
+
+  togglePause() {
+    this.pause = !this.pause;
+    this.fade.alpha = this.pause ? 0.5 : 0;
+
+    if (this.pause) {
+      this.mapDisplay.claw.inputs = {
+        LEFT: false,
+        RIGHT: false,
+        UP: false,
+        DOWN: false,
+        JUMP: false,
+        ATTACK: false,
+      };
+      this.scene.pause(MapDisplay.key);
+    } else {
+      this.scene.resume(MapDisplay.key);
+    }
   }
 }

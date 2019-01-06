@@ -1,12 +1,15 @@
-import Game from "../game";
-import MapFactory from "../tilemap/MapFactory";
-import CaptainClaw from "../logics/CaptainClaw";
-import {LevelBasedData, LevelData} from "../model/LevelBasedData";
-import GameHUD from "./GameHUD";
+import Game from '../game';
+import CaptainClaw from '../logics/CaptainClaw';
+import { LevelBasedData, LevelData } from '../model/LevelBasedData';
+import MapFactory from '../tilemap/MapFactory';
+import GameHUD from './GameHUD';
 
 export default class MapDisplay extends Phaser.Scene {
   private camera: Phaser.Cameras.Scene2D.Camera;
   claw: CaptainClaw;
+
+  attackRects: Phaser.Physics.Arcade.Group;
+  enemies: Phaser.Physics.Arcade.Group;
 
   private level: any;
   private baseLevel: number;
@@ -19,59 +22,74 @@ export default class MapDisplay extends Phaser.Scene {
 
   powerupMusic: Phaser.Sound.BaseSound;
 
-  constructor () {
+  constructor() {
     super({
       key: MapDisplay.key,
       physics: {
         default: 'arcade',
         arcade: {
-          gravity: { y: 660 },
-          timeScale: 0.7,
+          debug: true,
+          gravity: { y: 655 },
+          timeScale: 0.6,
         },
         fps: {
           min: 50,
           target: 60,
           panicMax: 80,
           deltaHistory: 3,
-        }
+        },
       },
     });
   }
 
-  init (level: number)
-  {
+  init(level: number) {
     this.level = level;
     this.baseLevel = level === 15 ? 9 : level;
     this.map = null;
   }
 
-  preload ()
-  {
+  preload() {
     this.load.json(`level${this.level}`, `maps/RETAIL${this.level}.json`);
-    this.load.spritesheet(`L${this.baseLevel}_BACK`, `tilesets/L${this.baseLevel}_BACK.png`, { frameWidth: 64, frameHeight: 64, margin: 1, spacing: 2 });
-    this.load.spritesheet(`L${this.baseLevel}_ACTION`, `tilesets/L${this.baseLevel}_ACTION.png`, { frameWidth: 64, frameHeight: 64, margin: 1, spacing: 2 });
-    this.load.spritesheet(`L${this.baseLevel}_FRONT`, `tilesets/L${this.baseLevel}_FRONT.png`, { frameWidth: 64, frameHeight: 64, margin: 1, spacing: 2 });
+    this.load.spritesheet(`L${this.baseLevel}_BACK`, `tilesets/L${this.baseLevel}_BACK.png`, {
+      frameWidth: 64,
+      frameHeight: 64,
+      margin: 1,
+      spacing: 2,
+    });
+    this.load.spritesheet(`L${this.baseLevel}_ACTION`, `tilesets/L${this.baseLevel}_ACTION.png`, {
+      frameWidth: 64,
+      frameHeight: 64,
+      margin: 1,
+      spacing: 2,
+    });
+    this.load.spritesheet(`L${this.baseLevel}_FRONT`, `tilesets/L${this.baseLevel}_FRONT.png`, {
+      frameWidth: 64,
+      frameHeight: 64,
+      margin: 1,
+      spacing: 2,
+    });
     this.load.atlas('CLAW', 'imagesets/CLAW.png', 'imagesets/CLAW.json');
     this.load.atlas('GAME', 'imagesets/GAME.png', 'imagesets/GAME.json');
     this.load.atlas(
       'LEVEL' + this.baseLevel,
       `imagesets/LEVEL${this.baseLevel}.png`,
-      `imagesets/LEVEL${this.baseLevel}.json`
+      `imagesets/LEVEL${this.baseLevel}.json`,
     );
 
-    this.load.audio('POWERUP', [ 'music/POWERUP.ogg' ]);
+    this.load.audio('POWERUP', ['music/POWERUP.ogg']);
     this.load.audio(`L${this.baseLevel}_MUSIC`, [
       `music/LEVEL${this.baseLevel}.ogg`,
     ]);
 
+    this.load.audioSprite('sounds', 'sounds/SOUNDS.json');
+    this.load.audioSprite('voc', 'sounds/VOC_EN.json');
     this.load.on('complete', () => this.game.animationManager.loadBase());
   }
 
-  create ()
-  {
+  create() {
     this.hud = this.scene.get(GameHUD.key) as GameHUD;
     this.game.treasureRegistry.reset();
-    this.levelData = LevelBasedData[this.level - 1];
+    this.levelData = LevelBasedData[this.baseLevel - 1];
     this.level = this.cache.json.get(`level${this.level}`);
     this.map = MapFactory.parse(this, this.level);
 
@@ -99,15 +117,17 @@ export default class MapDisplay extends Phaser.Scene {
     this.input.keyboard.on('keydown_CTRL', () => this.claw.inputs.ATTACK = true);
     this.input.keyboard.on('keyup_CTRL', () => this.claw.inputs.ATTACK = false);
 
-    this.input.keyboard.on('keydown_ESC', () => this.game.goToMainMenu());
     window.addEventListener('popstate', () => this.game.goToMainMenu());
   }
 
-  update(time: number, delta: number)
-  {
+  update(time: number, delta: number) {
     if (this.map) {
       this.map.update(this.camera);
     }
+  }
+
+  getBaseLevel() {
+    return this.baseLevel;
   }
 
   getLevelData() {

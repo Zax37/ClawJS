@@ -1,12 +1,12 @@
-import Menu from "./scenes/Menu";
-import MapDisplay from "./scenes/MapDisplay";
-import MusicManager from "./managers/MusicManager";
-import AnimationManager from "./managers/AnimationManager";
-import DataManager from "./managers/DataManager";
-import TreasureRegistry from "./managers/TreasureRegistry";
-import Booty from "./scenes/Booty";
-import GameHUD from "./scenes/GameHUD";
-import CheatManager from "./managers/CheatManager";
+import AnimationManager from './managers/AnimationManager';
+import CheatManager from './managers/CheatManager';
+import DataManager from './managers/DataManager';
+import MusicManager from './managers/MusicManager';
+import TreasureRegistry from './managers/TreasureRegistry';
+import Booty from './scenes/Booty';
+import GameHUD from './scenes/GameHUD';
+import MapDisplay from './scenes/MapDisplay';
+import Menu from './scenes/Menu';
 
 enum GameState {
   InMenu,
@@ -23,7 +23,7 @@ export default class Game extends Phaser.Game {
   musicManager = new MusicManager(this);
   treasureRegistry = new TreasureRegistry();
 
-  constructor (config: GameConfig) {
+  constructor(config: GameConfig) {
     super(config);
   }
 
@@ -45,10 +45,10 @@ export default class Game extends Phaser.Game {
 
     await Promise.all(keys.map(key => new Promise((resolve) =>
       this.scene.getScene(key).events.once('postupdate', () => {
-        this.scene.stop(key);
-        resolve();
-      }
-    ))));
+          this.scene.stop(key);
+          resolve();
+        },
+      ))));
   }
 
   async goToMainMenu() {

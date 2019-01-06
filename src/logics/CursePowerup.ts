@@ -3,17 +3,13 @@ import DynamicObject from '../object/DynamicObject';
 import MapDisplay from '../scenes/MapDisplay';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 
-export default class PowerupGlitter extends DynamicObject {
+export default class CursePowerup extends DynamicObject {
   constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
-    super(scene, mainLayer, {
-      x: object.x,
-      y: object.y,
-      z: object.z + 1,
-      logic: 'PowerupGlitter',
-      texture: 'GAME',
-      image: 'GAME_GLITTER',
-      animation: 'GAME_CYCLE100',
-      frame: 1,
-    }, undefined, true);
+    super(scene, mainLayer, object);
+  }
+
+  preUpdate(time: number, delta: number) {
+    super.preUpdate(time, delta);
+    this.destroy();
   }
 }

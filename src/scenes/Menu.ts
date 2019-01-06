@@ -1,5 +1,5 @@
-import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../config";
-import Game from "../game";
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../config';
+import Game from '../game';
 
 export default class Menu extends Phaser.Scene {
   private background: Phaser.GameObjects.Image;
@@ -12,7 +12,7 @@ export default class Menu extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("MENU_BG", `screens/MENU.png`);
+    this.load.image('MENU_BG', `screens/MENU.png`);
     this.load.multiatlas('icons', 'icons/icons.json', 'icons');
 
     this.load.audio('menu_music', [
@@ -21,7 +21,7 @@ export default class Menu extends Phaser.Scene {
   }
 
   create() {
-    this.background = this.add.image(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, "MENU_BG");
+    this.background = this.add.image(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, 'MENU_BG');
     let icons = [];
     for (let i = 0; i < 15; i++) {
       let x = CANVAS_WIDTH / 2, y = CANVAS_HEIGHT / 2;
@@ -31,7 +31,7 @@ export default class Menu extends Phaser.Scene {
         x += i % 7 * 64 - 192;
         y += i >= 7 ? 64 : 0;
       }
-      icons.push(this.add.image(x, y, 'icons', `${i + 1}.png`).setInteractive({useHandCursor: true}));
+      icons.push(this.add.image(x, y, 'icons', `${i + 1}.png`).setInteractive({ useHandCursor: true }));
     }
 
     this.game.musicManager.play(this.sound.add('menu_music'));
@@ -55,11 +55,11 @@ export default class Menu extends Phaser.Scene {
       });
     });
 
-    const el = document.getElementsByTagName("body")[0];
+    const el = document.getElementsByTagName('body')[0];
     const requestFullScreen = el.requestFullscreen;
 
     if (requestFullScreen) {
-      el.addEventListener("dblclick", requestFullScreen);
+      el.addEventListener('dblclick', requestFullScreen);
     }
   }
 }

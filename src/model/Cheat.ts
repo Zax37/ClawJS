@@ -1,4 +1,4 @@
-import MapDisplay from "../scenes/MapDisplay";
+import MapDisplay from '../scenes/MapDisplay';
 
 export default class Cheat {
   private combo: string;

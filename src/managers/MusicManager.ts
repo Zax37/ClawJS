@@ -1,4 +1,4 @@
-import Game from "../game";
+import Game from '../game';
 
 export default class MusicManager {
   private music: Phaser.Sound.BaseSound;

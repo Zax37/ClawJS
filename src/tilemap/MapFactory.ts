@@ -1,8 +1,9 @@
-import {CANVAS_HEIGHT, CANVAS_WIDTH} from "../config";
-import logics from "../logics/index";
-import Tile from "./Tile";
-import CaptainClaw from "../logics/CaptainClaw";
-import MapDisplay from "../scenes/MapDisplay";
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../config';
+import CaptainClaw from '../logics/CaptainClaw';
+import logics from '../logics/index';
+import { TileType } from '../model/TileAttributes';
+import MapDisplay from '../scenes/MapDisplay';
+import Tile from './Tile';
 
 export default class MapFactory {
   static parse(scene: MapDisplay, data: any) {
@@ -30,12 +31,12 @@ export default class MapFactory {
           repeatX: layer.flags.xWrapping === 1,
           repeatY: layer.flags.yWrapping === 1,
           z: layer.zCoord,
-        }
-      })
+        },
+      });
     });
 
     const mapData = new Phaser.Tilemaps.MapData({
-      name: "map",
+      name: 'map',
       tileWidth: mainLayer.tileWidth,
       tileHeight: mainLayer.tileHeight,
       format: Phaser.Tilemaps.Formats.ARRAY_2D,
@@ -43,7 +44,7 @@ export default class MapFactory {
       width: mainLayer.tilesWide,
       height: mainLayer.tilesHigh,
       widthInPixels: mainLayer.pxWide,
-      heightInPixels: mainLayer.pxHigh
+      heightInPixels: mainLayer.pxHigh,
     });
 
     layersData.forEach((layerData: any, index: number) => {
@@ -52,9 +53,9 @@ export default class MapFactory {
 
       const newData = [];
       for (let ry = 0, i = 0; ry < layerData.repeatY; ry++, i = 0)
-        for (let y = 0; y < layerData.height; y++)
-        {
-          const row = []; let start = i;
+        for (let y = 0; y < layerData.height; y++) {
+          const row = [];
+          let start = i;
           for (let rx = 0; rx < layerData.repeatX; rx++) {
             i = start;
             for (let x = 0; x < layerData.width; x++, i++) {
@@ -63,7 +64,7 @@ export default class MapFactory {
               row.push(tileIndex === -1
                 ? null
                 : new Tile(layerData, tileIndex, x + rx * layerData.width, y + ry * layerData.height,
-                    layerData.tileWidth, layerData.tileHeight, index === data.mainLayerIndex ? data.tileAttributes[tileIndex] : null));
+                  layerData.tileWidth, layerData.tileHeight, index === data.mainLayerIndex ? data.tileAttributes[tileIndex] : null));
 
             }
           }
@@ -93,10 +94,13 @@ export default class MapFactory {
       layer.depth = z;
       if (i === data.mainLayerIndex) {
         const colliding = data.tileAttributes
-          .map((ta: any, id: number) => ({...ta, id}))
-          .filter((ta: any) => ta.atrib === 1)
+          .map((ta: any, id: number) => ({ ...ta, id }))
+          .filter((ta: any) => ta.atrib === TileType.solid)
           .map((ta: any) => ta.id);
         layer.setCollision(colliding);
+
+        scene.attackRects = scene.physics.add.group({ allowGravity: false });
+        scene.enemies = scene.physics.add.group();
 
         claw = new CaptainClaw(scene, layer, {
           x: data.startX,
@@ -104,29 +108,28 @@ export default class MapFactory {
           texture: 'CLAW',
         });
 
-        for (let objectData of data.objects) {
-          let imageSetPath = objectData.imageSet.split("_");
+        for (const objectData of data.objects) {
+          const imageSetPath = objectData.imageSet.split('_');
           let texture = imageSetPath[0] === 'LEVEL' ? 'LEVEL' + data.base : imageSetPath[0];
 
           objectData.image = objectData.imageSet;
 
           if (objectData.imageSet === 'BACK') {
             texture = `L${data.base}_BACK`;
-            objectData.image = 0;
-          } else
-          if (objectData.imageSet === 'ACTION') {
+            objectData.image = undefined;
+          } else if (objectData.imageSet === 'ACTION') {
             texture = `L${data.base}_ACTION`;
-            objectData.image = 0;
+            objectData.image = undefined;
           } else if (objectData.imageSet === 'FRONT') {
             texture = `L${data.base}_FRONT`;
-            objectData.image = 0;
+            objectData.image = undefined;
           }
 
           let object;
-          let warn = console.warn;
+          const warn = console.warn;
           let imageNotFound = false;
 
-          console.warn = function() {
+          console.warn = () => {
             imageNotFound = true;
           };
 
@@ -137,9 +140,9 @@ export default class MapFactory {
           if (logics[objectData.logic]) {
             objectData.texture = texture;
             object = new logics[objectData.logic](scene, layer, objectData);
-          } else {
+          } /* else {
             object = scene.add.sprite(objectData.x, objectData.y, texture, objectData.image + objectData.frame);
-          }
+          } */
 
           if (object) {
             if (objectData.z) {
@@ -172,28 +175,30 @@ export default class MapFactory {
       layer.scrollFactorY = speedY;
     });
 
-    return { map, mainLayer, update: function (camera: Phaser.Cameras.Scene2D.Camera) {
-      layersData.forEach((layer: any) => {
-        if (layer.properties.repeatX) {
-          while (camera.scrollX * layer.properties.speedX - layer.tilemapLayer.x + CANVAS_WIDTH > layer.widthInPixels / layer.repeatX) {
-            layer.tilemapLayer.x += layer.widthInPixels / layer.repeatX;
+    return {
+      map, mainLayer, update: function (camera: Phaser.Cameras.Scene2D.Camera) {
+        layersData.forEach((layer: any) => {
+          if (layer.properties.repeatX) {
+            while (camera.scrollX * layer.properties.speedX - layer.tilemapLayer.x + CANVAS_WIDTH > layer.widthInPixels / layer.repeatX) {
+              layer.tilemapLayer.x += layer.widthInPixels / layer.repeatX;
+            }
+
+            while (camera.scrollX * layer.properties.speedX - layer.tilemapLayer.x + CANVAS_WIDTH < layer.widthInPixels / layer.repeatX) {
+              layer.tilemapLayer.x -= layer.widthInPixels / layer.repeatX;
+            }
           }
 
-          while (camera.scrollX * layer.properties.speedX - layer.tilemapLayer.x + CANVAS_WIDTH < layer.widthInPixels / layer.repeatX) {
-            layer.tilemapLayer.x -= layer.widthInPixels / layer.repeatX;
-          }
-        }
+          if (layer.properties.repeatY) {
+            while (camera.scrollY * layer.properties.speedY - layer.tilemapLayer.y + CANVAS_HEIGHT > layer.heightInPixels / layer.repeatY) {
+              layer.tilemapLayer.y += layer.heightInPixels / layer.repeatY;
+            }
 
-        if (layer.properties.repeatY) {
-          while (camera.scrollY * layer.properties.speedY - layer.tilemapLayer.y + CANVAS_HEIGHT > layer.heightInPixels / layer.repeatY) {
-            layer.tilemapLayer.y += layer.heightInPixels / layer.repeatY;
+            while (camera.scrollY * layer.properties.speedY - layer.tilemapLayer.y + CANVAS_HEIGHT < layer.heightInPixels / layer.repeatY) {
+              layer.tilemapLayer.y -= layer.heightInPixels / layer.repeatY;
+            }
           }
-
-          while (camera.scrollY * layer.properties.speedY - layer.tilemapLayer.y + CANVAS_HEIGHT < layer.heightInPixels / layer.repeatY) {
-            layer.tilemapLayer.y -= layer.heightInPixels / layer.repeatY;
-          }
-        }
-      });
-    }};
+        });
+      },
+    };
   }
 }

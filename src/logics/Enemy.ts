@@ -1,12 +1,12 @@
-import PhysicsObject from "./abstract/PhysicsObject";
-import MapDisplay from "../scenes/MapDisplay";
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import { DEFAULTS } from '../model/Defaults';
+import MapDisplay from '../scenes/MapDisplay';
+import PhysicsObject from './abstract/PhysicsObject';
 import AnimationFrame = Phaser.Animations.AnimationFrame;
-import {DEFAULTS} from "./abstract/Defaults";
+import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 
 export default class Enemy extends PhysicsObject {
   private standingFrames: AnimationFrame[];
-  private timer: number = 0;
+  private timer = 0;
 
   constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: any) {
     super(scene, mainLayer, object);
@@ -17,7 +17,7 @@ export default class Enemy extends PhysicsObject {
     this.setSize(32, 112);
     object.z = DEFAULTS.ENEMY.z;
     this.alignToGround();
-    this.body.enable = false;
+    this.scene.enemies.add(this);
   }
 
   preUpdate(time: number, delta: number) {

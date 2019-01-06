@@ -15187,8 +15187,8 @@ declare namespace Phaser {
 
             /**
              * The flags that are compared against `RENDER_MASK` to determine if this Game Object will render or not.
-             * The bits are 0001 | 0010 | 0100 | 1000 set by the components Visible, Alpha, Transform and Texture respectively.
-             * If those components are not used by your custom class then you can use this bitmask as you wish.
+             * The bits are 0001 | 0010 | 0100 | 1000 set by the abstract Visible, Alpha, Transform and Texture respectively.
+             * If those abstract are not used by your custom class then you can use this bitmask as you wish.
              */
             renderFlags: integer;
 
@@ -44405,7 +44405,7 @@ declare namespace Phaser {
             /**
              * Apply a scale transformation to this Matrix.
              * 
-             * Uses the `x` and `y` components of the given Vector to scale the Matrix.
+             * Uses the `x` and `y` abstract of the given Vector to scale the Matrix.
              * @param v The Vector to scale this Matrix with.
              */
             scale(v: Phaser.Math.Vector2 | Phaser.Math.Vector3 | Phaser.Math.Vector4): Phaser.Math.Matrix3;
@@ -44531,7 +44531,7 @@ declare namespace Phaser {
             /**
              * Apply a scale transformation to this Matrix.
              * 
-             * Uses the `x`, `y` and `z` components of the given Vector to scale the Matrix.
+             * Uses the `x`, `y` and `z` abstract of the given Vector to scale the Matrix.
              * @param v The Vector to scale this Matrix with.
              */
             scale(v: Phaser.Math.Vector3 | Phaser.Math.Vector4): Phaser.Math.Matrix4;
@@ -44734,14 +44734,14 @@ declare namespace Phaser {
             w: number;
 
             /**
-             * Copy the components of a given Quaternion or Vector into this Quaternion.
-             * @param src The Quaternion or Vector to copy the components from.
+             * Copy the abstract of a given Quaternion or Vector into this Quaternion.
+             * @param src The Quaternion or Vector to copy the abstract from.
              */
             copy(src: Phaser.Math.Quaternion | Phaser.Math.Vector4): Phaser.Math.Quaternion;
 
             /**
-             * Set the components of this Quaternion.
-             * @param x The x component, or an object containing x, y, z, and w components. Default 0.
+             * Set the abstract of this Quaternion.
+             * @param x The x component, or an object containing x, y, z, and w abstract. Default 0.
              * @param y The y component. Default 0.
              * @param z The z component. Default 0.
              * @param w The w component. Default 0.
@@ -44842,7 +44842,7 @@ declare namespace Phaser {
             /**
              * Convert this Quaternion into its conjugate.
              * 
-             * Sets the x, y and z components.
+             * Sets the x, y and z abstract.
              */
             conjugate(): Phaser.Math.Quaternion;
 
@@ -44865,7 +44865,7 @@ declare namespace Phaser {
             rotateZ(rad: number): Phaser.Math.Quaternion;
 
             /**
-             * Create a unit (or rotation) Quaternion from its x, y, and z components.
+             * Create a unit (or rotation) Quaternion from its x, y, and z abstract.
              * 
              * Sets the w component.
              */
@@ -45220,8 +45220,8 @@ declare namespace Phaser {
             clone(): Phaser.Math.Vector2;
 
             /**
-             * Copy the components of a given Vector into this Vector.
-             * @param src The Vector to copy the components from.
+             * Copy the abstract of a given Vector into this Vector.
+             * @param src The Vector to copy the abstract from.
              */
             copy(src: Phaser.Math.Vector2): Phaser.Math.Vector2;
 
@@ -45232,7 +45232,7 @@ declare namespace Phaser {
             setFromObject(obj: Vector2Like): Phaser.Math.Vector2;
 
             /**
-             * Set the `x` and `y` components of the this Vector to the given `x` and `y` values.
+             * Set the `x` and `y` abstract of the this Vector to the given `x` and `y` values.
              * @param x The x value to set for this Vector.
              * @param y The y value to set for this Vector. Default x.
              */
@@ -45255,7 +45255,7 @@ declare namespace Phaser {
             /**
              * Check whether this Vector is equal to a given Vector.
              * 
-             * Performs a strict equality check against each Vector's components.
+             * Performs a strict equality check against each Vector's abstract.
              * @param v The vector to compare with this Vector.
              */
             equals(v: Phaser.Math.Vector2): boolean;
@@ -45300,7 +45300,7 @@ declare namespace Phaser {
             divide(src: Phaser.Math.Vector2): Phaser.Math.Vector2;
 
             /**
-             * Negate the `x` and `y` components of this Vector.
+             * Negate the `x` and `y` abstract of this Vector.
              */
             negate(): Phaser.Math.Vector2;
 
@@ -45434,20 +45434,20 @@ declare namespace Phaser {
             /**
              * Check whether this Vector is equal to a given Vector.
              * 
-             * Performs a strict equality check against each Vector's components.
+             * Performs a strict equality check against each Vector's abstract.
              * @param v The Vector3 to compare against.
              */
             equals(v: Phaser.Math.Vector3): boolean;
 
             /**
-             * Copy the components of a given Vector into this Vector.
-             * @param src The Vector to copy the components from.
+             * Copy the abstract of a given Vector into this Vector.
+             * @param src The Vector to copy the abstract from.
              */
             copy(src: Phaser.Math.Vector2 | Phaser.Math.Vector3): Phaser.Math.Vector3;
 
             /**
-             * Set the `x`, `y`, and `z` components of this Vector to the given `x`, `y`, and `z` values.
-             * @param x The x value to set for this Vector, or an object containing x, y and z components.
+             * Set the `x`, `y`, and `z` abstract of this Vector to the given `x`, `y`, and `z` values.
+             * @param x The x value to set for this Vector, or an object containing x, y and z abstract.
              * @param y The y value to set for this Vector.
              * @param z The z value to set for this Vector.
              */
@@ -45488,7 +45488,7 @@ declare namespace Phaser {
             divide(v: Phaser.Math.Vector2 | Phaser.Math.Vector3): Phaser.Math.Vector3;
 
             /**
-             * Negate the `x`, `y` and `z` components of this Vector.
+             * Negate the `x`, `y` and `z` abstract of this Vector.
              */
             negate(): Phaser.Math.Vector3;
 
@@ -45580,7 +45580,7 @@ declare namespace Phaser {
              * or 1 (far plane). The provided matrix is assumed to already
              * be combined, i.e. projection * view * model.
              * 
-             * After this operation, this vector's (x, y, z) components will
+             * After this operation, this vector's (x, y, z) abstract will
              * represent the unprojected 3D coordinate.
              * @param viewport Screen x, y, width and height in pixels.
              * @param invProjectionView Combined projection and view matrix.
@@ -45635,22 +45635,22 @@ declare namespace Phaser {
             clone(): Phaser.Math.Vector4;
 
             /**
-             * Copy the components of a given Vector into this Vector.
-             * @param src The Vector to copy the components from.
+             * Copy the abstract of a given Vector into this Vector.
+             * @param src The Vector to copy the abstract from.
              */
             copy(src: Phaser.Math.Vector4): Phaser.Math.Vector4;
 
             /**
              * Check whether this Vector is equal to a given Vector.
              * 
-             * Performs a strict quality check against each Vector's components.
+             * Performs a strict quality check against each Vector's abstract.
              * @param v The vector to check equality with.
              */
             equals(v: Phaser.Math.Vector4): boolean;
 
             /**
-             * Set the `x`, `y`, `z` and `w` components of the this Vector to the given `x`, `y`, `z` and `w` values.
-             * @param x The x value to set for this Vector, or an object containing x, y, z and w components.
+             * Set the `x`, `y`, `z` and `w` abstract of the this Vector to the given `x`, `y`, `z` and `w` values.
+             * @param x The x value to set for this Vector, or an object containing x, y, z and w abstract.
              * @param y The y value to set for this Vector.
              * @param z The z value to set for this Vector.
              * @param w The z value to set for this Vector.
@@ -45736,7 +45736,7 @@ declare namespace Phaser {
             distanceSq(v: Phaser.Math.Vector2 | Phaser.Math.Vector3 | Phaser.Math.Vector4): number;
 
             /**
-             * Negate the `x`, `y`, `z` and `w` components of this Vector.
+             * Negate the `x`, `y`, `z` and `w` abstract of this Vector.
              */
             negate(): Phaser.Math.Vector4;
 
@@ -48275,7 +48275,7 @@ declare namespace Phaser {
 
                 /**
                  * Absolute loss of velocity due to movement, in pixels per second squared.
-                 * The x and y components are applied separately.
+                 * The x and y abstract are applied separately.
                  * 
                  * When `useDamping` is true, this is 1 minus the damping factor.
                  * A value of 1 means the Body loses no velocity.
@@ -48325,7 +48325,7 @@ declare namespace Phaser {
 
                 /**
                  * The Body's absolute maximum velocity, in pixels per second.
-                 * The horizontal and vertical components are applied separately.
+                 * The horizontal and vertical abstract are applied separately.
                  */
                 maxVelocity: Phaser.Math.Vector2;
 
@@ -58922,18 +58922,18 @@ declare namespace Phaser {
                 function getTintFromFloats(r: number, g: number, b: number, a: number): number;
 
                 /**
-                 * Packs a Uint24, representing RGB components, with a Float32, representing
+                 * Packs a Uint24, representing RGB abstract, with a Float32, representing
                  * the alpha component, with a range between 0.0 and 1.0 and return a Uint32
-                 * @param rgb Uint24 representing RGB components
+                 * @param rgb Uint24 representing RGB abstract
                  * @param a Float32 representing Alpha component
                  */
                 function getTintAppendFloatAlpha(rgb: number, a: number): number;
 
                 /**
-                 * Packs a Uint24, representing RGB components, with a Float32, representing
+                 * Packs a Uint24, representing RGB abstract, with a Float32, representing
                  * the alpha component, with a range between 0.0 and 1.0 and return a 
                  * swizzled Uint32
-                 * @param rgb Uint24 representing RGB components
+                 * @param rgb Uint24 representing RGB abstract
                  * @param a Float32 representing Alpha component
                  */
                 function getTintAppendFloatAlphaAndSwap(rgb: number, a: number): number;
@@ -58977,7 +58977,7 @@ declare namespace Phaser {
              * 
              * The vertex attributes properties are:
              * - name : String - Name of the attribute in the vertex shader
-             * - size : integer - How many components describe the attribute. For ex: vec3 = size of 3, float = size of 1
+             * - size : integer - How many abstract describe the attribute. For ex: vec3 = size of 3, float = size of 1
              * - type : GLenum - WebGL type (gl.BYTE, gl.SHORT, gl.UNSIGNED_BYTE, gl.UNSIGNED_SHORT, gl.FLOAT)
              * - normalized : boolean - Is the attribute normalized
              * - offset : integer - The offset in bytes to the current attribute in the vertex. Equivalent to offsetof(vertex, attrib) in C
@@ -59078,7 +59078,7 @@ declare namespace Phaser {
                 bytes: Uint8Array;
 
                 /**
-                 * This will store the amount of components of 32 bit length
+                 * This will store the amount of abstract of 32 bit length
                  */
                 vertexComponentCount: integer;
 
@@ -59573,7 +59573,7 @@ declare namespace Phaser {
                 /**
                  * Creates a new custom blend mode for the renderer.
                  * @param func An array containing the WebGL functions to use for the source and the destination blending factors, respectively. See the possible constants for {@link WebGLRenderingContext#blendFunc()}.
-                 * @param equation The equation to use for combining the RGB and alpha components of a new pixel with a rendered one. See the possible constants for {@link WebGLRenderingContext#blendEquation()}.
+                 * @param equation The equation to use for combining the RGB and alpha abstract of a new pixel with a rendered one. See the possible constants for {@link WebGLRenderingContext#blendEquation()}.
                  */
                 addBlendMode(func: Function, equation: Function): integer;
 
@@ -60806,7 +60806,7 @@ declare namespace Phaser {
              * Use this to organize the children contained in the update list.
              * 
              * The Update List is responsible for managing children that need their `preUpdate` methods called,
-             * in order to process so internal components, such as Sprites with Animations.
+             * in order to process so internal abstract, such as Sprites with Animations.
              * 
              * In the default set-up there is no reference to this from within the Scene itself.
              */
@@ -71193,7 +71193,7 @@ declare namespace Phaser.Sound.BaseSound {
     /**
      * Audio sprite sound type.
      */
-    type AudioSpriteSound = ()=>void;
+    class AudioSpriteSound extends Phaser.Sound.BaseSound {}
 
 }
 

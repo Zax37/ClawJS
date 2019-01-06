@@ -1,18 +1,22 @@
-import MapDisplay from "../scenes/MapDisplay";
-import GenericObjectWithDefaults from "./abstract/GenericObjectWithDefaults";
+import { DEFAULTS } from '../model/Defaults';
+import { ObjectCreationData } from '../model/ObjectData';
+import DynamicObject from '../object/DynamicObject';
+import MapDisplay from '../scenes/MapDisplay';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 
-export default class PointsIcon extends GenericObjectWithDefaults {
+export default class PointsIcon extends DynamicObject {
   private collectTime: number;
 
-  constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: any, pointsFrame: number) {
+  constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData, pointsFrame: number) {
     super(scene, mainLayer, {
       x: object.x,
       y: object.y,
-      texture: "GAME",
-      image: "GAME_POINTS",
+      z: DEFAULTS.POINTS.z,
+      logic: 'PointsIcon',
+      texture: 'GAME',
+      image: 'GAME_POINTS',
       frame: pointsFrame,
-    }, {});
+    });
 
     this.depth = 8900;
     scene.add.existing(this);
@@ -24,7 +28,7 @@ export default class PointsIcon extends GenericObjectWithDefaults {
     if (!this.collectTime) {
       this.collectTime = time;
     } else {
-      let timeDiff = time - this.collectTime;
+      const timeDiff = time - this.collectTime;
       this.alpha = 1 - Math.max(timeDiff - 500, 0) / 500;
       if (timeDiff >= 1000) {
         this.destroy();

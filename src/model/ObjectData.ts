@@ -103,6 +103,22 @@ export interface ObjectData {
   imageSet?: string;
   animation?: string;
 
+  image?: string;
+  texture?: string;
+}
+
+export interface MinimalObjectCreationData extends ObjectData {
+  x: number;
+  y: number;
+  texture: string;
+}
+
+export interface ObjectCreationData extends ObjectData {
+  x: number;
+  y: number;
+  z: number;
+  logic: string;
+  frame: number;
   image: string;
   texture: string;
 }

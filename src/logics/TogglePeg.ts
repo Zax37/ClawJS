@@ -1,11 +1,12 @@
-import ElevatorLike from "./abstract/ElevatorLike";
-import MapDisplay from "../scenes/MapDisplay";
+import { ObjectCreationData } from '../model/ObjectData';
+import MapDisplay from '../scenes/MapDisplay';
+import ElevatorLike from './abstract/ElevatorLike';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 
 export default class TogglePeg extends ElevatorLike {
-  constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: any) {
+  constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
     super(scene, mainLayer, object);
-    let levelData = scene.getLevelData();
+    const levelData = scene.getLevelData();
     this.body.setSize(levelData.TogglePegDefRect.width, levelData.TogglePegDefRect.height);
     this.body.setOffset(this.displayOriginX + levelData.TogglePegDefRect.left, this.displayOriginY + levelData.TogglePegDefRect.top);
   }

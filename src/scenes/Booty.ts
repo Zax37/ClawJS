@@ -1,5 +1,5 @@
-import Game from "../game";
-import {CANVAS_HEIGHT, CANVAS_WIDTH} from "../config";
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../config';
+import Game from '../game';
 
 export default class Booty extends Phaser.Scene {
   private background: Phaser.GameObjects.Image;
@@ -9,16 +9,15 @@ export default class Booty extends Phaser.Scene {
   static key = 'Booty';
 
   constructor() {
-    super({key: Booty.key});
+    super({ key: Booty.key });
   }
 
-  init (level: number)
-  {
+  init(level: number) {
     this.level = level;
   }
 
   preload() {
-    this.load.image("MENU_BG", `screens/MENU.png`);
+    this.load.image('MENU_BG', `screens/MENU.png`);
 
     this.load.audio('maploop', [
       `music/MAPLOOP.ogg`,
@@ -26,11 +25,11 @@ export default class Booty extends Phaser.Scene {
   }
 
   create() {
-    this.background = this.add.image(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, "MENU_BG");
+    this.background = this.add.image(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, 'MENU_BG');
     this.game.musicManager.play(this.sound.add('maploop'));
 
     this.input.keyboard.on('keydown_SPACE', () => {
-      this.game.startLevel(this.level + 1)
+      this.game.startLevel(this.level + 1);
     });
   }
 }

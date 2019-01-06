@@ -1,58 +1,74 @@
 import LayerData = Phaser.Tilemaps.LayerData;
-import LayerDataProperties from "../model/LayerDataProperties";
-import {TileAttributes, TileType} from "../model/TileAttributes";
-import CaptainClaw from "../logics/CaptainClaw";
+import PhysicsObject from '../logics/abstract/PhysicsObject';
+import CaptainClaw from '../logics/CaptainClaw';
+import LayerDataProperties from '../model/LayerDataProperties';
+import { TileAttributes, TileType } from '../model/TileAttributes';
 
 const ladders: { top: number, left: number, right: number, bottom: number }[] = [];
 
+function groundCollider(object: PhysicsObject, tile: Tile) {
+  if (object instanceof CaptainClaw) {
+    object.touchingTile = tile;
+    const canCollide = !(object.jumping || (object.slippedDelay > 0 && object.slippedFromTile === tile) || object.body.deltaY() <= 0);
+    tile.setCollision(false, false, canCollide, false, false);
+  } else {
+    tile.setCollision(false, false, true, false, false);
+  }
+}
+
 export default class Tile extends Phaser.Tilemaps.Tile {
   customCollision?: boolean;
+  isSolid?: boolean;
   physics: { rect?: { top: number, left: number, right: number, bottom: number }, invert?: boolean };
 
   constructor(layerData: LayerData, tileIndex: integer, x: integer, y: integer, width: integer, height: integer, tileAttributes: TileAttributes) {
     super(layerData, tileIndex, x, y, width, height);
 
     if (tileAttributes) {
+      this.isSolid = tileAttributes.atrib === TileType.solid || tileAttributes.inside === TileType.solid;
       if (tileAttributes.inside || tileAttributes.outside) {
         if (tileAttributes.x2) {
           this.physics.rect = {
             left: tileAttributes.x1,
             top: tileAttributes.y1,
             right: tileAttributes.x2 + 1,
-            bottom: tileAttributes.y2 + 1
+            bottom: tileAttributes.y2 + 1,
           };
 
           if (tileAttributes.outside) {
             this.physics.invert = true;
           }
-        }
 
-        if (tileAttributes.inside === TileType.solid) {
-          this.physics.rect!.left -= 1;
-          this.physics.rect!.right += 1;
-          this.customCollision = true;
-          this.setCollisionCallback(function (claw: CaptainClaw, tile: Tile) {
-            tile.setCollision(true, true, true, true, false);
-            tile.collisionCallback = undefined;
-          }, this);
-        }
+          if (tileAttributes.inside === TileType.solid) {
+            this.physics.rect!.left -= 1;
+            this.physics.rect!.right += 1;
+            this.customCollision = true;
+            this.setCollisionCallback(function (claw: CaptainClaw, tile: Tile) {
+              tile.setCollision(true, true, true, true, false);
+              tile.collisionCallback = undefined;
+            }, this);
+          }
 
-        if (tileAttributes.inside === TileType.ground) {
-          this.physics.rect!.left -= 5;
-          this.physics.rect!.right += 5;
-          this.customCollision = true;
-          this.setCollisionCallback(function (claw: CaptainClaw, tile: Tile) {
-            tile.setCollision(false, false, true, false, false);
-            tile.collisionCallback = undefined;
-          }, this);
+          if (tileAttributes.inside === TileType.ground) {
+            this.physics.rect!.left -= 5;
+            this.physics.rect!.right += 5;
+            this.customCollision = true;
+            this.setCollisionCallback(groundCollider, this);
+          }
         }
       }
 
       if (tileAttributes.atrib === TileType.ground) {
         this.customCollision = true;
+        this.setCollisionCallback(groundCollider, this);
+      }
+
+      if (tileAttributes.atrib === TileType.death || tileAttributes.inside === TileType.death) {
+        this.customCollision = true;
         this.setCollisionCallback(function (claw: CaptainClaw, tile: Tile) {
-          tile.setCollision(false, false, true, false, false);
-          tile.collisionCallback = undefined;
+          if (claw instanceof CaptainClaw && !claw.dead && claw.body.bottom > tile.pixelY + (tileAttributes.y1 || 0)) {
+            claw.deathTile();
+          }
         }, this);
       }
 
@@ -79,13 +95,13 @@ export default class Tile extends Phaser.Tilemaps.Tile {
             top: ladderTop,
             left: ladderLeft,
             right: ladderRight,
-            bottom: ladderBottom
+            bottom: ladderBottom,
           });
         }
 
         if (this.physics.rect) {
-          this.physics.rect!.left -= 7;
-          this.physics.rect!.right += 7;
+          this.physics.rect.left -= 12;
+          this.physics.rect.right += 12;
         }
 
         this.setCollisionCallback(function (claw: CaptainClaw, tile: Tile) {
@@ -107,7 +123,9 @@ export default class Tile extends Phaser.Tilemaps.Tile {
               }
 
               const dy = claw.body.deltaY();
-              if (dy >= 0 && claw.body.bottom <= climbingTop + dy + 4) {
+
+              claw.touchingTile = tile;
+              if (dy >= 0 && claw.body.bottom <= climbingTop + dy + 8 && (claw.slippedDelay <= 0 || claw.slippedFromTile !== tile)) {
                 tile.setCollision(false, false, true, false);
               } else {
                 tile.setCollision(false, false, false, false);
