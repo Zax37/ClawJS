@@ -1,7 +1,9 @@
 import AmbientSound from './AmbientSound';
 import AnimatedDecoration from './AnimatedDecoration';
+import BouncingGoodie from './BouncingGoodie';
 import CaptainClaw from './CaptainClaw';
 import Checkpoint from './Checkpoint';
+import Collectable from './Collectable';
 import Crate from './Crate';
 import CrumblingPeg from './CrumblingPeg';
 import CursePowerup from './CursePowerup';
@@ -11,25 +13,24 @@ import GroundBlower from './GroundBlower';
 import PathElevator from './PathElevator';
 import PowderKeg from './PowderKeg';
 import SoundTrigger from './SoundTrigger';
-import SpecialPowerup from './SpecialPowerup';
 import SpringBoard from './SpringBoard';
 import StackedCrates from './StackedCrates';
 import StaticDecoration from './StaticDecoration';
 import SteppingStone from './SteppingStone';
 import TogglePeg from './TogglePeg';
-import TreasurePowerup from './TreasurePowerup';
 
 export default {
   'AmbientPosSound': AmbientSound,
   'AmbientSound': AmbientSound,
-  'AmmoPowerup': SpecialPowerup,
+  'AmmoPowerup': Collectable,
   'AniCycle': AnimatedDecoration,
   'BackStackedCrates': StackedCrates,
   'BehindAniCandy': AnimatedDecoration,
   'BehindCandy': StaticDecoration,
   'BehindCrate': Crate,
   'BigSoundTrigger': SoundTrigger,
-  'BossWarp': SpecialPowerup,
+  'BossWarp': Collectable,
+  'BouncingGoodie': BouncingGoodie,
   'CaptainClaw': CaptainClaw,
   'ClawDialogBigSoundTrigger': SoundTrigger,
   'ClawDialogSmallSoundTrigger': SoundTrigger,
@@ -38,7 +39,7 @@ export default {
   'ClawDialogTinySoundTrigger': SoundTrigger,
   'ClawDialogWideSoundTrigger': SoundTrigger,
   'Checkpoint': Checkpoint,
-  'CointPowerup': TreasurePowerup,
+  'CointPowerup': Collectable,
   'CrumblingPeg': CrumblingPeg,
   'CrumblingPegNoRespawn': CrumblingPeg,
   'CursePowerup': CursePowerup,
@@ -46,19 +47,20 @@ export default {
   'DoNothing': StaticDecoration,
   'DoNothingNormal': StaticDecoration,
   'Elevator': Elevator,
-  'EndOfLevelPowerup': SpecialPowerup,
+  'EndOfLevelPowerup': Collectable,
   'FirstSuperCheckpoint': Checkpoint,
   'FrontAniCandy': AnimatedDecoration,
   'FrontCandy': StaticDecoration,
   'FrontCrate': Crate,
   'FrontStackedCrates': StackedCrates,
-  'GlitterlessPowerup': TreasurePowerup,
+  'GlitterlessPowerup': Collectable,
   'GlobalAmbientSound': AmbientSound,
-  'GoldPowerup': TreasurePowerup,
+  'GoldPowerup': Collectable,
+  'GooCoverup': StaticDecoration,
   'GroundBlower': GroundBlower,
-  'HealthPowerup': SpecialPowerup,
+  'HealthPowerup': Collectable,
   'HugeSoundTrigger': SoundTrigger,
-  'MagicPowerup': SpecialPowerup,
+  'MagicPowerup': Collectable,
   'Officer': Enemy,
   'OneTimeStartSteppingStone': SteppingStone,
   'OneWayStartElevator': Elevator,
@@ -70,7 +72,7 @@ export default {
   'SmallSoundTrigger': SoundTrigger,
   'Soldier': Enemy,
   'SoundTrigger': SoundTrigger,
-  'SpecialPowerup': SpecialPowerup,
+  'SpecialPowerup': Collectable,
   'SpotAmbientSound': AmbientSound,
   'SpringBoard': SpringBoard,
   'StartElevator': Elevator,
@@ -87,7 +89,7 @@ export default {
   'TogglePeg2': TogglePeg,
   'TogglePeg3': TogglePeg,
   'TogglePeg4': TogglePeg,
-  'TreasurePowerup': TreasurePowerup,
+  'TreasurePowerup': Collectable,
   'TriggerElevator': Elevator,
   'WaterRock': SpringBoard,
   'WideSoundTrigger': SoundTrigger,

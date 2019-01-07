@@ -35,11 +35,13 @@ export default class StackedCrates {
         y: object.y - 42 * i,
         z: z + i,
         logic: 'CRATE',
-        powerup: this.container.rawContents[i],
+        powerup: this.container.rawContents[i] || 33,
         frame: object.frame,
         image: object.image,
         texture: object.texture,
       });
+      childCrate.speedX = 25 * (i - this.container.rawContents.length / 2);
+      childCrate.speedY = -(Math.random() * 301 + 200);
       this.childCrates.push(childCrate);
     }
   }

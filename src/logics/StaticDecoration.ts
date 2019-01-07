@@ -13,10 +13,16 @@ export default class StaticDecoration extends StaticObject {
       case 'BehindCandy':
         defaults = DEFAULTS.BEHIND;
         break;
+      case 'GooCoverup':
+        defaults = DEFAULTS.GOOCOVERUP;
+        break;
       default:
         break;
     }
 
     super(scene, mainLayer, object, defaults);
+    if (object.logic === 'GooCoverup') {
+      console.log(this);
+    }
   }
 }

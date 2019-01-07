@@ -1,13 +1,14 @@
+import { DEFAULTS } from '../../model/Defaults';
 import { ObjectCreationData } from '../../model/ObjectData';
 import LOGICS from '..';
 import MapDisplay from '../../scenes/MapDisplay';
+import BouncingGoodie from '../BouncingGoodie';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 
 export default class Container {
   rawContents: number[] = [];
 
   constructor(protected scene: MapDisplay, protected mainLayer: DynamicTilemapLayer, protected object: ObjectCreationData) {
-
     if (object.powerup) {
       this.rawContents.push(object.powerup);
     }
@@ -27,26 +28,30 @@ export default class Container {
     }
   }
 
-  dropContents() {
+  dropContents(speedX: number, speedY: number) {
     let collectableId = this.rawContents.pop();
     while (collectableId) {
-      const collectable = new (this.logicFromCollectableId(collectableId))(this.scene, this.mainLayer, {
+      const collectableImage = this.imageFromCollectableId(collectableId);
+      const collectable = new BouncingGoodie(this.scene, this.mainLayer, {
         ...this.object,
-        texture: 'GAME',
-        image: this.imageFromCollectableId(collectableId),
+        texture: collectableImage.startsWith('LEVEL') ? ('LEVEL' + this.scene.getBaseLevel()) : 'GAME',
+        logic: this.logicFromCollectableId(collectableId),
+        image: collectableImage,
+        speedX, speedY
       });
+      collectable.depth = DEFAULTS.POWERUP.z;
       collectableId = this.rawContents.pop();
     }
   }
 
   logicFromCollectableId(id: number) {
     if (id >= 35 && id <= 40) {
-      return LOGICS.CursePowerup;
+      return 'CursePowerup';
     }
     if (id <= 18 || id === 33 || (id >= 41 && id <= 52)) {
-      return LOGICS.TreasurePowerup;
+      return 'TreasurePowerup';
     }
-    return LOGICS.SpecialPowerup;
+    return 'SpecialPowerup';
   }
 
   imageFromCollectableId(id: number) {

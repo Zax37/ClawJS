@@ -128,9 +128,9 @@ export default class Elevator extends ElevatorLike {
         this.moving = true;
       }
     } else if (this.elevatorType !== ElevatorType.DEFAULT) {
-      this.moving = (this.elevatorType === ElevatorType.START) != !this.objectStandingOnIt;
+      this.moving = (this.elevatorType === ElevatorType.START) !== !this.objectStandingOnIt;
       if (!this.moving) {
-        this.body.velocity = Vector2.ZERO;
+        this.body.velocity.set(0, 0);
       }
     }
     super.postUpdate();

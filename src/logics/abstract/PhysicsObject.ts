@@ -7,6 +7,7 @@ export default class PhysicsObject extends Phaser.Physics.Arcade.Sprite {
   body: Phaser.Physics.Arcade.Body;
   isOnElevator = false;
   isBlockedTop = false;
+  tilesCollider: Phaser.Physics.Arcade.Collider;
 
   constructor(protected scene: MapDisplay, protected mainLayer: DynamicTilemapLayer, object: MinimalObjectCreationData) {
     super(scene, object.x, object.y, object.texture, object.image ? object.image + object.frame : undefined);
@@ -14,7 +15,7 @@ export default class PhysicsObject extends Phaser.Physics.Arcade.Sprite {
     scene.sys.displayList.add(this);
     scene.sys.updateList.add(this);
     scene.physics.add.existing(this, false);
-    scene.physics.add.collider(this, mainLayer);
+    this.tilesCollider = scene.physics.add.collider(this, mainLayer);
   }
 
   preUpdate(time: number, delta: number) {

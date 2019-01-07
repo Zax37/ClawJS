@@ -12,10 +12,10 @@ export default class GameHUD extends Phaser.Scene {
   private centerText: Phaser.GameObjects.Text;
   private powerupTimeText: Phaser.GameObjects.Text;
   private fpsText: Phaser.GameObjects.Text;
-  private powerupTime: number = 0;
-  private centerTextTime: number = 0;
+  private powerupTime = 0;
+  private centerTextTime = 0;
   private fade: Phaser.GameObjects.Rectangle;
-  showFPS: boolean = false;
+  showFPS = false;
 
   private pause = false;
 
@@ -71,8 +71,10 @@ export default class GameHUD extends Phaser.Scene {
     }
 
     if (this.powerupTime > 0) {
-      this.powerupTime -= delta;
-      this.powerupTimeText.setText('Time: ' + Math.round(this.powerupTime / 1000));
+      if (!this.pause) {
+        this.powerupTime -= delta;
+        this.powerupTimeText.setText('Time: ' + Math.round(this.powerupTime / 1000));
+      }
     } else {
       this.powerupTimeText.visible = false;
     }

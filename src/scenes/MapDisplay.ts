@@ -9,6 +9,7 @@ export default class MapDisplay extends Phaser.Scene {
   claw: CaptainClaw;
 
   attackRects: Phaser.Physics.Arcade.Group;
+  attackable: Phaser.Physics.Arcade.Group;
   enemies: Phaser.Physics.Arcade.Group;
 
   private level: any;

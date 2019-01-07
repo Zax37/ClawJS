@@ -100,6 +100,7 @@ export default class MapFactory {
         layer.setCollision(colliding);
 
         scene.attackRects = scene.physics.add.group({ allowGravity: false });
+        scene.attackable = scene.physics.add.group();
         scene.enemies = scene.physics.add.group();
 
         claw = new CaptainClaw(scene, layer, {

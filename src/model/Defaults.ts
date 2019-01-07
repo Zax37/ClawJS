@@ -20,6 +20,9 @@ const DEFAULTS_BASE = {
   FRONT: {
     z: 5100,
   },
+  GOOCOVERUP: {
+    z: 8010,
+  },
   POINTS: {
     z: 8900,
   },

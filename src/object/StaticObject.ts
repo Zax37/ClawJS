@@ -18,5 +18,7 @@ export default class StaticObject extends Phaser.GameObjects.Image {
     }
 
     super(scene, object.x, object.y, object.texture, object.image ? object.image + object.frame : undefined);
+
+    scene.sys.displayList.add(this);
   }
 }

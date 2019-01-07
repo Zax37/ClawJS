@@ -256,7 +256,7 @@ export default class CaptainClaw extends PhysicsObject {
 
       if (this.isOnGround) {
         if ((this.anims.currentAnim.key === 'ClawStand' || this.anims.currentAnim.key === 'ClawWalk' || this.anims.currentAnim.key === 'ClawWalkCatnip')) {
-          const attack = Math.floor(Math.random() * 4) + 1;
+          const attack = this.attackRect.targetInSwordRange ? 1 : Math.floor(Math.random() * 4) + 1;
           this.anims.play('ClawStandAttack' + attack);
           this.attackRect.damage = 5;
           switch (attack) {

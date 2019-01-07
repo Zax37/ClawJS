@@ -60,6 +60,9 @@ export default class SoundTrigger extends Phaser.GameObjects.Zone {
           this.times -= 1;
         }
 
+        if (this.clawDialog) {
+          this.attempt = this.scene.claw.attempt;
+        }
         this.scene.sound.playAudioSprite(this.clawDialog ? 'voc' : 'sounds', this.sound);
         this.activated = true;
 
@@ -76,7 +79,7 @@ export default class SoundTrigger extends Phaser.GameObjects.Zone {
     const claw = this.scene.claw;
 
     if (this.clawDialog) {
-      if (!this.clawDialog || this.attempt !== claw.attempt) {
+      if (this.attempt !== claw.attempt) {
         this.activated = false;
         this.attempt = claw.attempt;
         this.scene.sys.updateList.remove(this);

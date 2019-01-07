@@ -1,5 +1,4 @@
 import { DEFAULTS } from '../model/Defaults';
-import { ObjectCreationData } from '../model/ObjectData';
 import DynamicObject from '../object/DynamicObject';
 import MapDisplay from '../scenes/MapDisplay';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
@@ -7,7 +6,7 @@ import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 export default class PointsIcon extends DynamicObject {
   private collectTime: number;
 
-  constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData, pointsFrame: number) {
+  constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: { x: number, y: number }, pointsFrame: number) {
     super(scene, mainLayer, {
       x: object.x,
       y: object.y,
