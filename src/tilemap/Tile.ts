@@ -4,7 +4,7 @@ import CaptainClaw from '../logics/CaptainClaw';
 import LayerDataProperties from '../model/LayerDataProperties';
 import { TileAttributes, TileType } from '../model/TileAttributes';
 
-const ladders: { top: number, left: number, right: number, bottom: number }[] = [];
+const ladders: Array<{ top: number, left: number, right: number, bottom: number }> = [];
 
 function groundCollider(object: PhysicsObject, tile: Tile) {
   if (object instanceof CaptainClaw) {
@@ -43,7 +43,7 @@ export default class Tile extends Phaser.Tilemaps.Tile {
             this.physics.rect!.left -= 1;
             this.physics.rect!.right += 1;
             this.customCollision = true;
-            this.setCollisionCallback(function (claw: CaptainClaw, tile: Tile) {
+            this.setCollisionCallback((claw: CaptainClaw, tile: Tile) => {
               tile.setCollision(true, true, true, true, false);
               tile.collisionCallback = undefined;
             }, this);
@@ -65,7 +65,7 @@ export default class Tile extends Phaser.Tilemaps.Tile {
 
       if (tileAttributes.atrib === TileType.death || tileAttributes.inside === TileType.death) {
         this.customCollision = true;
-        this.setCollisionCallback(function (claw: CaptainClaw, tile: Tile) {
+        this.setCollisionCallback((claw: CaptainClaw, tile: Tile) => {
           if (claw instanceof CaptainClaw && !claw.dead && claw.body.bottom > tile.pixelY + (tileAttributes.y1 || 0)) {
             claw.deathTile();
           }
@@ -104,7 +104,7 @@ export default class Tile extends Phaser.Tilemaps.Tile {
           this.physics.rect.right += 12;
         }
 
-        this.setCollisionCallback(function (claw: CaptainClaw, tile: Tile) {
+        this.setCollisionCallback((claw: CaptainClaw, tile: Tile) => {
           if (claw instanceof CaptainClaw) {
             claw.touchingLadder = true;
 

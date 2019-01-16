@@ -1,6 +1,5 @@
 import { DEFAULTS } from '../../model/Defaults';
 import { ObjectCreationData } from '../../model/ObjectData';
-import LOGICS from '..';
 import MapDisplay from '../../scenes/MapDisplay';
 import BouncingGoodie from '../BouncingGoodie';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
@@ -39,7 +38,7 @@ export default class Container {
         image: collectableImage,
         speedX, speedY
       });
-      collectable.depth = DEFAULTS.POWERUP.z;
+      collectable.depth = this.object.z - 1;
       collectableId = this.rawContents.pop();
     }
   }

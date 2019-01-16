@@ -2,6 +2,7 @@ import DynamicObject from '../object/DynamicObject';
 import MapDisplay from '../scenes/MapDisplay';
 import CaptainClaw from './CaptainClaw';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import { ObjectCreationData } from '../model/ObjectData';
 
 export default class GroundBlower extends DynamicObject {
   body: Phaser.Physics.Arcade.Body;
@@ -9,7 +10,7 @@ export default class GroundBlower extends DynamicObject {
   private jumpHeight: number;
   private time: number;
 
-  constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: any) {
+  constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
     super(scene, mainLayer, object, {});
 
     scene.physics.add.existing(this);

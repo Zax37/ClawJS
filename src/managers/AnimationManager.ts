@@ -242,7 +242,7 @@ export default class AnimationManager {
       const textureFrames = this.game.textures.get(name).getFrameNames();
       let animFrames = textureFrames
         .filter(frameName => frameName.startsWith(image) && isNumber(frameName.charAt(image.length)))
-        .map(frameName => ({ key: name, frame: frameName, order: parseInt(frameName.substr(image.length)) }))
+        .map(frameName => ({ key: name, frame: frameName, order: Number.parseInt(frameName.substr(image.length), 0) }))
         .sort((a, b) => a.order - b.order);
 
       if (!animFrames.length) return false;

@@ -1,28 +1,43 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../config';
 import Game from '../game';
+import SceneWithMenu from './SceneWithMenu';
+import MainMenu from '../menus/MainMenu';
 
-export default class Menu extends Phaser.Scene {
-  private background: Phaser.GameObjects.Image;
+export default class MenuScene extends SceneWithMenu {
+  background: Phaser.GameObjects.Image;
 
   game: Game;
-  static key = 'Menu';
+  static key = 'MenuScene';
 
   constructor() {
-    super({ key: Menu.key });
+    super({ key: MenuScene.key });
   }
 
   preload() {
     this.load.image('MENU_BG', `screens/MENU.png`);
-    this.load.multiatlas('icons', 'icons/icons.json', 'icons');
+    this.load.image('CREDITS_BG', `screens/CREDITS.png`);
+    this.load.image('HELP_BG', `screens/HELP.png`);
+    //this.load.multiatlas('icons', 'icons/icons.json', 'icons');
 
+    this.load.atlas('fonts', 'ui/FONTS.png', 'ui/FONTS.json');
+
+    //  The XML data for the fonts in the atlas
+    this.load.xml('REGULAR', 'ui/REGULAR.xml');
+    this.load.xml('SELECTED', 'ui/SELECTED.xml');
+
+    this.load.audioSprite('sounds', 'sounds/SOUNDS.json');
     this.load.audio('menu_music', [
       `music/MENU.ogg`,
     ]);
   }
 
   create() {
+    Phaser.GameObjects.BitmapText.ParseFromAtlas(this, 'regular', 'fonts', 'MENU_DEFAULT.png', 'REGULAR');
+    Phaser.GameObjects.BitmapText.ParseFromAtlas(this, 'selected', 'fonts', 'MENU_SELECTED.png', 'SELECTED');
+    Phaser.GameObjects.BitmapText.ParseFromAtlas(this, 'disabled', 'fonts', 'MENU_DISABLED.png', 'REGULAR');
+
     this.background = this.add.image(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, 'MENU_BG');
-    let icons = [];
+    /*let icons: Phaser.GameObjects.Image[] = [];
     for (let i = 0; i < 15; i++) {
       let x = CANVAS_WIDTH / 2, y = CANVAS_HEIGHT / 2;
       if (i === 14) {
@@ -32,11 +47,13 @@ export default class Menu extends Phaser.Scene {
         y += i >= 7 ? 64 : 0;
       }
       icons.push(this.add.image(x, y, 'icons', `${i + 1}.png`).setInteractive({ useHandCursor: true }));
-    }
+    }*/
 
+    this.menu = new MainMenu(this);
     this.game.musicManager.play(this.sound.add('menu_music'));
+    super.create();
 
-    let manager = this;
+    /*let manager = this;
     icons.forEach((icon, i) => {
       icon.on('pointerover', function (this: Phaser.GameObjects.Image) {
         this.setTint(0xff0000);
@@ -60,6 +77,16 @@ export default class Menu extends Phaser.Scene {
 
     if (requestFullScreen) {
       el.addEventListener('dblclick', requestFullScreen);
+    }*/
+  }
+
+  menuConfirm() {
+    if (!this.isMenuOn) {
+      this.background.setTexture('MENU_BG');
+      this.isMenuOn = true;
+      this.menu.show();
+    } else {
+      super.menuConfirm();
     }
   }
 }

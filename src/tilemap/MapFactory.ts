@@ -52,10 +52,10 @@ export default class MapFactory {
       layerData.repeatY = layerData.properties.repeatY ? 1 + Math.ceil(CANVAS_HEIGHT / layerData.heightInPixels) : 1;
 
       const newData = [];
-      for (let ry = 0, i = 0; ry < layerData.repeatY; ry++, i = 0)
+      for (let ry = 0, i = 0; ry < layerData.repeatY; ry++, i = 0) {
         for (let y = 0; y < layerData.height; y++) {
           const row = [];
-          let start = i;
+          const start = i;
           for (let rx = 0; rx < layerData.repeatX; rx++) {
             i = start;
             for (let x = 0; x < layerData.width; x++, i++) {
@@ -70,6 +70,7 @@ export default class MapFactory {
           }
           newData.push(row);
         }
+      }
       layerData.data = newData;
       layerData.width *= layerData.repeatX;
       layerData.widthInPixels *= layerData.repeatX;
@@ -84,8 +85,8 @@ export default class MapFactory {
     });
 
     let claw;
-    let xOffset = CANVAS_WIDTH / 2;
-    let yOffset = CANVAS_HEIGHT / 2;
+    const xOffset = CANVAS_WIDTH / 2;
+    const yOffset = CANVAS_HEIGHT / 2;
 
     layersData.forEach((layerData: any, i: number) => {
       const { speedX, speedY, z } = layerData.properties;
@@ -177,7 +178,7 @@ export default class MapFactory {
     });
 
     return {
-      map, mainLayer, update: function (camera: Phaser.Cameras.Scene2D.Camera) {
+      map, mainLayer, update: (camera: Phaser.Cameras.Scene2D.Camera) => {
         layersData.forEach((layer: any) => {
           if (layer.properties.repeatX) {
             while (camera.scrollX * layer.properties.speedX - layer.tilemapLayer.x + CANVAS_WIDTH > layer.widthInPixels / layer.repeatX) {

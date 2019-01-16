@@ -1,10 +1,10 @@
 import Booty from './Booty';
 import GameHUD from './GameHUD';
 import MapDisplay from './MapDisplay';
-import Menu from './Menu';
+import MenuScene from './MenuScene';
 
 export default [
-  Menu,
+  MenuScene,
   MapDisplay,
   GameHUD,
   Booty,

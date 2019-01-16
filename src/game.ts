@@ -6,7 +6,7 @@ import TreasureRegistry from './managers/TreasureRegistry';
 import Booty from './scenes/Booty';
 import GameHUD from './scenes/GameHUD';
 import MapDisplay from './scenes/MapDisplay';
-import Menu from './scenes/Menu';
+import MenuScene from './scenes/MenuScene';
 
 enum GameState {
   InMenu,
@@ -28,11 +28,12 @@ export default class Game extends Phaser.Game {
   }
 
   async stopCurrentScenes() {
-    let keys: string[] = [];
+    const keys: string[] = [];
 
     switch (this.state) {
+      default:
       case GameState.InMenu:
-        keys.push(Menu.key);
+        keys.push(MenuScene.key);
         break;
       case GameState.InGame:
         keys.push(MapDisplay.key);
@@ -53,9 +54,9 @@ export default class Game extends Phaser.Game {
 
   async goToMainMenu() {
     if (this.state === GameState.InMenu) return;
-    this.stopCurrentScenes().then(() => this.scene.start(Menu.key));
+    this.stopCurrentScenes().then(() => this.scene.start(MenuScene.key));
     this.state = GameState.InMenu;
-    history.pushState(null, 'ClawJS Menu', '.');
+    //history.pushState(null, 'ClawJS MenuScene', '.');
   }
 
   async startLevel(level: number, replaceState?: boolean) {
@@ -64,11 +65,11 @@ export default class Game extends Phaser.Game {
       this.scene.start(GameHUD.key, level);
     });
     this.state = GameState.InGame;
-    if (replaceState) {
+    /*if (replaceState) {
       history.replaceState(null, 'ClawJS Level ' + level, '#RETAIL' + level);
     } else {
       history.pushState(null, 'ClawJS Level ' + level, '#RETAIL' + level);
-    }
+    }*/
     this.retailLevelNumber = level;
   }
 

@@ -18,10 +18,10 @@ export interface LevelData {
   AlternativePegSlideSound?: string;
 }
 
-export const BigElevatorDefRect = new Rect(-88, -20, 94, 20);
-export const WaterRockDefRect = new Rect(-25, 90, 25, 175);
+export const BIG_ELEVATOR_RECT = new Rect(-88, -20, 94, 20);
+export const WATER_ROCK_RECT = new Rect(-25, 90, 25, 175);
 
-export const LevelBasedData: LevelData[] = [
+export const LEVEL_DEFAULTS: LevelData[] = [
   { // LEVEL 1
     ElevatorDefRect: new Rect(-32, -8, 36, 32),
     TogglePegDefRect: new Rect(-24, -8, 24, 32),

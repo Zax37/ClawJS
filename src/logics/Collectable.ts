@@ -50,10 +50,9 @@ export default class Collectable extends DynamicObject {
   private specialPowerup() {
     let value = 0;
     switch (this.object.image) {
-      case 'GAME_CATNIPS_NIP2':
-        value += 15000;
       case 'GAME_CATNIPS_NIP1':
-        value += 15000;
+      case 'GAME_CATNIPS_NIP2':
+        value = this.object.smarts || this.object.image === 'GAME_CATNIPS_NIP1' ? 15000 : 30000;
         this.collectableEffect = () => this.scene.claw.addPowerup(PowerupType.CATNIP, value);
         this.sound = 'GAME_CATNMAG';
         break;

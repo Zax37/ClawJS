@@ -32,7 +32,11 @@ export default class Crate extends DynamicObject {
     this.container.dropContents(this.speedX, this.speedY);
     this.playAnimation();
     this.on('animationcomplete', this.animComplete, this);
-    this.scene.sound.playAudioSprite('sounds', 'GAME_CRATEBREAK2');
+    if (Math.random() % 100 >= 50) {
+      this.scene.sound.playAudioSprite('sounds', 'GAME_CRATEBREAK2');
+    } else {
+      this.scene.sound.playAudioSprite('sounds', 'GAME_CRATEBREAK');
+    }
   }
 
   private animComplete() {

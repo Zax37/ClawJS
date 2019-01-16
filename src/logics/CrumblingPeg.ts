@@ -7,6 +7,7 @@ export default class CrumblingPeg extends ElevatorLike {
   private crumbling = false;
   private attempt = 0;
   private respawns: boolean;
+  private sound: string;
 
   constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
     super(scene, mainLayer, object, { animation: 'GAME_FORWARD50' });
@@ -15,6 +16,7 @@ export default class CrumblingPeg extends ElevatorLike {
     this.body.setOffset(this.displayOriginX + levelData.CrumblingPegDefRect.left, this.displayOriginY + levelData.CrumblingPegDefRect.top);
 
     this.respawns = object.logic === 'CrumblingPeg';
+    this.sound = scene.getLevelData().AlternativePegCrumbleSound || 'LEVEL_PEGCRUMBLE';
   }
 
   preUpdate(time: number, delta: number) {
@@ -50,6 +52,7 @@ export default class CrumblingPeg extends ElevatorLike {
       this.attempt = this.scene.claw.attempt;
       if (this.animation) {
         this.play(this.animation);
+        this.scene.sound.playAudioSprite('sounds', this.sound);
       } else {
         this.visible = false;
         this.body.checkCollision.none = true;

@@ -10826,6 +10826,9 @@ declare namespace Phaser {
              */
             constructor(scene: Phaser.Scene, x: number, y: number, font: string, text?: string | string[], size?: number, align?: integer);
 
+
+            static ParseFromAtlas(scene: Phaser.Scene, fontName: string, textureKey: string, frameKey: string, xmlKey: string, xSpacing?: number, ySpacing?: number): boolean;
+
             /**
              * The key of the Bitmap Font used by this Bitmap Text.
              * To change the font after creation please use `setFont`.
@@ -61232,6 +61235,82 @@ declare namespace Phaser {
              */
             destroy(): void;
 
+          /**
+           * Rate at which this Sound will be played.
+           * Value of 1.0 plays the audio at full speed, 0.5 plays the audio at half speed
+           * and 2.0 doubles the audios playback speed.
+           */
+          rate: number;
+
+          /**
+           * Sets the playback rate of this Sound.
+           *
+           * For example, a value of 1.0 plays the audio at full speed, 0.5 plays the audio at half speed
+           * and 2.0 doubles the audios playback speed.
+           * @param value The playback rate at of this Sound.
+           */
+          setRate(value: number): Phaser.Sound.BaseSound;
+
+          /**
+           * The detune value of this Sound, given in [cents](https://en.wikipedia.org/wiki/Cent_%28music%29).
+           * The range of the value is -1200 to 1200, but we recommend setting it to [50](https://en.wikipedia.org/wiki/50_Cent).
+           */
+          detune: number;
+
+          /**
+           * Sets the detune value of this Sound, given in [cents](https://en.wikipedia.org/wiki/Cent_%28music%29).
+           * The range of the value is -1200 to 1200, but we recommend setting it to [50](https://en.wikipedia.org/wiki/50_Cent).
+           * @param value The range of the value is -1200 to 1200, but we recommend setting it to [50](https://en.wikipedia.org/wiki/50_Cent).
+           */
+          setDetune(value: number): Phaser.Sound.BaseSound;
+
+          /**
+           * Boolean indicating whether the sound is muted or not.
+           * Gets or sets the muted state of this sound.
+           */
+          mute: boolean;
+
+          /**
+           * Sets the muted state of this Sound.
+           * @param value `true` to mute this sound, `false` to unmute it.
+           */
+          setMute(value: boolean): Phaser.Sound.BaseSound;
+
+          /**
+           * Gets or sets the volume of this sound, a value between 0 (silence) and 1 (full volume).
+           */
+          volume: number;
+
+          /**
+           * Sets the volume of this Sound.
+           * @param value The volume of the sound.
+           */
+          setVolume(value: number): Phaser.Sound.BaseSound;
+
+          /**
+           * Property representing the position of playback for this sound, in seconds.
+           * Setting it to a specific value moves current playback to that position.
+           * The value given is clamped to the range 0 to current marker duration.
+           * Setting seek of a stopped sound has no effect.
+           */
+          seek: number;
+
+          /**
+           * Seeks to a specific point in this sound.
+           * @param value The point in the sound to seek to.
+           */
+          setSeek(value: number): Phaser.Sound.BaseSound;
+
+          /**
+           * Flag indicating whether or not the sound or current sound marker will loop.
+           */
+          loop: boolean;
+
+          /**
+           * Sets the loop state of this Sound.
+           * @param value `true` to loop this sound, `false` to not loop it.
+           */
+          setLoop(value: boolean): Phaser.Sound.BaseSound;
         }
 
         /**
@@ -61751,7 +61830,7 @@ declare namespace Phaser {
 
             /**
              * Sets the playback rate of this Sound.
-             * 
+             *
              * For example, a value of 1.0 plays the audio at full speed, 0.5 plays the audio at half speed
              * and 2.0 doubles the audios playback speed.
              * @param value The playback rate at of this Sound.

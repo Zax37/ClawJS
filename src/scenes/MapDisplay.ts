@@ -1,6 +1,6 @@
 import Game from '../game';
 import CaptainClaw from '../logics/CaptainClaw';
-import { LevelBasedData, LevelData } from '../model/LevelBasedData';
+import { LEVEL_DEFAULTS, LevelData } from '../model/LevelDefaults';
 import MapFactory from '../tilemap/MapFactory';
 import GameHUD from './GameHUD';
 
@@ -82,7 +82,6 @@ export default class MapDisplay extends Phaser.Scene {
       `music/LEVEL${this.baseLevel}.ogg`,
     ]);
 
-    this.load.audioSprite('sounds', 'sounds/SOUNDS.json');
     this.load.audioSprite('voc', 'sounds/VOC_EN.json');
     this.load.on('complete', () => this.game.animationManager.loadBase());
   }
@@ -90,7 +89,7 @@ export default class MapDisplay extends Phaser.Scene {
   create() {
     this.hud = this.scene.get(GameHUD.key) as GameHUD;
     this.game.treasureRegistry.reset();
-    this.levelData = LevelBasedData[this.baseLevel - 1];
+    this.levelData = LEVEL_DEFAULTS[this.baseLevel - 1];
     this.level = this.cache.json.get(`level${this.level}`);
     this.map = MapFactory.parse(this, this.level);
 

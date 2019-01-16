@@ -6,7 +6,7 @@ export default class MusicManager {
   private volume: number;
 
   constructor(private game: Game) {
-    this.volume = parseFloat(game.dataManager.get('musicVolume') || '1.0');
+    this.volume = Number.parseFloat(game.dataManager.get('musicVolume') || '1.0');
   }
 
   play(music: Phaser.Sound.BaseSound) {
@@ -35,6 +35,17 @@ export default class MusicManager {
 
     if (this.music) {
       this.music.resume();
+      this.music.setVolume(this.volume);
     }
+  }
+
+  getVolume() {
+    return this.volume;
+  }
+
+  setVolume(volume: number) {
+    this.volume = volume;
+    this.game.dataManager.set('musicVolume', volume.toString());
+    this.music.setVolume(volume);
   }
 }

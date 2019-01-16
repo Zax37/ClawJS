@@ -1,18 +1,19 @@
-import { WaterRockDefRect } from '../model/LevelBasedData';
+import { WATER_ROCK_RECT } from '../model/LevelDefaults';
 import MapDisplay from '../scenes/MapDisplay';
 import ElevatorLike from './abstract/ElevatorLike';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import { ObjectCreationData } from '../model/ObjectData';
 
 export default class SpringBoard extends ElevatorLike {
   private jumpHeight: number;
 
-  constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: any) {
+  constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
     super(scene, mainLayer, object);
     const levelData = scene.getLevelData();
 
     if (object.logic === 'WaterRock') {
-      this.body.setSize(WaterRockDefRect.width, WaterRockDefRect.height);
-      this.body.setOffset(this.displayOriginX + WaterRockDefRect.left, this.displayOriginY + WaterRockDefRect.top);
+      this.body.setSize(WATER_ROCK_RECT.width, WATER_ROCK_RECT.height);
+      this.body.setOffset(this.displayOriginX + WATER_ROCK_RECT.left, this.displayOriginY + WATER_ROCK_RECT.top);
     } else {
       this.body.setSize(levelData.SpringBoardDefRect.width, levelData.SpringBoardDefRect.height);
       this.body.setOffset(this.displayOriginX + levelData.SpringBoardDefRect.left, this.displayOriginY + levelData.SpringBoardDefRect.top);
