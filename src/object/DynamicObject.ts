@@ -19,6 +19,7 @@ export default class DynamicObject extends Phaser.GameObjects.Sprite {
     }
 
     super(scene, object.x, object.y, object.texture, object.image ? object.image + object.frame : undefined);
+    this.depth = object.z;
 
     scene.sys.displayList.add(this);
     scene.sys.updateList.add(this);

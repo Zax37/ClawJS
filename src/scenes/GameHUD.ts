@@ -8,7 +8,7 @@ export default class GameHUD extends SceneWithMenu {
   game: Game;
   static key = 'GameHUD';
 
-  private mapDisplay: MapDisplay;
+  mapDisplay: MapDisplay;
   private scoreText: Phaser.GameObjects.Text;
   private hpText: Phaser.GameObjects.Text;
   private centerText: Phaser.GameObjects.Text;
@@ -120,15 +120,20 @@ export default class GameHUD extends SceneWithMenu {
         JUMP: false,
         ATTACK: false,
       };
+      this.game.soundsManager.setScene(this);
       this.scene.pause(MapDisplay.key);
       this.menu.show();
     } else {
+      this.game.soundsManager.setScene(this.mapDisplay);
       this.scene.resume(MapDisplay.key);
+      while (!(this.menu instanceof InGameMenu)) {
+        this.menu.back();
+      }
       this.menu.hide();
     }
 
     if (!skipSound) {
-      this.sound.playAudioSprite('sounds', 'GAME_SELECT');
+      this.game.soundsManager.playSound('GAME_SELECT');
     }
   }
 }

@@ -50,6 +50,7 @@ export default class MenuScene extends SceneWithMenu {
     }*/
 
     this.menu = new MainMenu(this);
+    this.game.soundsManager.setScene(this);
     this.game.musicManager.play(this.sound.add('menu_music'));
     super.create();
 

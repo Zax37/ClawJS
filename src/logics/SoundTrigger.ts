@@ -62,8 +62,10 @@ export default class SoundTrigger extends Phaser.GameObjects.Zone {
 
         if (this.clawDialog) {
           this.attempt = this.scene.claw.attempt;
+          scene.claw.say(this.sound);
+        } else {
+          this.scene.game.soundsManager.playSound(this.sound);
         }
-        this.scene.sound.playAudioSprite(this.clawDialog ? 'voc' : 'sounds', this.sound);
         this.activated = true;
 
         if (this.times === 0) {

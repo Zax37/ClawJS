@@ -1,20 +1,22 @@
 import Menu from '../menus/Menu';
+import Game from '../game';
 
 export default class SceneWithMenu extends Phaser.Scene {
   menu: Menu;
+  game: Game;
   isMenuOn = true;
 
   create() {
     this.input.keyboard.on('keydown_UP', () => {
       if (this.isMenuOn) {
         this.menu.upPress();
-        this.sound.playAudioSprite('sounds', 'GAME_CLICK');
+        this.game.soundsManager.playSound('GAME_CLICK');
       }
     });
     this.input.keyboard.on('keydown_DOWN', () => {
       if (this.isMenuOn) {
         this.menu.downPress();
-        this.sound.playAudioSprite('sounds', 'GAME_CLICK');
+        this.game.soundsManager.playSound('GAME_CLICK');
       }
     });
     this.input.keyboard.on('keydown_LEFT', () => {
@@ -34,7 +36,7 @@ export default class SceneWithMenu extends Phaser.Scene {
   protected menuConfirm() {
     if (this.isMenuOn) {
       this.menu.confirm(this.menu.selected);
-      this.sound.playAudioSprite('sounds', 'GAME_SELECT');
+      this.game.soundsManager.playSound('GAME_SELECT');
     }
   }
 

@@ -151,7 +151,7 @@ export default class MapFactory {
               object.depth = objectData.z;
             }
 
-            if (imageNotFound) {
+            if (imageNotFound && object.setFrame) {
               imageNotFound = false;
               object.setFrame(objectData.image + 1);
               if (imageNotFound) {

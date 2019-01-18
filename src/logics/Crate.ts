@@ -29,13 +29,13 @@ export default class Crate extends DynamicObject {
   }
 
   protected break() {
-    this.container.dropContents(this.speedX, this.speedY);
+    this.container.dropContents(this.x, this.y, this.speedX, this.speedY);
     this.playAnimation();
     this.on('animationcomplete', this.animComplete, this);
     if (Math.random() % 100 >= 50) {
-      this.scene.sound.playAudioSprite('sounds', 'GAME_CRATEBREAK2');
+      this.scene.game.soundsManager.playSound('GAME_CRATEBREAK2');
     } else {
-      this.scene.sound.playAudioSprite('sounds', 'GAME_CRATEBREAK');
+      this.scene.game.soundsManager.playSound('GAME_CRATEBREAK');
     }
   }
 

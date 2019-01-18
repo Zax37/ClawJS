@@ -13,7 +13,7 @@ export default class TogglePeg extends ElevatorLike {
   private static?: boolean;
 
   constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
-    super(scene, mainLayer, {...object, animation: 'GAME_FORWARD50'});
+    super(scene, mainLayer, { ...object, animation: 'GAME_FORWARD50' });
     const levelData = scene.getLevelData();
     this.body.setSize(levelData.TogglePegDefRect.width, levelData.TogglePegDefRect.height);
     this.body.setOffset(this.displayOriginX + levelData.TogglePegDefRect.left, this.displayOriginY + levelData.TogglePegDefRect.top);
@@ -51,7 +51,7 @@ export default class TogglePeg extends ElevatorLike {
 
   playSoundIfNearEnough() {
     if (Math.abs(this.x - this.scene.claw.x) < CANVAS_WIDTH && Math.abs(this.y - this.scene.claw.y) < CANVAS_HEIGHT) {
-      this.scene.sound.playAudioSprite('sounds', this.sound);
+      this.scene.game.soundsManager.playSound(this.sound);
     }
   }
 

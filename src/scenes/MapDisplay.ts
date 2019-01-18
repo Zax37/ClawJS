@@ -101,6 +101,7 @@ export default class MapDisplay extends Phaser.Scene {
     this.camera.startFollow(this.claw, true);
 
     this.powerupMusic = this.sound.add('POWERUP');
+    this.game.soundsManager.setScene(this);
     this.game.musicManager.play(this.sound.add(`L${this.baseLevel}_MUSIC`));
     this.game.cheatManager.registerCheats(this);
 

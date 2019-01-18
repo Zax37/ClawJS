@@ -1,8 +1,8 @@
-import { DEFAULTS } from '../../model/Defaults';
 import { ObjectCreationData } from '../../model/ObjectData';
 import MapDisplay from '../../scenes/MapDisplay';
 import BouncingGoodie from '../BouncingGoodie';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import { DEFAULTS } from '../../model/Defaults';
 
 export default class Container {
   rawContents: number[] = [];
@@ -27,18 +27,20 @@ export default class Container {
     }
   }
 
-  dropContents(speedX: number, speedY: number) {
+  dropContents(fromX: number, fromY: number, speedX: number, speedY: number) {
     let collectableId = this.rawContents.pop();
     while (collectableId) {
       const collectableImage = this.imageFromCollectableId(collectableId);
       const collectable = new BouncingGoodie(this.scene, this.mainLayer, {
-        ...this.object,
+        x: fromX,
+        y: fromY,
+        z: DEFAULTS.POWERUP.z,
         texture: collectableImage.startsWith('LEVEL') ? ('LEVEL' + this.scene.getBaseLevel()) : 'GAME',
         logic: this.logicFromCollectableId(collectableId),
         image: collectableImage,
-        speedX, speedY
+        speedX, speedY,
+        frame: 1,
       });
-      collectable.depth = this.object.z - 1;
       collectableId = this.rawContents.pop();
     }
   }

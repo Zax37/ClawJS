@@ -11,7 +11,6 @@ export default class Enemy extends PhysicsObject {
   private killFallAnimation: string;
   private timer = 0;
 
-  private vocAudioSprite: Phaser.Sound.BaseSound;
   private deathSound: string;
 
   private container: Container;
@@ -25,7 +24,6 @@ export default class Enemy extends PhysicsObject {
     if (scene.game.animationManager.request(object.texture, object.image + 10)) {
       this.standingFrames = this.anims.animationManager.get(object.texture + object.image + 10).frames;
     }
-    this.vocAudioSprite = scene.sound.addAudioSprite('voc');
 
     switch (object.logic) {
       case 'Officer':
@@ -53,14 +51,12 @@ export default class Enemy extends PhysicsObject {
     const collider = this.scene.physics.add.collider(scene.attackRects, this, (attackSource) => {
       collider.destroy();
       this.tilesCollider.destroy();
-      if (this.vocAudioSprite.markers[this.deathSound]) {
-        this.vocAudioSprite.play(this.deathSound);
-        this.play(this.killFallAnimation);
-        this.dead = true;
-        this.body.velocity.y = -400;
-        this.container.dropContents(25, -300);
-        this.scene.sound.playAudioSprite('sounds', 'GAME_HIT' + Math.floor(1 + Math.random() * 4));
-      }
+      this.scene.game.soundsManager.playVocal(this.deathSound, { volume: this.scene.game.soundsManager.getSoundsVolume() });
+      this.play(this.killFallAnimation);
+      this.dead = true;
+      this.body.velocity.y = -400;
+      this.container.dropContents(this.x, this.y, 25, -300);
+      this.scene.game.soundsManager.playSound('GAME_HIT' + Math.floor(1 + Math.random() * 4));
     });
   }
 

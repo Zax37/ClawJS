@@ -15,7 +15,6 @@ export default class Splash extends DynamicObject {
       frame: 1,
     }, undefined, true);
 
-    this.depth = object.z! + 2;
     this.on('animationcomplete', this.destroy, this);
   }
 }

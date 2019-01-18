@@ -7,6 +7,7 @@ import Booty from './scenes/Booty';
 import GameHUD from './scenes/GameHUD';
 import MapDisplay from './scenes/MapDisplay';
 import MenuScene from './scenes/MenuScene';
+import SoundsManager from './managers/SoundsManager';
 
 enum GameState {
   InMenu,
@@ -21,6 +22,7 @@ export default class Game extends Phaser.Game {
   cheatManager = new CheatManager();
   dataManager = new DataManager();
   musicManager = new MusicManager(this);
+  soundsManager = new SoundsManager(this);
   treasureRegistry = new TreasureRegistry();
 
   constructor(config: GameConfig) {

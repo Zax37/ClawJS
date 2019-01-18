@@ -22,7 +22,7 @@ export default class Collectable extends DynamicObject {
 
   constructor(protected scene: MapDisplay, protected mainLayer: DynamicTilemapLayer, protected object: ObjectCreationData, protected fromContainer?: boolean) {
     super(scene, mainLayer, object, DEFAULTS.POWERUP, true);
-    
+
     switch (object.logic) {
       case 'AmmoPowerup':
       case 'BossWarp':
@@ -34,7 +34,7 @@ export default class Collectable extends DynamicObject {
         break;
       default:
         this.treasurePowerup();
-    } 
+    }
 
     scene.physics.add.existing(this);
     this.collider = scene.physics.add.overlap(this, scene.claw, this.collect.bind(this));
@@ -46,7 +46,7 @@ export default class Collectable extends DynamicObject {
 
     this.scene = scene;
   }
-  
+
   private specialPowerup() {
     let value = 0;
     switch (this.object.image) {
@@ -240,14 +240,14 @@ export default class Collectable extends DynamicObject {
 
     this.treasure = true;
   }
-  
+
   protected collect() {
     if (!this.collectCondition || this.collectCondition()) {
       this.collider!.destroy();
       this.collider = undefined;
 
       if (this.sound) {
-        this.scene.sound.playAudioSprite('sounds', this.sound);
+        this.scene.game.soundsManager.playSound(this.sound);
       }
 
       if (this.glitter) {

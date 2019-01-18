@@ -70,7 +70,7 @@ export default class Elevator extends ElevatorLike {
         break;
     }
 
-    let addX = 0, addY = 0;
+    const addX = 0, addY = 0;
     if (object.direction === 7 || object.direction === 4 || object.direction === 1) {
       //addX += this.maxX - this.minX + 1;
     }
@@ -85,7 +85,7 @@ export default class Elevator extends ElevatorLike {
   }
 
   timeCycleFromPos(pos: number, speed: number, min: number, max: number) {
-    return new TimeCycle(Math.max(0, pos - min),(max + 1 - min) * 2);
+    return new TimeCycle(Math.max(0, pos - min), (max + 1 - min) * 2);
   }
 
   getPosFromCycles() {

@@ -52,7 +52,7 @@ export default class CrumblingPeg extends ElevatorLike {
       this.attempt = this.scene.claw.attempt;
       if (this.animation) {
         this.play(this.animation);
-        this.scene.sound.playAudioSprite('sounds', this.sound);
+        this.scene.game.soundsManager.playSound(this.sound);
       } else {
         this.visible = false;
         this.body.checkCollision.none = true;

@@ -14,7 +14,7 @@ export default class BouncingGoodie extends Collectable {
 
     this.mapCollider = scene.physics.add.collider(this, mainLayer, () => {
       if (scene.time.now - this.lastCollide > 100) {
-        scene.sound.playAudioSprite('sounds', 'GAME_PUBOUNCE1');
+        scene.game.soundsManager.playSound('GAME_PUBOUNCE1');
       } else if (this.body.blocked.down) {
         this.body.setBounce(0, 0);
         this.body.setVelocity(0, 0);
@@ -51,9 +51,8 @@ export default class BouncingGoodie extends Collectable {
       } else if (this.collider && !this.glitter && this.body.blocked.down && Math.abs(this.body.velocity.x) <= 1) {
         this.glitter = new PowerupGlitter(this.scene, this.mainLayer, {
           x: this.x,
-          y: this.y
+          y: this.y,
         });
-        this.glitter.depth = this.depth + 1;
       }
     }
   }

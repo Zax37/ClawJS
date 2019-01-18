@@ -17,7 +17,6 @@ export default class PointsIcon extends DynamicObject {
       frame: pointsFrame,
     });
 
-    this.depth = 8900;
     scene.add.existing(this);
   }
 

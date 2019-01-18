@@ -35,12 +35,12 @@ export default class Checkpoint extends DynamicObject {
       claw.y = clawY;
       this.play(this.logic === 'Checkpoint' ? 'CheckpointRise' : 'SuperCheckpointRise');
       this.checked = true;
-      this.scene.sound.playAudioSprite('sounds', 'GAME_FLAGRISE');
+      this.scene.game.soundsManager.playSound('GAME_FLAGRISE');
     }
   }
 
   private animComplete() {
     this.play(this.logic === 'Checkpoint' ? 'CheckpointWave' : 'SuperCheckpointWave');
-    this.scene.sound.playAudioSprite('sounds', 'GAME_FLAGWAVE');
+    this.scene.game.soundsManager.playSound('GAME_FLAGWAVE');
   }
 }
