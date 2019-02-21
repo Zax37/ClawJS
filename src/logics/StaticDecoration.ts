@@ -22,8 +22,5 @@ export default class StaticDecoration extends StaticObject {
     }
 
     super(scene, mainLayer, object, defaults);
-    if (object.logic === 'GooCoverup') {
-      console.log(this);
-    }
   }
 }

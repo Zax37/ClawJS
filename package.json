@@ -1,7 +1,7 @@
 {
   "name": "clawjs",
   "title": "ClawJS",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Claw remake implemented in Phaser 3, served with node.js!",
   "url": "http://clawjs.us.openode.io/",
   "main": "index.js",

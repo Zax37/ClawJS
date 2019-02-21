@@ -52,7 +52,7 @@ export default class Collectable extends DynamicObject {
     switch (this.object.image) {
       case 'GAME_CATNIPS_NIP1':
       case 'GAME_CATNIPS_NIP2':
-        value = this.object.smarts || this.object.image === 'GAME_CATNIPS_NIP1' ? 15000 : 30000;
+        value = this.object.smarts || (this.object.image === 'GAME_CATNIPS_NIP1' ? 15000 : 30000);
         this.collectableEffect = () => this.scene.claw.addPowerup(PowerupType.CATNIP, value);
         this.sound = 'GAME_CATNMAG';
         break;
@@ -77,7 +77,12 @@ export default class Collectable extends DynamicObject {
       case 'GAME_POWERUPS_EXTRALIFE':
       case 'GAME_POWERUPS_GHOST':
       case 'GAME_POWERUPS_INVULNERABLE':
+        break;
       case 'GAME_POWERUPS_FIRESWORD':
+        this.collectableEffect = () => {
+          this.scene.claw.addPowerup(PowerupType.FIRESWORD, this.object.smarts || 15000);
+        };
+        break;
       case 'GAME_POWERUPS_ICESWORD':
       case 'GAME_POWERUPS_LIGHTNINGSWORD':
       case 'GAME_POWERUPS_PLASMASWORD':

@@ -1,6 +1,7 @@
 import { ObjectCreationData } from '../model/ObjectData';
 import MapDisplay from '../scenes/MapDisplay';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import GameHUD from '../scenes/GameHUD';
 
 function applyDefaults(object: ObjectCreationData, defaults: {}) {
   for (const key in defaults) {
@@ -12,7 +13,7 @@ function applyDefaults(object: ObjectCreationData, defaults: {}) {
 
 
 export default class StaticObject extends Phaser.GameObjects.Image {
-  constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData, defaults?: {}) {
+  constructor(scene: MapDisplay | GameHUD, mainLayer: DynamicTilemapLayer | null, object: ObjectCreationData, defaults?: {}) {
     if (defaults) {
       applyDefaults(object, defaults);
     }

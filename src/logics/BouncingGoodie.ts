@@ -48,7 +48,7 @@ export default class BouncingGoodie extends Collectable {
         if (this.body.velocity.y > 10) {
           this.body.allowGravity = true;
         }
-      } else if (this.collider && !this.glitter && this.body.blocked.down && Math.abs(this.body.velocity.x) <= 1) {
+      } else if (this.collider && !this.glitter && this.body.blocked.down && this.body.velocity.x === 0) {
         this.glitter = new PowerupGlitter(this.scene, this.mainLayer, {
           x: this.x,
           y: this.y,

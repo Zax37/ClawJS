@@ -1,3 +1,4 @@
 export enum PowerupType {
-  CATNIP
+  CATNIP,
+  FIRESWORD,
 }

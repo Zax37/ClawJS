@@ -10,8 +10,9 @@ export default class Crate extends DynamicObject {
   body: Phaser.Physics.Arcade.Body;
   speedX = 0;
   speedY = -300;
+  protected scene: MapDisplay;
 
-  constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
+  constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
     super(scene, mainLayer, object, DEFAULTS[object.logic]);
     this.container = new Container(scene, mainLayer, object);
     if (this.container.rawContents.length === 0) {
@@ -26,13 +27,15 @@ export default class Crate extends DynamicObject {
       this.break();
       collider.active = false;
     });
+
+    this.scene = scene;
   }
 
   protected break() {
     this.container.dropContents(this.x, this.y, this.speedX, this.speedY);
     this.playAnimation();
     this.on('animationcomplete', this.animComplete, this);
-    if (Math.random() % 100 >= 50) {
+    if (Math.random() * 100 >= 50) {
       this.scene.game.soundsManager.playSound('GAME_CRATEBREAK2');
     } else {
       this.scene.game.soundsManager.playSound('GAME_CRATEBREAK');

@@ -180,25 +180,24 @@ export default class AnimationManager {
           {
             key: 'CLAW',
             frame: 'CLAW_284',
-            duration: 50,
+            duration: 25,
           },
           {
             key: 'CLAW',
             frame: 'CLAW_283',
-            duration: 125,
+            duration: 75,
           },
           {
             key: 'CLAW',
             frame: 'CLAW_284',
-            duration: 75,
+            duration: 40,
           },
           {
             key: 'CLAW',
             frame: 'CLAW_285',
-            duration: 75,
+            duration: 30,
           },
         ],
-        frameRate: 60,
       });
 
       this.game.anims.create({
@@ -232,6 +231,39 @@ export default class AnimationManager {
       });
     }
   }
+
+  requestEnemyAnimations(name: string, image: string) {
+    if (!this.anims[name]) {
+      this.anims[name] = {};
+    }
+
+    if (!this.anims[name][image]) {
+      this.anims[name][image] = {};
+      const textureFrames = this.game.textures.get(name).getFrameNames();
+      const animFrames = textureFrames
+        .filter(frameName => frameName.startsWith(image) && isNumber(frameName.charAt(image.length)))
+        .map(frameName => ({ key: name, frame: frameName, order: Number.parseInt(frameName.substr(image.length), 0) }))
+        .sort((a, b) => a.order - b.order);
+
+      if (!animFrames.length) return false;
+
+      this.createEnemyAnimation(name, image, animFrames.reduce((framesGroup: Frame[], frame: Frame) => {
+        if (framesGroup.length) {
+          if (Math.floor(frame.order / 50) === Math.floor(framesGroup[0].order / 50)) {
+            return [ frame, ...framesGroup ];
+          } else {
+            this.createEnemyAnimation(name, image, framesGroup);
+            return [ frame ];
+          }
+        } else {
+          return [ frame ];
+        }
+      }, []));
+    }
+
+    return this.anims[name][image];
+  }
+
 
   request(name: string, image: string, animation?: string) {
     if (!this.anims[name]) {
@@ -270,6 +302,28 @@ export default class AnimationManager {
                 { ...animFrames[0], duration: 200 },
                 { ...animFrames[2], duration: 320 },
                 { ...animFrames[0], duration: 200 },
+              ],
+              frameRate: 60,
+              repeat: -1,
+            });
+          case 'GAME_INTERFACE_CHEST':
+            return this.anims[name][image] = this.game.anims.create({
+              key: name + image,
+              frames: [
+                { ...animFrames[0], duration: 1000 },
+                { ...animFrames[1], duration: 100 },
+                { ...animFrames[2], duration: 200 },
+                { ...animFrames[3], duration: 100 },
+                { ...animFrames[4], duration: 100 },
+                { ...animFrames[5], duration: 100 },
+                { ...animFrames[0], duration: 1250 },
+                { ...animFrames[6], duration: 100 },
+                { ...animFrames[7], duration: 100 },
+                { ...animFrames[8], duration: 100 },
+                { ...animFrames[9], duration: 100 },
+                { ...animFrames[10], duration: 100 },
+                { ...animFrames[11], duration: 100 },
+                { ...animFrames[12], duration: 100 },
               ],
               frameRate: 60,
               repeat: -1,
@@ -333,4 +387,69 @@ export default class AnimationManager {
         return -1;
     }
   }
+
+  private createEnemyAnimation(name: string, image: string, framesGroup: Frame[]) {
+    let key, repeat = -1;
+    switch (Math.floor(framesGroup[0].order / 50)) {
+      case 0:
+        key = 'FASTADVANCE';
+        break;
+      case 1:
+        key = 'ADVANCE';
+        break;
+      case 2:
+        key = 'STAND';
+        break;
+      case 4:
+        key = 'STRIKE';
+        break;
+      case 6:
+        key = 'STRIKE1';
+        break;
+      case 8:
+        key = 'STRIKE2';
+        break;
+      case 10:
+        key = 'HITHIGH';
+        repeat = 0;
+        break;
+      case 11:
+        key = 'HITSPECIAL';
+        repeat = 0;
+        break;
+      case 12:
+        key = 'HITLOW';
+        repeat = 0;
+        break;
+      case 14:
+        key = 'HITDUCK';
+        repeat = 0;
+        break;
+      case 16:
+        key = 'JUMP';
+        repeat = 0;
+        break;
+      case 18:
+        key = 'FALL';
+        break;
+      case 19:
+        key = 'KILLFALL';
+        break;
+      default:
+        console.log('UNKNOWN FRAME VALUES');
+        break;
+    }
+    this.anims[name][image][key] = this.game.anims.create({
+      key: name + image + key,
+      frames: framesGroup.sort((a, b) => a.order - b.order),
+      frameRate: 10,
+      repeat,
+    });
+  }
+}
+
+interface Frame {
+  key: string;
+  frame: string;
+  order: number;
 }

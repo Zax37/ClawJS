@@ -3,19 +3,18 @@ import Game from '../game';
 import MapDisplay from './MapDisplay';
 import SceneWithMenu from './SceneWithMenu';
 import InGameMenu from '../menus/InGameMenu';
+import ImageCounter from '../logics/ImageCounter';
 
 export default class GameHUD extends SceneWithMenu {
   game: Game;
   static key = 'GameHUD';
 
   mapDisplay: MapDisplay;
-  private scoreText: Phaser.GameObjects.Text;
-  private hpText: Phaser.GameObjects.Text;
   private centerText: Phaser.GameObjects.Text;
-  private powerupTimeText: Phaser.GameObjects.Text;
   private fpsText: Phaser.GameObjects.Text;
-  private powerupTime = 0;
-  private centerTextTime = 0;
+  private powerupFrame: ImageCounter;
+  powerupTime: number;
+  private centerTextTime: number;
   private fade: Phaser.GameObjects.Rectangle;
   showFPS = false;
 
@@ -26,39 +25,45 @@ export default class GameHUD extends SceneWithMenu {
   }
 
   preload() {
-
+    this.load.atlas('GAME', 'imagesets/GAME.png', 'imagesets/GAME.json');
   }
 
   create() {
-    this.scoreText = this.add.text(10, 10, 'Score: 0', { font: '24px Arial', fill: '#ffff00' });
-    this.hpText = this.add.text(CANVAS_WIDTH - 10, 10, 'Health: 100', { font: '24px Arial', fill: '#ff0000' });
-    this.hpText.setOrigin(1, 0);
+    this.powerupTime = 0;
+    this.centerTextTime = 0;
+
+    const scoreFrame = new ImageCounter(this, 14, 16, 'GAME_INTERFACE_TREASURECHEST',
+      'GAME_INTERFACE_SCORENUMBERS', 8, 11, 22, 2, 'GAME_INTERFACE_CHEST');
+
+    const healthFrame = new ImageCounter(this, CANVAS_WIDTH - 32, 16, 'GAME_INTERFACE_HEALTHHEART',
+      'GAME_INTERFACE_HEALTHNUMBERS', 3, 11, -20, 0);
+    healthFrame.setValue(100);
+
+    this.powerupFrame = new ImageCounter(this, 10, 48, 'GAME_INTERFACE_STOPWATCH',
+      'GAME_INTERFACE_SCORENUMBERS', 3, 11, 26, 0);
+
+    this.powerupFrame.visible = false;
+
     this.centerText = this.add.text(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, '', { font: '12px Arial', fill: '#ffffff' });
     this.centerText.setOrigin(0.5, 0.5);
     this.fpsText = this.add.text(10, CANVAS_HEIGHT - 10, '', { font: '12px Arial', fill: '#ffffff' });
     this.fpsText.setOrigin(0, 1);
-    this.powerupTimeText = this.add.text(10, 30, 'Time: 0', { font: '24px Arial', fill: '#ffff00' });
-    this.powerupTimeText.visible = false;
     this.mapDisplay = this.scene.get(MapDisplay.key) as MapDisplay;
     this.fade = this.add.rectangle(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, 0, 1);
     this.fade.setOrigin(0, 0);
     this.fade.alpha = 0;
 
     this.mapDisplay.events.on('ScoreChange', function (this: GameHUD, newScoreValue: number) {
-      this.scoreText.setText('Score: ' + newScoreValue);
+      scoreFrame.setValue(newScoreValue);
     }, this);
 
     this.mapDisplay.events.on('HealthChange', function (this: GameHUD, newHealthValue: number) {
-      this.hpText.setText('Health: ' + newHealthValue);
+      healthFrame.setValue(newHealthValue);
     }, this);
 
     this.mapDisplay.events.on('PowerupTimeChange', function (this: GameHUD, newPowerupTime: number) {
-      if (this.powerupTime && newPowerupTime) {
-        this.powerupTime += newPowerupTime;
-      } else {
-        this.powerupTime = newPowerupTime;
-      }
-      this.powerupTimeText.visible = true;
+      this.powerupTime = newPowerupTime;
+      this.powerupFrame.setVisible(true);
     }, this);
 
     this.input.keyboard.on('keydown_ESC', () => this.togglePause());
@@ -82,7 +87,7 @@ export default class GameHUD extends SceneWithMenu {
     if (this.powerupTime > 0) {
       if (!this.isMenuOn) {
         this.powerupTime -= delta;
-        this.powerupTimeText.setText('Time: ' + Math.round(this.powerupTime / 1000));
+        this.powerupFrame.setValue(Math.round(this.powerupTime / 1000));
 
         if (this.powerupTime <= 0) {
           this.mapDisplay.claw.powerup = undefined;
@@ -90,7 +95,7 @@ export default class GameHUD extends SceneWithMenu {
         }
       }
     } else {
-      this.powerupTimeText.visible = false;
+      this.powerupFrame.setVisible(false);
     }
 
     if (this.showFPS) {
@@ -119,6 +124,7 @@ export default class GameHUD extends SceneWithMenu {
         DOWN: false,
         JUMP: false,
         ATTACK: false,
+        SECONDARY_ATTACK: false,
       };
       this.game.soundsManager.setScene(this);
       this.scene.pause(MapDisplay.key);

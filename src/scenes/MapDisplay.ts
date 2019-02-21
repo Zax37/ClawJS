@@ -29,7 +29,7 @@ export default class MapDisplay extends Phaser.Scene {
       physics: {
         default: 'arcade',
         arcade: {
-          debug: true,
+          //debug: true,
           gravity: { y: 655 },
           timeScale: 0.6,
         },
@@ -117,6 +117,8 @@ export default class MapDisplay extends Phaser.Scene {
     this.input.keyboard.on('keyup_SPACE', () => this.claw.inputs.JUMP = false);
     this.input.keyboard.on('keydown_CTRL', () => this.claw.inputs.ATTACK = true);
     this.input.keyboard.on('keyup_CTRL', () => this.claw.inputs.ATTACK = false);
+    this.input.keyboard.on('keydown_Z', () => this.claw.inputs.SECONDARY_ATTACK = true);
+    this.input.keyboard.on('keyup_Z', () => this.claw.inputs.SECONDARY_ATTACK = false);
 
     window.addEventListener('popstate', () => this.game.goToMainMenu());
   }

@@ -12,6 +12,7 @@ import Enemy from './Enemy';
 import GroundBlower from './GroundBlower';
 import PathElevator from './PathElevator';
 import PowderKeg from './PowderKeg';
+import Raux from './Raux';
 import SoundTrigger from './SoundTrigger';
 import SpringBoard from './SpringBoard';
 import StackedCrates from './StackedCrates';
@@ -64,9 +65,11 @@ export default {
   'Officer': Enemy,
   'OneTimeStartSteppingStone': SteppingStone,
   'OneWayStartElevator': Elevator,
+  'OneWayTriggerElevator': Elevator,
   'OneWayElevator': Elevator,
   'PathElevator': PathElevator,
   'PowderKeg': PowderKeg,
+  'Raux': Raux,
   'RobberThief': Enemy,
   'SecondSuperCheckpoint': Checkpoint,
   'SmallSoundTrigger': SoundTrigger,

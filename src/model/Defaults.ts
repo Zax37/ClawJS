@@ -11,6 +11,13 @@ const DEFAULTS_BASE = {
   ELEVATORLIKE: {
     z: 2000,
   },
+  BULLET: {
+    logic: 'Bullet',
+    texture: 'GAME',
+    image: 'GAME_BULLETS',
+    frame: 1,
+    z: 3998,
+  },
   ENEMY: {
     z: 3999, // Less than 4000, to be under Claw
   },

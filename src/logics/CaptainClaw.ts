@@ -9,6 +9,7 @@ import PhysicsObject from './abstract/PhysicsObject';
 import CaptainClawAttack from './CaptainClawAttack';
 import Splash from './Splash';
 import StaticObject from '../object/StaticObject';
+import Projectile from './Projectile';
 
 const DEFAULT_JUMP_HEIGHT = 145;
 const RUNNING_LEAP_JUMP_HEIGHT = 171;
@@ -45,6 +46,7 @@ export default class CaptainClaw extends PhysicsObject {
     LEFT: false,
     RIGHT: false,
     ATTACK: false,
+    SECONDARY_ATTACK: false,
   };
 
   attacking = false;
@@ -208,7 +210,6 @@ export default class CaptainClaw extends PhysicsObject {
 
       if (!this.inputs.JUMP && !this.jumpingPassively) {
         if (this.jumping) {
-          this.setVelocityY(4);
           this.jumping = false;
         } else if (this.body.blocked.down) {
           this.wasJumpPressed = false;
@@ -272,11 +273,25 @@ export default class CaptainClaw extends PhysicsObject {
     }
   }
 
+  shootProjectile(image?: string, damage?: number) {
+    return new Projectile(this.scene, this.mainLayer, { x: this.x, y: this.body.center.y, image, damage, direction: this.flipX }, image !== 'GAME_BULLETS');
+  }
+
   processAttacks() {
+    if (this.inputs.SECONDARY_ATTACK) {
+      this.shootProjectile('GAME_BULLETS', 8);
+    }
+
+    if (this.anims.currentAnim.key === 'ClawDuckSwipe') {
+      if (this.inputs.LEFT && !this.flipX) this.flipX = true;
+      else if (this.inputs.RIGHT) this.flipX = false;
+      this.attackRect.updateRect(30, 19, 75, 18);
+    }
+
     if (this.inputs.ATTACK && !this.wasAttackPressed && !this.attacking) {
       if (this.isOnGround) {
         if ((this.anims.currentAnim.key === 'ClawStand' || this.anims.currentAnim.key === 'ClawWalk' || this.anims.currentAnim.key === 'ClawWalkCatnip')) {
-          const attack = this.attackRect.targetInSwordRange ? 1 : Math.floor(Math.random() * 4) + 1;
+          const attack = (this.powerup === PowerupType.FIRESWORD || this.attackRect.targetInSwordRange) ? 1 : Math.floor(Math.random() * 4) + 1;
           this.anims.play('ClawStandAttack' + attack);
           this.attackRect.damage = 5;
           switch (attack) {
@@ -313,6 +328,8 @@ export default class CaptainClaw extends PhysicsObject {
 
       if (this.powerup === PowerupType.CATNIP) {
         this.attackRect.damage *= 2;
+      } else if (this.powerup === PowerupType.FIRESWORD) {
+        this.shootProjectile('GAME_PROJECTILES_FIRESWORD', 20);
       }
 
       this.attackRect.setAttacking(this.attacking = true);
@@ -542,10 +559,13 @@ export default class CaptainClaw extends PhysicsObject {
       if (this.powerup === undefined) {
         this.scene.game.musicManager.playPausingCurrent(this.scene.powerupMusic);
       }
+      if (powerup === PowerupType.FIRESWORD) {
+        this.say('CLAW_FIRESWORD');
+      }
       this.powerup = powerup;
       this.scene.events.emit('PowerupTimeChange', time);
     } else {
-      this.scene.events.emit('PowerupTimeChange', time);
+      this.scene.events.emit('PowerupTimeChange', this.scene.hud.powerupTime + time);
     }
   }
 
@@ -631,8 +651,10 @@ export default class CaptainClaw extends PhysicsObject {
         this.setCrouching(false);
         if (animation.key === 'ClawJumpAttack' && !this.body.blocked.down) {
           this.anims.play('ClawFall');
+          this.attackRect.setAttacking(this.attacking = false);
         } else {
           this.anims.play('ClawStand');
+          this.attackRect.setAttacking(this.attacking = false);
         }
       }
     }
@@ -645,6 +667,8 @@ export default class CaptainClaw extends PhysicsObject {
       } else if (frame.index === 10) {
         this.scene.game.soundsManager.playSound('CLAW_RIGHTFOOT1');
       }
+    } else if (this.attacking && frame.isLast) {
+      this.attackRect.setAttacking(false);
     }
   }
 }

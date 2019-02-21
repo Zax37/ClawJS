@@ -11,6 +11,7 @@ export default class CheatManager {
       new Cheat('MPZAX', false, (scene) => scene.hud.textOut('Zax37 is programming God too!')),
       new Cheat('MPFPS', false, (scene) => scene.hud.showFPS = true),
       new Cheat('MPFREAK', true, (scene) => scene.claw.addPowerup(PowerupType.CATNIP, 15000)),
+      new Cheat('MPHOTSTUFF', true, (scene) => scene.claw.addPowerup(PowerupType.FIRESWORD, 30000)),
       new Cheat('MPFLY', true, (scene) => scene.claw.setFly(!scene.claw.fly)),
       new Cheat('MPBACK', true, (scene) => scene.claw.backToSpawn()),
       new Cheat('MPSKINNER', true, (scene) => {

@@ -29,10 +29,7 @@ export default class Checkpoint extends DynamicObject {
 
   protected check(claw: CaptainClaw) {
     if (!this.checked) {
-      const clawY = claw.y;
-      claw.alignToGround();
-      claw.setSpawn(this.x, claw.y);
-      claw.y = clawY;
+      claw.setSpawn(this.x, this.y);
       this.play(this.logic === 'Checkpoint' ? 'CheckpointRise' : 'SuperCheckpointRise');
       this.checked = true;
       this.scene.game.soundsManager.playSound('GAME_FLAGRISE');

@@ -114,7 +114,11 @@ export default class Booty extends Phaser.Scene {
 
     this.input.keyboard.on('keydown_SPACE', () => {
       if (this.state === BootyState.BOOTY) {
-        this.game.startLevel(this.level + 1);
+        if (this.level === 2) {
+          this.game.goToMainMenu();
+        } else {
+          this.game.startLevel(this.level + 1);
+        }
       } else {
         this.state = BootyState.BOOTY;
       }

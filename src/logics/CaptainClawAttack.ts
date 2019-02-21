@@ -10,6 +10,8 @@ export default class CaptainClawAttack extends Phaser.GameObjects.Zone {
   damage: number;
   targetInSwordRange = false;
   lastOverlap = 0;
+  leftDirection = false;
+  isSpecial = false;
 
   constructor(protected scene: MapDisplay, protected claw: CaptainClaw) {
     super(scene, claw.x + SWORD_ATTACK_RECT.x, claw.y - SWORD_ATTACK_RECT.y, SWORD_ATTACK_RECT.width, SWORD_ATTACK_RECT.height);
@@ -41,6 +43,7 @@ export default class CaptainClawAttack extends Phaser.GameObjects.Zone {
   }
 
   preUpdate(time: number, delta: number) {
+    this.leftDirection = this.claw.flipX;
     const x = this.claw.flipX ? this.claw.body.left - (this.xDiff + this.width) : this.claw.body.right + this.xDiff;
     this.setPosition(x, this.claw.y + this.yDiff);
 

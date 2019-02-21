@@ -27,7 +27,13 @@ export default class Container {
     }
   }
 
-  dropContents(fromX: number, fromY: number, speedX: number, speedY: number) {
+  dropContents(fromX: number, fromY: number, speedX: number, speedY: number, speedIncrement?: number) {
+    let incY = 0;
+    if (speedIncrement) {
+      speedX -= this.rawContents.length / 2 * speedIncrement;
+      incY -= this.rawContents.length * speedIncrement;
+    }
+
     let collectableId = this.rawContents.pop();
     while (collectableId) {
       const collectableImage = this.imageFromCollectableId(collectableId);
@@ -38,10 +44,15 @@ export default class Container {
         texture: collectableImage.startsWith('LEVEL') ? ('LEVEL' + this.scene.getBaseLevel()) : 'GAME',
         logic: this.logicFromCollectableId(collectableId),
         image: collectableImage,
-        speedX, speedY,
+        speedX, speedY: speedY + Math.abs(incY) - Math.random() * 25,
         frame: 1,
       });
       collectableId = this.rawContents.pop();
+
+      if (speedIncrement) {
+        speedX += speedIncrement - Math.random() * 20 + 7;
+        speedY += speedIncrement - Math.random() * 20 + 5;
+      }
     }
   }
 
@@ -118,7 +129,7 @@ export default class Container {
       case 30:
         return 'GAME_MAGICCLAW';
       case 31:
-        return 'GAME_MAPPIECE';
+        return 'LEVEL_GEM'; // or GAME_MAPPIECE
       case 32:
         return 'GAME_WARP';
       default:
