@@ -5,9 +5,6 @@ const DEFAULTS_BASE = {
   CRATE: {
     animation: 'GAME_FORWARD100',
   },
-  POWERUP: {
-    z: 1001, // Should be 1000, but 1001 fixes problem with first coin in Level 12.
-  },
   ELEVATORLIKE: {
     z: 2000,
   },
@@ -17,6 +14,10 @@ const DEFAULTS_BASE = {
     image: 'GAME_BULLETS',
     frame: 1,
     z: 3998,
+  },
+  POWERUP: {
+    z: 3998, // Should be 1000, but 1001 fixes problem with first coin in Level 12.
+    // UPDATE: Changed to 3998 to fixed ordering with crates and elevators, hope it's ok now!
   },
   ENEMY: {
     z: 3999, // Less than 4000, to be under Claw

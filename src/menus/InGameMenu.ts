@@ -14,8 +14,7 @@ export default class InGameMenu extends Menu {
         this.scene.togglePause(true);
         break;
       case 1:
-        this.scene.mapDisplay.claw.anims.play('ClawSpikeDeath');
-        this.scene.mapDisplay.claw.dead = true;
+        this.scene.mapDisplay.claw.killFall();
         this.scene.togglePause();
         break;
       case 2:

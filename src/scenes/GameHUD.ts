@@ -12,6 +12,7 @@ export default class GameHUD extends SceneWithMenu {
   mapDisplay: MapDisplay;
   private centerText: Phaser.GameObjects.Text;
   private fpsText: Phaser.GameObjects.Text;
+  private healthFrame: ImageCounter;
   private powerupFrame: ImageCounter;
   powerupTime: number;
   private centerTextTime: number;
@@ -35,9 +36,9 @@ export default class GameHUD extends SceneWithMenu {
     const scoreFrame = new ImageCounter(this, 14, 16, 'GAME_INTERFACE_TREASURECHEST',
       'GAME_INTERFACE_SCORENUMBERS', 8, 11, 22, 2, 'GAME_INTERFACE_CHEST');
 
-    const healthFrame = new ImageCounter(this, CANVAS_WIDTH - 32, 16, 'GAME_INTERFACE_HEALTHHEART',
+    this.healthFrame = new ImageCounter(this, CANVAS_WIDTH - 32, 16, 'GAME_INTERFACE_HEALTHHEART',
       'GAME_INTERFACE_HEALTHNUMBERS', 3, 11, -20, 0);
-    healthFrame.setValue(100);
+    this.healthFrame.setValue(100);
 
     this.powerupFrame = new ImageCounter(this, 10, 48, 'GAME_INTERFACE_STOPWATCH',
       'GAME_INTERFACE_SCORENUMBERS', 3, 11, 26, 0);
@@ -57,10 +58,6 @@ export default class GameHUD extends SceneWithMenu {
       scoreFrame.setValue(newScoreValue);
     }, this);
 
-    this.mapDisplay.events.on('HealthChange', function (this: GameHUD, newHealthValue: number) {
-      healthFrame.setValue(newHealthValue);
-    }, this);
-
     this.mapDisplay.events.on('PowerupTimeChange', function (this: GameHUD, newPowerupTime: number) {
       this.powerupTime = newPowerupTime;
       this.powerupFrame.setVisible(true);
@@ -75,6 +72,10 @@ export default class GameHUD extends SceneWithMenu {
 
     this.menu = new InGameMenu(this);
     super.create();
+  }
+
+  updateHealth(newValue: number) {
+    this.healthFrame.setValue(newValue);
   }
 
   update(time: number, delta: number) {

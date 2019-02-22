@@ -57,6 +57,18 @@ export default class AnimationManager {
         repeat: -1,
       });
 
+
+      this.game.anims.create({
+        key: 'ClawFallDeath',
+        frames: [
+          {
+            key: 'CLAW',
+            frame: 'CLAW_402'
+          },
+        ],
+        repeat: -1,
+      });
+
       this.game.anims.create({
         key: 'ClawClimb',
         frames: this.game.anims.generateFrameNames('CLAW',
@@ -232,27 +244,27 @@ export default class AnimationManager {
     }
   }
 
-  requestEnemyAnimations(name: string, image: string) {
-    if (!this.anims[name]) {
-      this.anims[name] = {};
+  requestEnemyAnimations(texture: string, image: string) {
+    if (!this.anims[texture]) {
+      this.anims[texture] = {};
     }
 
-    if (!this.anims[name][image]) {
-      this.anims[name][image] = {};
-      const textureFrames = this.game.textures.get(name).getFrameNames();
+    if (!this.anims[texture][image]) {
+      this.anims[texture][image] = {};
+      const textureFrames = this.game.textures.get(texture).getFrameNames();
       const animFrames = textureFrames
         .filter(frameName => frameName.startsWith(image) && isNumber(frameName.charAt(image.length)))
-        .map(frameName => ({ key: name, frame: frameName, order: Number.parseInt(frameName.substr(image.length), 0) }))
+        .map(frameName => ({ key: texture, frame: frameName, order: Number.parseInt(frameName.substr(image.length), 0) }))
         .sort((a, b) => a.order - b.order);
 
       if (!animFrames.length) return false;
 
-      this.createEnemyAnimation(name, image, animFrames.reduce((framesGroup: Frame[], frame: Frame) => {
+      this.createEnemyAnimation(texture, image, animFrames.reduce((framesGroup: Frame[], frame: Frame) => {
         if (framesGroup.length) {
           if (Math.floor(frame.order / 50) === Math.floor(framesGroup[0].order / 50)) {
             return [ frame, ...framesGroup ];
           } else {
-            this.createEnemyAnimation(name, image, framesGroup);
+            this.createEnemyAnimation(texture, image, framesGroup);
             return [ frame ];
           }
         } else {
@@ -261,20 +273,79 @@ export default class AnimationManager {
       }, []));
     }
 
-    return this.anims[name][image];
+    return this.anims[texture][image];
   }
 
-
-  request(name: string, image: string, animation?: string) {
-    if (!this.anims[name]) {
-      this.anims[name] = {};
+  requestBeastieAnimations(texture: string, image: string, animations: string[]) {
+    if (!this.anims[texture]) {
+      this.anims[texture] = {};
     }
 
-    if (!this.anims[name][image]) {
-      const textureFrames = this.game.textures.get(name).getFrameNames();
+    if (!this.anims[texture][image]) {
+      this.anims[texture][image] = {};
+      const textureFrames = this.game.textures.get(texture).getFrameNames();
+      const animFrames = textureFrames
+        .filter(frameName => frameName.startsWith(image) && isNumber(frameName.charAt(image.length)))
+        .map(frameName => ({ key: texture, frame: frameName, order: Number.parseInt(frameName.substr(image.length), 0) }))
+        .sort((a, b) => a.order - b.order);
+
+      if (!animFrames.length) return false;
+
+      this.anims[texture][image] = {};
+      animations.forEach((anim) => {
+        switch (anim) {
+          default:
+            break;
+          case 'LEVEL_RAT_WALK':
+            this.anims[texture][image]['walk'] = this.game.anims.create({
+              key: texture + image + 'walk',
+              frames: [
+                { ...animFrames[7], duration: 150 },
+                { ...animFrames[8], duration: 150 },
+                { ...animFrames[9], duration: 150 },
+              ],
+              frameRate: 60,
+              repeat: -1,
+            });
+            break;
+          case 'LEVEL_PUNKRAT_STRIKE':
+            this.anims[texture][image]['strike'] = this.game.anims.create({
+              key: texture + image + 'strike',
+              frames: [
+                { ...animFrames[2], duration: 1000 },
+                { ...animFrames[3], duration: 250 },
+                { ...animFrames[4], duration: 500 },
+              ],
+              frameRate: 60,
+            });
+            break;
+          case 'LEVEL_PUNKRAT_RECOIL':
+            this.anims[texture][image]['recoil'] = this.game.anims.create({
+              key: texture + image + 'recoil',
+              frames: [
+                { ...animFrames[10], duration: 250 },
+                { ...animFrames[11], duration: 250 },
+              ],
+              frameRate: 60,
+            });
+            break;
+        }
+      });
+    }
+
+    return this.anims[texture][image];
+  }
+
+  request(texture: string, image: string, animation?: string) {
+    if (!this.anims[texture]) {
+      this.anims[texture] = {};
+    }
+
+    if (!this.anims[texture][image]) {
+      const textureFrames = this.game.textures.get(texture).getFrameNames();
       let animFrames = textureFrames
         .filter(frameName => frameName.startsWith(image) && isNumber(frameName.charAt(image.length)))
-        .map(frameName => ({ key: name, frame: frameName, order: Number.parseInt(frameName.substr(image.length), 0) }))
+        .map(frameName => ({ key: texture, frame: frameName, order: Number.parseInt(frameName.substr(image.length), 0) }))
         .sort((a, b) => a.order - b.order);
 
       if (!animFrames.length) return false;
@@ -290,8 +361,8 @@ export default class AnimationManager {
             animFrames.reverse();
             break;
           case 'LEVEL_HAND_HAND1':
-            return this.anims[name][image] = this.game.anims.create({
-              key: name + image,
+            return this.anims[texture][image] = this.game.anims.create({
+              key: texture + image,
               frames: [
                 { ...animFrames[2], duration: 400 },
                 { ...animFrames[3], duration: 500 },
@@ -307,8 +378,8 @@ export default class AnimationManager {
               repeat: -1,
             });
           case 'GAME_INTERFACE_CHEST':
-            return this.anims[name][image] = this.game.anims.create({
-              key: name + image,
+            return this.anims[texture][image] = this.game.anims.create({
+              key: texture + image,
               frames: [
                 { ...animFrames[0], duration: 1000 },
                 { ...animFrames[1], duration: 100 },
@@ -329,7 +400,6 @@ export default class AnimationManager {
               repeat: -1,
             });
           default:
-            console.log(animation);
             break;
         }
       } else {
@@ -342,15 +412,15 @@ export default class AnimationManager {
 
       const frameDuration = animation ? this.getFrameDurationForAnimation(animation) : 100;
 
-      this.anims[name][image] = this.game.anims.create({
-        key: name + image,
+      this.anims[texture][image] = this.game.anims.create({
+        key: texture + image,
         frames: animFrames.map(frame => ({ ...frame, duration: frameDuration })),
         frameRate: 60,
         repeat: animation ? this.getRepeatCountForAnimation(animation) : -1,
       });
     }
 
-    return this.anims[name][image];
+    return this.anims[texture][image];
   }
 
   private getFrameDurationForAnimation(animation: string) {

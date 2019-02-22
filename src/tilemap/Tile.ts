@@ -1,7 +1,6 @@
 import LayerData = Phaser.Tilemaps.LayerData;
 import PhysicsObject from '../logics/abstract/PhysicsObject';
 import CaptainClaw from '../logics/CaptainClaw';
-import LayerDataProperties from '../model/LayerDataProperties';
 import { TileAttributes, TileType } from '../model/TileAttributes';
 
 const ladders: Array<{ top: number, left: number, right: number, bottom: number }> = [];
@@ -134,12 +133,6 @@ export default class Tile extends Phaser.Tilemaps.Tile {
           }
         }, this);
       }
-    }
-
-    const properties = layerData.properties as LayerDataProperties;
-
-    if (tileIndex === properties.fillTileIndex) {
-      this.tint = properties.fillColor;
     }
   }
 }

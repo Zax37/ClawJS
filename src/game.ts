@@ -38,6 +38,7 @@ export default class Game extends Phaser.Game {
         keys.push(MenuScene.key);
         break;
       case GameState.InGame:
+        this.soundsManager.clearAmbients();
         keys.push(MapDisplay.key);
         keys.push(GameHUD.key);
         break;

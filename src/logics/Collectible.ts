@@ -5,12 +5,11 @@ import { PowerupType } from '../model/PowerupType';
 import { TreasureType } from '../model/TreasureType';
 import DynamicObject from '../object/DynamicObject';
 import MapDisplay from '../scenes/MapDisplay';
-import { MAX_HEALTH } from './CaptainClaw';
 import PointsIcon from './PointsIcon';
 import PowerupGlitter from './PowerupGlitter';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 
-export default class Collectable extends DynamicObject {
+export default class Collectible extends DynamicObject {
   body: Phaser.Physics.Arcade.Body;
   collider?: Phaser.Physics.Arcade.Collider;
   private collectCondition?: () => boolean;
@@ -67,11 +66,10 @@ export default class Collectable extends DynamicObject {
         value += 5;
         this.sound = this.sound || 'GAME_FOODITEM';
         this.collectCondition = () => {
-          return this.scene.claw.health < MAX_HEALTH;
+          return !this.scene.claw.health.isFull();
         };
         this.collectableEffect = () => {
-          this.scene.claw.health += value;
-          this.scene.events.emit('HealthChange', this.scene.claw.health);
+          this.scene.claw.health.heal(value);
         };
         break;
       case 'GAME_POWERUPS_EXTRALIFE':
@@ -248,6 +246,7 @@ export default class Collectable extends DynamicObject {
 
   protected collect() {
     if (!this.collectCondition || this.collectCondition()) {
+      this.depth = DEFAULTS.FRONT.z;
       this.collider!.destroy();
       this.collider = undefined;
 
@@ -270,6 +269,10 @@ export default class Collectable extends DynamicObject {
   }
 
   preUpdate(time: number, delta: number) {
+    if (this.glitter) {
+      this.glitter.x = this.x;
+      this.glitter.y = this.y;
+    }
     if (!this.collider) {
       this.x -= delta * 0.6;
       this.y -= delta * 0.5;

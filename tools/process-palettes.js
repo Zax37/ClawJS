@@ -14,7 +14,7 @@ const paletteParser = new Parser()
     length: 256,
     formatter: function(arr) {
       return arr.map(color =>
-        (color.b << 16) + (color.g << 8) + (color.r)
+        (color.r << 16) + (color.g << 8) + (color.b)
       );
     }
   });

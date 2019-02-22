@@ -14,11 +14,11 @@ export enum ObjectDynamicFlags {
   noHit
 }
 
-export enum ObjectDrawFlags {
-  flash,
-  invert,
-  mirror,
-  noDraw
+export interface ObjectDrawFlags {
+  flash?: boolean;
+  invert?: boolean;
+  mirror?: boolean;
+  noDraw?: boolean;
 }
 
 export enum ObjectUserFlags {

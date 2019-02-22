@@ -1,10 +1,10 @@
 import { ObjectCreationData } from '../model/ObjectData';
 import MapDisplay from '../scenes/MapDisplay';
 import Health from './abstract/Health';
-import Enemy from './Enemy';
+import HumanEnemy from './HumanEnemy';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 
-export default class Raux extends Enemy {
+export default class Raux extends HumanEnemy {
   constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
     super(scene, mainLayer, object);
     this.health = new Health(1, scene.time);

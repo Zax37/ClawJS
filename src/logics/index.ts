@@ -1,14 +1,15 @@
 import AmbientSound from './AmbientSound';
 import AnimatedDecoration from './AnimatedDecoration';
+import Beastie from './Beastie';
 import BouncingGoodie from './BouncingGoodie';
 import CaptainClaw from './CaptainClaw';
 import Checkpoint from './Checkpoint';
-import Collectable from './Collectable';
+import Collectible from './Collectible';
 import Crate from './Crate';
 import CrumblingPeg from './CrumblingPeg';
 import CursePowerup from './CursePowerup';
 import Elevator from './Elevator';
-import Enemy from './Enemy';
+import HumanEnemy from './HumanEnemy';
 import GroundBlower from './GroundBlower';
 import PathElevator from './PathElevator';
 import PowderKeg from './PowderKeg';
@@ -23,14 +24,14 @@ import TogglePeg from './TogglePeg';
 export default {
   'AmbientPosSound': AmbientSound,
   'AmbientSound': AmbientSound,
-  'AmmoPowerup': Collectable,
+  'AmmoPowerup': Collectible,
   'AniCycle': AnimatedDecoration,
   'BackStackedCrates': StackedCrates,
   'BehindAniCandy': AnimatedDecoration,
   'BehindCandy': StaticDecoration,
   'BehindCrate': Crate,
   'BigSoundTrigger': SoundTrigger,
-  'BossWarp': Collectable,
+  'BossWarp': Collectible,
   'BouncingGoodie': BouncingGoodie,
   'CaptainClaw': CaptainClaw,
   'ClawDialogBigSoundTrigger': SoundTrigger,
@@ -40,42 +41,44 @@ export default {
   'ClawDialogTinySoundTrigger': SoundTrigger,
   'ClawDialogWideSoundTrigger': SoundTrigger,
   'Checkpoint': Checkpoint,
-  'CointPowerup': Collectable,
+  'CoinPowerup': Collectible,
   'CrumblingPeg': CrumblingPeg,
   'CrumblingPegNoRespawn': CrumblingPeg,
   'CursePowerup': CursePowerup,
-  'CutThroat': Enemy,
+  'CutThroat': HumanEnemy,
   'DoNothing': StaticDecoration,
   'DoNothingNormal': StaticDecoration,
   'Elevator': Elevator,
-  'EndOfLevelPowerup': Collectable,
+  'EndOfLevelPowerup': Collectible,
   'FirstSuperCheckpoint': Checkpoint,
   'FrontAniCandy': AnimatedDecoration,
   'FrontCandy': StaticDecoration,
   'FrontCrate': Crate,
   'FrontStackedCrates': StackedCrates,
-  'GlitterlessPowerup': Collectable,
+  'GlitterlessPowerup': Collectible,
   'GlobalAmbientSound': AmbientSound,
-  'GoldPowerup': Collectable,
+  'GoldPowerup': Collectible,
   'GooCoverup': StaticDecoration,
   'GroundBlower': GroundBlower,
-  'HealthPowerup': Collectable,
+  'HealthPowerup': Collectible,
   'HugeSoundTrigger': SoundTrigger,
-  'MagicPowerup': Collectable,
-  'Officer': Enemy,
+  'MagicPowerup': Collectible,
+  'Officer': HumanEnemy,
   'OneTimeStartSteppingStone': SteppingStone,
   'OneWayStartElevator': Elevator,
   'OneWayTriggerElevator': Elevator,
   'OneWayElevator': Elevator,
   'PathElevator': PathElevator,
   'PowderKeg': PowderKeg,
+  'PunkRat': Beastie,
+  'Rat': Beastie,
   'Raux': Raux,
-  'RobberThief': Enemy,
+  'RobberThief': HumanEnemy,
   'SecondSuperCheckpoint': Checkpoint,
   'SmallSoundTrigger': SoundTrigger,
-  'Soldier': Enemy,
+  'Soldier': HumanEnemy,
   'SoundTrigger': SoundTrigger,
-  'SpecialPowerup': Collectable,
+  'SpecialPowerup': Collectible,
   'SpotAmbientSound': AmbientSound,
   'SpringBoard': SpringBoard,
   'StartElevator': Elevator,
@@ -92,7 +95,7 @@ export default {
   'TogglePeg2': TogglePeg,
   'TogglePeg3': TogglePeg,
   'TogglePeg4': TogglePeg,
-  'TreasurePowerup': Collectable,
+  'TreasurePowerup': Collectible,
   'TriggerElevator': Elevator,
   'WaterRock': SpringBoard,
   'WideSoundTrigger': SoundTrigger,

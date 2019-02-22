@@ -1,10 +1,10 @@
 import { ObjectCreationData } from '../model/ObjectData';
 import MapDisplay from '../scenes/MapDisplay';
-import Collectable from './Collectable';
+import Collectible from './Collectible';
 import PowerupGlitter from './PowerupGlitter';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 
-export default class BouncingGoodie extends Collectable {
+export default class BouncingGoodie extends Collectible {
   body: Phaser.Physics.Arcade.Body;
   mapCollider: Phaser.Physics.Arcade.Collider;
   lastCollide = 0;

@@ -47,6 +47,7 @@ export default class MapFactory {
       heightInPixels: mainLayer.pxHigh,
     });
 
+    scene.cameras.main.setBackgroundColor(layersData[0].properties.fillColor);
     layersData.forEach((layerData: any, index: number) => {
       layerData.repeatX = layerData.properties.repeatX ? 1 + Math.ceil(CANVAS_WIDTH / layerData.widthInPixels) : 1;
       layerData.repeatY = layerData.properties.repeatY ? 1 + Math.ceil(CANVAS_HEIGHT / layerData.heightInPixels) : 1;
@@ -61,11 +62,14 @@ export default class MapFactory {
             for (let x = 0; x < layerData.width; x++, i++) {
               const tileIndex = layerData.data[i];
 
-              row.push(tileIndex === -1
+              row.push(tileIndex === -1 || tileIndex === layerData.properties.fillTileIndex
                 ? null
-                : new Tile(layerData, tileIndex, x + rx * layerData.width, y + ry * layerData.height,
-                  layerData.tileWidth, layerData.tileHeight, index === data.mainLayerIndex ? data.tileAttributes[tileIndex] : null));
-
+                : index === data.mainLayerIndex
+                  ? new Tile(layerData, tileIndex, x + rx * layerData.width, y + ry * layerData.height,
+                    layerData.tileWidth, layerData.tileHeight,  data.tileAttributes[tileIndex])
+                  : new Phaser.Tilemaps.Tile(layerData, tileIndex, x + rx * layerData.width,
+                    y + ry * layerData.height, layerData.tileWidth, layerData.tileHeight)
+              );
             }
           }
           newData.push(row);

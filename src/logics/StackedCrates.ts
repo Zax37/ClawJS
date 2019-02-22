@@ -27,7 +27,9 @@ class ChildCrate extends Crate {
     }
 
     super.break();
-    this.scene.game.soundsManager.playSound('GAME_PURELEASE1');
+    if (this.scene) {
+      this.scene.game.soundsManager.playSound('GAME_PURELEASE1');
+    }
   }
 
   protected fall(y: number) {

@@ -6,12 +6,11 @@ import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 
 export default class Checkpoint extends DynamicObject {
   body: Phaser.Physics.Arcade.Body;
-  private image: string;
   private logic: string;
   private checked = false;
 
   constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
-    super(scene, mainLayer, object, {});
+    super(scene, mainLayer, object, { z: 3998 });
 
     scene.physics.add.existing(this);
     scene.physics.add.overlap(this, scene.claw, this.check.bind(this, scene.claw));
