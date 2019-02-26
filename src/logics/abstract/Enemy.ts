@@ -1,7 +1,13 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../../config';
+import { AttackType } from '../../model/AttackType';
 import { DEFAULTS } from '../../model/Defaults';
 import { ObjectCreationData } from '../../model/ObjectData';
+import { PowerupType } from '../../model/PowerupType';
 import MapDisplay from '../../scenes/MapDisplay';
+import Tile from '../../tilemap/Tile';
+import CaptainClaw from '../CaptainClaw';
+import Explosion from '../Explosion';
+import Projectile from '../Projectile';
 import Container from './Container';
 import PhysicsObject from './PhysicsObject';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
@@ -14,17 +20,20 @@ export default class Enemy extends PhysicsObject {
 
   protected container: Container;
   damage: number;
+  dead = false;
 
   protected walking = true;
   protected gettingHit = false;
-  dead = false;
-  private goingRight = true;
+  protected goingRight = true;
+  protected attacking = false;
 
   protected minX: number;
   protected maxX: number;
   protected movingSpeed: number;
+  protected seesClaw: boolean;
+  protected attackRange = 100;
 
-  private dialogLine?: StaticObject;
+  dialogLine?: StaticObject;
 
   constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
     super(scene, mainLayer, {...object, z: DEFAULTS.ENEMY.z});
@@ -32,12 +41,14 @@ export default class Enemy extends PhysicsObject {
     this.container = new Container(scene, mainLayer, object);
     this.damage = 10;
 
-    this.movingSpeed = 0.12;
-
     this.scene.enemies.add(this);
     this.scene.attackable.add(this);
 
-    this.attacksCollider = this.scene.physics.add.collider(scene.attackRects, this, (self, attackSource: CaptainClawAttack) => this.hit(attackSource));
+    this.attacksCollider = this.scene.physics.add.collider(scene.attackRects, this, (self, attackSource: CaptainClawAttack | Projectile | Explosion) => {
+      if (attackSource.attackType !== AttackType.ENEMY) {
+        this.hit(attackSource);
+      }
+    });
   }
 
   protected getGroundPatrolArea(object: ObjectCreationData) {
@@ -60,11 +71,11 @@ export default class Enemy extends PhysicsObject {
     }
   }
 
-  protected hit(attackSource: CaptainClawAttack) {
+  protected hit(attackSource: CaptainClawAttack | Projectile | Explosion) {
     this.die(attackSource);
   }
 
-  protected die(attackSource: CaptainClawAttack) {
+  protected die(attackSource: CaptainClawAttack | Projectile | Explosion) {
     if (this.tilesCollider) {
       this.tilesCollider.destroy();
       this.tilesCollider = undefined;
@@ -81,20 +92,63 @@ export default class Enemy extends PhysicsObject {
   }
 
   preUpdate(time: number, delta: number) {
+    if (this.scene.transitioning) return;
     super.preUpdate(time, delta);
 
-    if (!this.dead) {
-      if (this.walking) {
-        const dir = this.goingRight ? 1 : -1;
-        this.body.setVelocityX(dir);
-        this.x += dir * delta * this.movingSpeed;
-        if ((this.goingRight && (this.x >= this.maxX || this.body.blocked.right)) || (!this.goingRight && (this.x <= this.minX || this.body.blocked.left))) {
-          this.patrolFlip(time);
+    if (this.dialogLine) {
+      this.dialogLine.x = this.x;
+      this.dialogLine.y = this.body.top - 30;
+    }
+
+    if (!this.dead && !this.gettingHit) {
+      if (this.seesClaw) {
+        if (!this.attacking) {
+          if (this.canSee(this.scene.claw)) {
+            this.attack(this.scene.claw);
+          } else {
+            this.seesClaw = false;
+          }
         }
       } else {
-        this.setVelocityX(0);
+        if (this.attackRange && this.canSee(this.scene.claw)) {
+          this.seesClaw = true;
+          this.walking = false;
+        }
+        if (this.walking) {
+          const dir = this.goingRight ? 1 : -1;
+          this.body.setVelocityX(dir);
+          this.x += dir * delta * this.movingSpeed;
+          if ((this.goingRight && (this.x >= this.maxX || this.body.blocked.right)) || (!this.goingRight && (this.x <= this.minX || this.body.blocked.left))) {
+            this.patrolFlip(time);
+          }
+        } else {
+          this.setVelocityX(0);
+        }
       }
     }
+  }
+
+  protected attack(claw: CaptainClaw) {
+    this.attacking = true;
+    this.flipX = Math.sign(claw.x - this.x) > 0;
+  }
+
+  protected canSee(claw: CaptainClaw) {
+    const baseCondition = claw.powerup !== PowerupType.INVISIBILITY && (Math.abs(claw.y - this.y) < 50 && Math.abs(claw.x - this.x) < this.attackRange);
+    if (baseCondition) {
+      const fromX = Math.floor(Math.min(claw.x, this.x) / this.mainLayer.tilemap.tileWidth);
+      const fromY = Math.floor(Math.min(claw.y, this.y) / this.mainLayer.tilemap.tileHeight);
+      const toX = Math.ceil(Math.max(claw.x, this.x) / this.mainLayer.tilemap.tileWidth);
+
+      const tilesOnTheWay = this.mainLayer.getTilesWithin(fromX, fromY, toX - fromX, 1);
+      for (let i = 0; i < tilesOnTheWay.length; i++) {
+        const tile: Tile = tilesOnTheWay[i];
+        if (tile.isSolid) {
+          return false;
+        }
+      }
+    }
+    return baseCondition;
   }
 
   protected patrolFlip(time: number, dontFlip?: boolean) {
@@ -112,7 +166,7 @@ export default class Enemy extends PhysicsObject {
     this.walking = true;
   }
 
-  protected say(dialogLine: string) {
+  say(dialogLine: string) {
     if (!this.dialogLine) {
       this.dialogLine = new StaticObject(this.scene, this.mainLayer, {
         x: this.x,
@@ -129,5 +183,11 @@ export default class Enemy extends PhysicsObject {
         this.dialogLine = undefined;
       });
     }
+  }
+
+  protected shootProjectile(xDiff: number, yDiff: number, texture?: string, image?: string, damage?: number, animation?: string, explodes?: boolean) {
+    const projectile = new Projectile(this.scene, this.mainLayer, AttackType.ENEMY, { x: this.x + (this.flipX ? xDiff : -xDiff), y: this.body.top + yDiff, texture, image, animation, damage, direction: !this.flipX }, false, explodes);
+    projectile.flipX = !projectile.flipX;
+    return projectile;
   }
 }

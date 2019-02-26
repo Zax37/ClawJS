@@ -21,7 +21,10 @@ export default class MapDisplay extends Phaser.Scene {
   hud: GameHUD;
   static key = 'MapDisplay';
 
+  bossMusic: Phaser.Sound.BaseSound;
   powerupMusic: Phaser.Sound.BaseSound;
+  ready = false;
+  transitioning = false;
 
   constructor() {
     super({
@@ -47,6 +50,7 @@ export default class MapDisplay extends Phaser.Scene {
     this.level = level;
     this.baseLevel = level === 15 ? 9 : level;
     this.map = null;
+    this.ready = false;
   }
 
   preload() {
@@ -77,6 +81,7 @@ export default class MapDisplay extends Phaser.Scene {
       `imagesets/LEVEL${this.baseLevel}.json`,
     );
 
+    this.load.audio('BOSS', ['music/BOSS.ogg']);
     this.load.audio('POWERUP', ['music/POWERUP.ogg']);
     this.load.audio(`L${this.baseLevel}_MUSIC`, [
       `music/LEVEL${this.baseLevel}.ogg`,
@@ -100,6 +105,7 @@ export default class MapDisplay extends Phaser.Scene {
 
     this.camera.startFollow(this.claw, true);
 
+    this.bossMusic = this.sound.add('BOSS');
     this.powerupMusic = this.sound.add('POWERUP');
     this.game.soundsManager.setScene(this);
     this.game.musicManager.play(this.sound.add(`L${this.baseLevel}_MUSIC`));
@@ -117,10 +123,18 @@ export default class MapDisplay extends Phaser.Scene {
     this.input.keyboard.on('keyup_SPACE', () => this.claw.inputs.JUMP = false);
     this.input.keyboard.on('keydown_CTRL', () => this.claw.inputs.ATTACK = true);
     this.input.keyboard.on('keyup_CTRL', () => this.claw.inputs.ATTACK = false);
-    this.input.keyboard.on('keydown_Z', () => this.claw.inputs.SECONDARY_ATTACK = true);
-    this.input.keyboard.on('keyup_Z', () => this.claw.inputs.SECONDARY_ATTACK = false);
+    /*this.input.keyboard.on('keyup_ALT', () => this.claw.inputs.SECONDARY_ATTACK = false);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.which === 18) {
+        e.preventDefault();
+        this.claw.inputs.SECONDARY_ATTACK = true
+      }
+    });*/
 
     window.addEventListener('popstate', () => this.game.goToMainMenu());
+    this.events.emit('load');
+    this.ready = true;
   }
 
   update(time: number, delta: number) {

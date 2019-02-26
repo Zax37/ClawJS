@@ -1,4 +1,5 @@
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import { AttackType } from '../model/AttackType';
 import { DEFAULTS } from '../model/Defaults';
 import { DeathType } from '../model/LevelDefaults';
 import { MinimalObjectCreationData } from '../model/ObjectData';
@@ -56,6 +57,7 @@ export default class CaptainClaw extends PhysicsObject {
   dead = false;
   jumping = false;
   hurting = false;
+  locked = false;
 
   climbingDown = false;
   climbingTop: number;
@@ -80,6 +82,7 @@ export default class CaptainClaw extends PhysicsObject {
   health: Health;
   score = 0;
   attempt = 0;
+  lives = 6;
 
   hurtMoveX: number;
   fixedX: number;
@@ -103,40 +106,29 @@ export default class CaptainClaw extends PhysicsObject {
     this.health = new Health(MAX_HEALTH, scene.time);
     this.health.on('change', () => this.scene.hud.updateHealth(this.health.value));
 
+    const data = scene.game.dataManager.getPlayerData();
+    if (data) {
+      this.health.set(data.health.value);
+      this.lives = data.lives;
+      this.score = data.score;
+    }
+
     scene.claw = this;
     this.alignToGround();
     this.spawnX = object.x;
     this.spawnY = object.y;
 
-    const enemyCollider = scene.physics.add.overlap(this, scene.enemies, (self: CaptainClaw, enemy: Enemy) => {
-      if (!enemy.dead && !this.hurting && !this.dead && !this.health.isBeingHurt()) {
-        this.jumping = false;
-        this.hurting = true;
-        this.body.allowGravity = false;
-        this.body.immovable = true;
-        this.health.hurt(enemy.damage);
-        this.scene.game.soundsManager.playSound('GAME_HIT' + (Math.floor(Math.random() * 4) + 1));
-        if (this.health.isDead()) {
-          this.killFall();
-        } else {
-          this.scene.game.soundsManager.playVocalHurtSound('CLAW_HIT' + (Math.floor(Math.random() * 4) + 1));
-          this.hurtFrame = 'CLAW_2'+ Math.round(Math.random())*2;
-          this.setVelocity(0, 0);
-          if (this.isOnGround) {
-            this.hurtMoveX = Math.sign(this.x - enemy.x) * 20;
-          }
+    const attacksCollider = this.scene.physics.add.overlap(scene.attackRects, this, (self, attackSource: Projectile) => {
+      if (attackSource.attackType !== AttackType.PLAYER) {
+        this.hit(attackSource);
+        if (attackSource instanceof Projectile) {
+          attackSource.collision();
         }
-        setTimeout(() => {
-          this.hurting = false;
-          this.body.allowGravity = true;
-          this.body.immovable = false;
-          if (this.isOnGround) {
-            this.play('ClawStand');
-          } else {
-            this.play('ClawFall');
-          }
-        }, 500);
       }
+    });
+
+    const enemyCollider = scene.physics.add.overlap(this, scene.enemies, (self: CaptainClaw, enemy: Enemy) => {
+      this.hit(enemy);
     });
 
     this.attackRect = new CaptainClawAttack(scene, this);
@@ -149,7 +141,9 @@ export default class CaptainClaw extends PhysicsObject {
     this.runningLeapDelay = RUNNING_LEAP_DELAY;
     this.deathType = scene.getLevelData().DeathType;
     this.scene.game.soundsManager.playSound('GAME_FLAGWAVE');
+    this.scene.transitioning = true;
     this.scene.cameras.main.fadeIn(1000, 0, 0, 0);
+    setTimeout(() => this.scene.transitioning = false, 1000);
   }
 
   resetClawStatesData() {
@@ -173,6 +167,7 @@ export default class CaptainClaw extends PhysicsObject {
   }
 
   preUpdate(time: number, delta: number) {
+    if (this.scene.transitioning) return;
     super.preUpdate(time, delta);
 
     if (this.dialogLine) {
@@ -180,7 +175,7 @@ export default class CaptainClaw extends PhysicsObject {
       this.dialogLine.y = this.body.top - 30;
     }
 
-    if (this.dead) {
+    if (this.dead || this.locked) {
       return;
     }
 
@@ -235,6 +230,8 @@ export default class CaptainClaw extends PhysicsObject {
           if (!this.inputs.JUMP) {
             this.wasJumpPressed = false;
           }
+          this.scene.game.soundsManager.playSound('CLAW_LEFTFOOT1');
+          this.scene.game.soundsManager.playSound('CLAW_RIGHTFOOT1');
         } else if (this.anims.currentAnim.key === 'ClawJumpAttack') {
           this.anims.play('ClawStand');
           this.attackRect.setAttacking(this.attacking = false);
@@ -329,7 +326,7 @@ export default class CaptainClaw extends PhysicsObject {
   }
 
   shootProjectile(image?: string, damage?: number) {
-    return new Projectile(this.scene, this.mainLayer, { x: this.x, y: this.body.center.y, image, damage, direction: this.flipX }, image !== 'GAME_BULLETS');
+    return new Projectile(this.scene, this.mainLayer, AttackType.PLAYER, { x: this.x, y: this.body.center.y, image, damage, direction: this.flipX }, image !== 'GAME_BULLETS');
   }
 
   processAttacks() {
@@ -621,6 +618,8 @@ export default class CaptainClaw extends PhysicsObject {
       }
       if (powerup === PowerupType.FIRESWORD) {
         this.say('CLAW_FIRESWORD');
+      } else if (powerup === PowerupType.INVISIBILITY) {
+        this.alpha = 0.5;
       }
       this.powerup = powerup;
       this.scene.events.emit('PowerupTimeChange', time);
@@ -630,12 +629,27 @@ export default class CaptainClaw extends PhysicsObject {
   }
 
   teleportTo(x: number, y: number) {
-    this.resetClawStatesData();
-    this.x = x;
-    this.y = y;
-    this.anims.play('ClawFall');
-    this.body.allowGravity = true;
-    this.body.enable = true;
+    this.lock();
+    this.scene.game.soundsManager.playSound('GAME_WARP');
+    this.scene.transitioning = true;
+    this.scene.cameras.main.fadeOut(500);
+    setTimeout(() => {
+      this.resetClawStatesData();
+      this.x = x;
+      this.y = y;
+      this.preUpdate(this.scene.time.now + 1, 1);
+      if (this.isOnGround) {
+        this.setCrouching(false);
+      } else if (this.anims.currentAnim.key === 'ClawStand' || this.anims.currentAnim.key === 'ClawWalk' || this.anims.currentAnim.key === 'ClawWalkCatnip') {
+        this.play('ClawFall');
+      }
+      this.scene.cameras.main.fadeIn(500, 0, 0, 0);
+      setTimeout(() => {
+        this.scene.transitioning = false;
+        this.unlock();
+      }, 500);
+    }, 500);
+
   }
 
   backToSpawn() {
@@ -652,13 +666,15 @@ export default class CaptainClaw extends PhysicsObject {
   }
 
   deathTile() {
-    this.body.allowGravity = false;
-    this.body.enable = false;
+    this.lock();
     this.health.set(0);
     this.dead = true;
     this.anims.play('ClawSpikeDeath');
 
     if (this.powerup !== undefined) {
+      if (this.powerup === PowerupType.INVISIBILITY) {
+        this.alpha = 1;
+      }
       this.powerup = undefined;
       this.scene.game.musicManager.resumePaused();
       this.scene.events.emit('PowerupTimeChange', 0);
@@ -732,35 +748,83 @@ export default class CaptainClaw extends PhysicsObject {
   killFall() {
     if (!this.dead) {
       this.dead = true;
-      this.body.allowGravity = false;
-      this.body.enable = false;
+      this.lock();
       this.play('ClawFallDeath');
       this.scene.game.soundsManager.playSound('CLAW_FALLDEATH');
       setTimeout((self: CaptainClaw) => {
         self.scene.cameras.main.stopFollow();
         self.tilesCollider!.active = false;
-        this.body.allowGravity = true;
-        this.body.enable = true;
+        this.unlock();
         setTimeout(() => self.died(), 1000);
       }, 1000, this);
     }
   }
 
   died() {
-    this.scene.game.soundsManager.playSound('GAME_CIRCLEFADE');
-    this.scene.cameras.main.fadeOut(1000);
-    setTimeout(() => {
-      this.resetClawStatesData();
-      this.body.allowGravity = true;
-      this.body.enable = true;
-      this.tilesCollider!.active = true;
-      this.backToSpawn();
-      this.anims.play('ClawStand');
-      this.visible = true;
-      this.health.reset();
-      this.scene.game.soundsManager.playSound('GAME_FLAGWAVE');
-      this.scene.cameras.main.startFollow(this, true);
-      this.scene.cameras.main.fadeIn(1000, 0, 0, 0);
-    }, 1500);
+    if (this.lives-- > 0) {
+      this.scene.hud.updateLives(this.lives);
+      this.scene.game.soundsManager.playSound('GAME_CIRCLEFADE');
+      this.scene.cameras.main.fadeOut(1000);
+      setTimeout(() => {
+        this.resetClawStatesData();
+        this.unlock();
+        this.tilesCollider!.active = true;
+        this.backToSpawn();
+        this.anims.play('ClawStand');
+        this.visible = true;
+        this.health.reset();
+        this.scene.game.soundsManager.playSound('GAME_FLAGWAVE');
+        this.scene.cameras.main.startFollow(this, true);
+        this.scene.cameras.main.fadeIn(1000, 0, 0, 0);
+      }, 1500);
+    } else {
+      this.scene.game.goToMainMenu();
+    }
+  }
+
+  lock() {
+    this.body.allowGravity = false;
+    this.body.enable = false;
+    this.locked = true;
+  }
+
+  unlock() {
+    this.body.allowGravity = true;
+    this.body.enable = true;
+    this.locked = false;
+  }
+
+  hit(attackSource: Enemy | Projectile) {
+    if (!this.hurting && !this.dead && !this.health.isBeingHurt() && (attackSource instanceof Projectile || !attackSource.dead && this.body.bottom >= attackSource.y)) {
+      this.jumping = false;
+      this.climbing = false;
+      this.hurting = true;
+      this.body.allowGravity = false;
+      this.body.immovable = true;
+      this.health.hurt(attackSource.damage);
+      this.scene.game.soundsManager.playSound('GAME_HIT' + (Math.floor(Math.random() * 4) + 1));
+      if (this.health.isDead()) {
+        this.killFall();
+      } else {
+        this.scene.game.soundsManager.playVocalHurtSound('CLAW_HIT' + (Math.floor(Math.random() * 4) + 1));
+        this.hurtFrame = 'CLAW_2'+ Math.round(Math.random())*2;
+        this.setVelocity(0, 0);
+        if (this.isOnGround) {
+          this.hurtMoveX = Math.sign(this.x - attackSource.x) * 20;
+        }
+      }
+      setTimeout(() => {
+        if (!this.dead) {
+          this.hurting = false;
+          this.body.allowGravity = true;
+          this.body.immovable = false;
+          if (this.isOnGround) {
+            this.play('ClawStand');
+          } else {
+            this.play('ClawFall');
+          }
+        }
+      }, 500);
+    }
   }
 }

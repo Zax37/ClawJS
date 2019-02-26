@@ -1,6 +1,8 @@
+import { CANVAS_WIDTH } from '../config';
 import { ObjectCreationData } from '../model/ObjectData';
 import DynamicObject from '../object/DynamicObject';
 import MapDisplay from '../scenes/MapDisplay';
+import CaptainClaw from './CaptainClaw';
 import CaptainClawAttack from './CaptainClawAttack';
 import Enemy from './abstract/Enemy';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
@@ -39,25 +41,36 @@ export default class Beastie extends Enemy {
       this.cannon.flipX = mirror;
       this.cannon.depth = this.cannon.z;
       this.cannon.on('animationcomplete', () => this.cannon!.setFrame('LEVEL_CANNON1'));
-    } else {
+      this.attackRange = 0;
+    } else if (object.logic === 'Rat') {
       if (object.userValues && object.userValues[0]) {
         this.nonMoving = true;
       }
       this.setSize(32, 52);
       this.getGroundPatrolArea(object);
       this.maxX += 16;
+      this.attackRange = CANVAS_WIDTH / 2;
     }
 
     if (!this.nonMoving) {
       this.movingSpeed = 0.07;
       animKeys.push('LEVEL_RAT_WALK');
-      this.on('animationcomplete', this.animComplete, this);
-      this.on('animationupdate', this.animUpdate, this);
+      animKeys.push('LEVEL_RAT_THROW');
     }
+
+    this.on('animationcomplete', this.animComplete, this);
+    this.on('animationupdate', this.animUpdate, this);
 
     this.animations = this.scene.game.animationManager.requestBeastieAnimations(object.texture, object.image, animKeys);
     if (!this.nonMoving) {
       this.play(this.animations['walk'].key);
+    }
+  }
+
+  protected attack(claw: CaptainClaw) {
+    super.attack(claw);
+    if (this.animations['throw']) {
+      this.play(this.animations['throw'].key);
     }
   }
 
@@ -96,10 +109,19 @@ export default class Beastie extends Enemy {
 
   private animUpdate(animation: Phaser.Animations.Animation, frame: Phaser.Animations.AnimationFrame) {
     if (this.isOnScreen()) {
-      if (frame.index === 2) {
-        this.scene.game.soundsManager.playSound('GAME_MLF');
-      } else if (frame.index === 3) {
-        this.scene.game.soundsManager.playSound('GAME_MRF');
+      if (this.animations['throw'] && animation.key === this.animations['throw'].key) {
+        if (frame.index === 2) {
+          this.scene.game.soundsManager.playSound('GAME_HOLDAIM');
+        } else if (frame.index === 3) {
+          this.scene.game.soundsManager.playSound('GAME_THRWBOMB');
+          this.shootProjectile(8, -12, this.object.texture, 'LEVEL_RATBOMB', 10, 'LEVEL_RATBOMB', true);
+        }
+      } else if (this.animations['walk'] && animation.key === this.animations['walk'].key) {
+        if (frame.index === 2) {
+          this.scene.game.soundsManager.playSound('GAME_MLF');
+        } else if (frame.index === 3) {
+          this.scene.game.soundsManager.playSound('GAME_MRF');
+        }
       }
     }
   }
@@ -114,6 +136,12 @@ export default class Beastie extends Enemy {
       this.play(this.animations['walk'].key);
       this.nonMoving = false;
       this.y += 20;
+    } else if (!this.dead && this.animations['throw'] && animation.key === this.animations['throw'].key) {
+      this.attacking = false;
+      if (!this.nonMoving && this.animations['walk']) {
+        this.play(this.animations['walk'].key);
+        this.walk();
+      }
     }
   }
 }

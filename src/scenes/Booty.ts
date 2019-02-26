@@ -1,9 +1,15 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../config';
 import Game from '../game';
+import ImageCounter from '../logics/ImageCounter';
+import { TreasureType } from '../model/TreasureType';
 
-enum BootyState { INIT, TRANSITION, DIALOG, BOOTY }
+enum BootyState { INIT, TRANSITION, DIALOG, BOOTY, END }
 const INIT_DURATION = 5000;
-const TRANSITION_DURATION = 2500;
+const MAIN_TRANSITION_DURATION = 2500;
+const TREASURE_TRANSITION_DURATION_BASE = 450;
+const TREASURE_TRANSITION_DURATION_BASE_COIN = 300;
+const TREASURE_TRANSITION_DELAY = 180;
+const TREASURE_TRANSITION_DELAY_COIN = 70;
 
 class MapPiece extends Phaser.GameObjects.Image {
   startTime: number;
@@ -34,8 +40,8 @@ class MapPiece extends Phaser.GameObjects.Image {
         break;
       case BootyState.TRANSITION:
         const timeSinceStart = time - this.startTime;
-        if (timeSinceStart < TRANSITION_DURATION) {
-          const progress = timeSinceStart / TRANSITION_DURATION;
+        if (timeSinceStart < MAIN_TRANSITION_DURATION) {
+          const progress = timeSinceStart / MAIN_TRANSITION_DURATION;
           this.x = (this.targetX - this.startX) * progress + this.startX;
           this.y = (this.targetY - this.startY) * progress + this.startY;
         } else {
@@ -51,16 +57,159 @@ class MapPiece extends Phaser.GameObjects.Image {
   }
 }
 
+class BootySupplyTreasure extends Phaser.GameObjects.Image {
+  constructor(protected scene: Booty, protected startX: number, protected startY: number, protected targetX: number, protected targetY: number, protected image: string, protected startTime: number, protected duration: number) {
+    super(scene, startX, startY, 'GAME', image + 1);
+    this.scene.sys.displayList.add(this);
+    this.scene.sys.updateList.add(this);
+  }
+
+  preUpdate(time: number, delta: number) {
+    const timeSinceStart = time - this.startTime;
+    if (timeSinceStart < this.duration) {
+      const progress = Math.min(timeSinceStart / this.duration, 1.0);
+      this.x = (this.targetX - this.startX) * progress + this.startX;
+      this.y = (this.targetY - this.startY) * progress + this.startY;
+    } else {
+      this.emit('end');
+      this.destroy();
+    }
+  }
+}
+
+class BootyTreasureLine extends Phaser.GameObjects.Image {
+  startTime: number;
+  startX: number;
+  startY: number;
+
+  value: number;
+  collected: number;
+  registered: number;
+
+  textOf: Phaser.GameObjects.BitmapText;
+  textTimes: Phaser.GameObjects.BitmapText;
+  textEquals: Phaser.GameObjects.BitmapText;
+
+  scoreFrame: ImageCounter;
+  maxScoreFrame: ImageCounter;
+  pointsMultiplierFrame: ImageCounter;
+  finalScoreFrame: ImageCounter;
+
+  private duration: number;
+  private delay: number;
+  private finished: boolean;
+
+  constructor(protected scene: Booty, protected targetX: number, protected targetY: number, protected treasure: {image: string, sound: string, type: TreasureType, score: number}) {
+    super(scene, -100, targetY, 'GAME', treasure.image + 1);
+
+    this.value = 0;
+    this.collected = scene.game.treasureRegistry.getCollected(treasure.type);
+    this.registered = scene.game.treasureRegistry.getRegistered(treasure.type);
+
+    this.scoreFrame = new ImageCounter(scene, targetX, targetY, treasure.image, 'GAME_INTERFACE_SCORENUMBERS', this.collected.toString().length, 11, 32, 0);
+    this.scoreFrame.setVisible(false);
+
+    this.textOf = scene.add.dynamicBitmapText(targetX + 96, targetY, 'regular', 'OF', 100);
+    this.textOf.setOrigin(0.5,0.5);
+    this.textOf.setVisible(false);
+
+    this.maxScoreFrame = new ImageCounter(scene, targetX + 132, targetY, '', 'GAME_INTERFACE_SCORENUMBERS', this.registered.toString().length, 11);
+    this.maxScoreFrame.setValue(this.registered);
+    this.maxScoreFrame.setVisible(false);
+
+    this.textTimes = scene.add.dynamicBitmapText(targetX + 190, targetY, 'regular', 'X', 100);
+    this.textTimes.setOrigin(0.5,0.5);
+    this.textTimes.setVisible(false);
+
+    this.pointsMultiplierFrame = new ImageCounter(scene, targetX + 210, targetY, '', 'GAME_INTERFACE_SCORENUMBERS', this.treasure.score.toString().length, 11);
+    this.pointsMultiplierFrame.setValue(this.treasure.score);
+    this.pointsMultiplierFrame.setVisible(false);
+
+    this.textEquals = scene.add.dynamicBitmapText(targetX + 275, targetY, 'regular', '=', 100);
+    this.textEquals.setOrigin(0.5,0.5);
+    this.textEquals.setVisible(false);
+
+    this.finalScoreFrame = new ImageCounter(scene, targetX + 290, targetY, '', 'GAME_INTERFACE_SCORENUMBERS', 1, 11);
+    this.finalScoreFrame.setVisible(false);
+  }
+
+  start() {
+    this.startTime = this.scene.time.now;
+    this.startX = this.x;
+    this.startY = this.y;
+    this.scene.sys.displayList.add(this);
+    this.scene.sys.updateList.add(this);
+
+    this.duration = this.treasure.type === TreasureType.COIN ? TREASURE_TRANSITION_DURATION_BASE_COIN : TREASURE_TRANSITION_DURATION_BASE;
+    this.delay = this.treasure.type === TreasureType.COIN ? TREASURE_TRANSITION_DELAY_COIN : TREASURE_TRANSITION_DELAY;
+  }
+
+  end() {
+    this.finished = true;
+    this.startTime = -TREASURE_TRANSITION_DURATION_BASE;
+    this.scene.sys.displayList.remove(this);
+    this.scene.sys.updateList.remove(this);
+    this.scoreFrame.setVisible(true);
+    this.scoreFrame.setValue(this.collected);
+    this.maxScoreFrame.setVisible(true);
+    this.pointsMultiplierFrame.setVisible(true);
+    this.finalScoreFrame.setValue(this.collected * this.treasure.score);
+    this.finalScoreFrame.setVisible(true);
+    this.textOf.setVisible(true);
+    this.textTimes.setVisible(true);
+    this.textEquals.setVisible(true);
+    this.emit('end');
+  }
+
+  preUpdate(time: number, delta: number) {
+    if (this.startTime > 0) {
+      const timeSinceStart = time - this.startTime;
+      if (!this.scoreFrame.visible) {
+        const progress = Math.min(timeSinceStart / TREASURE_TRANSITION_DURATION_BASE, 1.0);
+        this.x = (this.targetX - this.startX) * progress + this.startX;
+        this.y = (this.targetY - this.startY) * progress + this.startY;
+
+        if (progress >= 1.0) {
+          this.scoreFrame.setVisible(true);
+          this.textOf.setVisible(true);
+          this.maxScoreFrame.setVisible(true);
+          this.textTimes.setVisible(true);
+          this.pointsMultiplierFrame.setVisible(true);
+          this.textEquals.setVisible(true);
+          this.finalScoreFrame.setVisible(true);
+          this.scene.game.soundsManager.playSound(this.treasure.sound);
+        }
+      } else if (timeSinceStart >= this.delay && this.value < this.collected) {
+        const supply = new BootySupplyTreasure(this.scene, -100, -100, this.targetX, this.targetY, this.treasure.image, time, this.duration);
+        supply.once('end', () => {
+          if (!this.finished) {
+            this.scoreFrame.increase();
+            this.finalScoreFrame.setValue(this.scoreFrame.getValue() * this.treasure.score);
+          }
+          this.scene.game.soundsManager.playSound('GAME_PUBOUNCE1');
+        });
+        this.duration -= 1;
+        this.delay -= 3;
+        this.startTime = time;
+        this.value++;
+      } else if (this.value === this.collected && this.value === this.scoreFrame.getValue()) {
+        this.end();
+      }
+    }
+  }
+}
+
 export default class Booty extends Phaser.Scene {
   private background: Phaser.GameObjects.Image;
   private mappiece?: MapPiece;
   private clawDialog?: Phaser.Sound.BaseSound;
+  private treasureLines: BootyTreasureLine[];
   level: number;
 
   game: Game;
   static key = 'Booty';
 
-  _state: BootyState = BootyState.INIT;
+  _state: BootyState;
 
   get state() {
     return this._state;
@@ -83,6 +232,21 @@ export default class Booty extends Phaser.Scene {
       }
 
       this.background.setTexture(`BOOTY${this.level}B`);
+      this.treasureLines[0].start();
+      for (let i = 0; i < this.treasureLines.length; i++) {
+        const next = i + 1;
+        this.treasureLines[i].once('end', () => {
+          if (this._state === BootyState.END) return;
+
+          if (i === this.treasureLines.length - 1) {
+            this.state = BootyState.END;
+          } else {
+            this.treasureLines[next].start();
+          }
+        });
+      }
+    } else if (state === BootyState.END) {
+      this.treasureLines.forEach((treasureLine) => treasureLine.end());
     }
   }
 
@@ -92,6 +256,7 @@ export default class Booty extends Phaser.Scene {
 
   init(level: number) {
     this.level = level;
+    this._state = BootyState.INIT;
   }
 
   preload() {
@@ -112,13 +277,31 @@ export default class Booty extends Phaser.Scene {
     this.mappiece = new MapPiece(this, -50, -150, 'MAPPIECE1');
     this.game.musicManager.play(this.sound.add('maploop'));
 
+    const treasureData = [
+      { type: TreasureType.SKULL, image: 'GAME_TREASURE_JEWELEDSKULL_BLUE', sound: 'GAME_SCEPTER', score: 25000 },
+      { type: TreasureType.CROWN, image: 'GAME_TREASURE_CROWNS_GREEN', sound: 'GAME_SCEPTER', score: 15000 },
+      { type: TreasureType.GECKO, image: 'GAME_TREASURE_GECKOS_RED', sound: 'GAME_SCEPTER', score: 10000 },
+      { type: TreasureType.SCEPTER, image: 'GAME_TREASURE_SCEPTERS_PURPLE', sound: 'GAME_SCEPTER', score: 7500 },
+      { type: TreasureType.CROSS, image: 'GAME_TREASURE_CROSSES_BLUE', sound: 'GAME_CROSS', score: 5000 },
+      { type: TreasureType.CHALICE, image: 'GAME_TREASURE_CHALICES_GREEN', sound: 'GAME_PICKUP1', score: 2500 },
+      { type: TreasureType.RING, image: 'GAME_TREASURE_RINGS_PURPLE', sound: 'GAME_RINGS', score: 1500 },
+      { type: TreasureType.GOLDBAR, image: 'GAME_TREASURE_GOLDBARS', sound: 'GAME_TREASURE', score: 500 },
+      { type: TreasureType.COIN, image: 'GAME_TREASURE_COINS', sound: 'GAME_COIN', score: 100 },
+    ];
+
+    this.treasureLines = treasureData.map((treasure, i) => {
+      return new BootyTreasureLine(this, 250, 120 + i * 42, treasure);
+    });
+
     this.input.keyboard.on('keydown_SPACE', () => {
-      if (this.state === BootyState.BOOTY) {
+      if (this.state === BootyState.END) {
         if (this.level === 2) {
           this.game.goToMainMenu();
         } else {
           this.game.startLevel(this.level + 1);
         }
+      } else if (this.state === BootyState.BOOTY) {
+        this.state = BootyState.END;
       } else {
         this.state = BootyState.BOOTY;
       }

@@ -308,6 +308,17 @@ export default class AnimationManager {
               repeat: -1,
             });
             break;
+          case 'LEVEL_RAT_THROW':
+            this.anims[texture][image]['throw'] = this.game.anims.create({
+              key: texture + image + 'throw',
+              frames: [
+                { ...animFrames[10], duration: 500 },
+                { ...animFrames[11], duration: 1000 },
+                { ...animFrames[12], duration: 250 },
+              ],
+              frameRate: 60,
+            });
+            break;
           case 'LEVEL_PUNKRAT_STRIKE':
             this.anims[texture][image]['strike'] = this.game.anims.create({
               key: texture + image + 'strike',
@@ -360,6 +371,19 @@ export default class AnimationManager {
           case 'GAME_REVERSECYCLE500':
             animFrames.reverse();
             break;
+          case 'LEVEL_RATBOMB':
+            return this.anims[texture][image] = this.game.anims.create({
+              key: texture + image,
+              frames: [
+                { ...animFrames[18], duration: 50 },
+                { ...animFrames[19], duration: 50 },
+                { ...animFrames[20], duration: 50 },
+                { ...animFrames[21], duration: 50 },
+                { ...animFrames[22], duration: 50 },
+              ],
+              frameRate: 60,
+              repeat: -1,
+            });
           case 'LEVEL_HAND_HAND1':
             return this.anims[texture][image] = this.game.anims.create({
               key: texture + image,
@@ -459,19 +483,47 @@ export default class AnimationManager {
   }
 
   private createEnemyAnimation(name: string, image: string, framesGroup: Frame[]) {
-    let key, repeat = -1;
+    let key, repeat = 0, frameRate = 10;
+    let frames = framesGroup.sort((a, b) => a.order - b.order);
     switch (Math.floor(framesGroup[0].order / 50)) {
       case 0:
         key = 'FASTADVANCE';
+        repeat = -1;
         break;
       case 1:
         key = 'ADVANCE';
+        repeat = -1;
         break;
       case 2:
         key = 'STAND';
         break;
       case 4:
         key = 'STRIKE';
+        frameRate = 22;
+        switch (image) {
+          case 'LEVEL_OFFICER':
+            frames = [
+              { ...frames[0], duration: 200 },
+              { ...frames[2], duration: 20 },
+              { ...frames[3], duration: 20 },
+              { ...frames[4], duration: 125 },
+              { ...frames[2], duration: 20 },
+              { ...frames[1], duration: 2 },
+            ];
+            break;
+          case 'LEVEL_SOLDIER':
+            frames = [
+              { ...frames[0], duration: 150 },
+              { ...frames[1], duration: 200 },
+              { ...frames[4], duration: 25 },
+              { ...frames[2], duration: 50 },
+              { ...frames[3], duration: 100 },
+              { ...frames[0], duration: 100 },
+            ];
+            break;
+          default:
+            break;
+        }
         break;
       case 6:
         key = 'STRIKE1';
@@ -481,38 +533,48 @@ export default class AnimationManager {
         break;
       case 10:
         key = 'HITHIGH';
-        repeat = 0;
+        frameRate = 22;
+        frames = [
+          { ...frames[0], duration: 25 },
+          { ...frames[1], duration: 100 },
+          { ...frames[0], duration: 25 },
+        ];
         break;
       case 11:
         key = 'HITSPECIAL';
-        repeat = 0;
         break;
       case 12:
         key = 'HITLOW';
-        repeat = 0;
+        frameRate = 22;
+        frames = [
+          { ...frames[0], duration: 25 },
+          { ...frames[1], duration: 100 },
+          { ...frames[0], duration: 25 },
+        ];
         break;
       case 14:
         key = 'HITDUCK';
-        repeat = 0;
         break;
       case 16:
         key = 'JUMP';
-        repeat = 0;
         break;
       case 18:
         key = 'FALL';
+        repeat = -1;
         break;
       case 19:
         key = 'KILLFALL';
+        repeat = -1;
         break;
       default:
-        console.log('UNKNOWN FRAME VALUES');
+        console.warn('UNKNOWN FRAME VALUES');
         break;
     }
+
     this.anims[name][image][key] = this.game.anims.create({
       key: name + image + key,
-      frames: framesGroup.sort((a, b) => a.order - b.order),
-      frameRate: 10,
+      frames,
+      frameRate,
       repeat,
     });
   }
@@ -522,4 +584,5 @@ interface Frame {
   key: string;
   frame: string;
   order: number;
+  duration?: number;
 }

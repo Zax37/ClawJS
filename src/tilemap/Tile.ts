@@ -110,7 +110,7 @@ export default class Tile extends Phaser.Tilemaps.Tile {
             const climbingTop = tile.pixelY + (tileAttributes.y1 || 0) + 1;
 
             if (claw.body.top >= climbingTop) {
-              if (claw.inputs.UP && !claw.climbing && claw.x > ladderLeft && claw.x < ladderRight && claw.body.top < ladderBottom) {
+              if (claw.inputs.UP && !claw.climbing && !claw.hurting && !claw.dead && claw.x > ladderLeft && claw.x < ladderRight && claw.body.top < ladderBottom) {
                 claw.startClimbing(tile.getCenterX());
                 claw.climbingTop = ladderTop;
               }

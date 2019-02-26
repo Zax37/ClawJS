@@ -1,5 +1,6 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../config';
 import Game from '../game';
+import { PowerupType } from '../model/PowerupType';
 import MapDisplay from './MapDisplay';
 import SceneWithMenu from './SceneWithMenu';
 import InGameMenu from '../menus/InGameMenu';
@@ -14,9 +15,11 @@ export default class GameHUD extends SceneWithMenu {
   private fpsText: Phaser.GameObjects.Text;
   private healthFrame: ImageCounter;
   private powerupFrame: ImageCounter;
+  private livesFrame: ImageCounter;
   powerupTime: number;
   private centerTextTime: number;
   private fade: Phaser.GameObjects.Rectangle;
+  private level: number;
   showFPS = false;
 
   isMenuOn = false;
@@ -25,20 +28,33 @@ export default class GameHUD extends SceneWithMenu {
     super({ key: GameHUD.key });
   }
 
+  init(level: number) {
+    this.level = level;
+  }
+
   preload() {
     this.load.atlas('GAME', 'imagesets/GAME.png', 'imagesets/GAME.json');
+    this.load.image(`LOADING${this.level}`, `screens/LOADING${this.level}.png`);
   }
 
   create() {
     this.powerupTime = 0;
     this.centerTextTime = 0;
 
-    const scoreFrame = new ImageCounter(this, 14, 16, 'GAME_INTERFACE_TREASURECHEST',
-      'GAME_INTERFACE_SCORENUMBERS', 8, 11, 22, 2, 'GAME_INTERFACE_CHEST');
+    const scoreFrame = new ImageCounter(this, 14, 14, 'GAME_INTERFACE_TREASURECHEST',
+      'GAME_INTERFACE_SCORENUMBERS', 8, 11, 22, 0, 'GAME_INTERFACE_CHEST');
 
-    this.healthFrame = new ImageCounter(this, CANVAS_WIDTH - 32, 16, 'GAME_INTERFACE_HEALTHHEART',
+    this.healthFrame = new ImageCounter(this, CANVAS_WIDTH - 32, 14, 'GAME_INTERFACE_HEALTHHEART',
       'GAME_INTERFACE_HEALTHNUMBERS', 3, 11, -20, 0);
     this.healthFrame.setValue(100);
+
+    const ammoFrame = new ImageCounter(this, CANVAS_WIDTH - 26, 44, 'GAME_INTERFACE_WEAPONS_PISTOL',
+      'GAME_INTERFACE_SMALLNUMBERS', 2, 9, -17, 2);
+    ammoFrame.setValue(5);
+
+    this.livesFrame = new ImageCounter(this, CANVAS_WIDTH - 18, 72, 'GAME_INTERFACE_LIVESHEAD',
+      'GAME_INTERFACE_SMALLNUMBERS', 1, 9, -15, 1);
+    this.livesFrame.setValue(6);
 
     this.powerupFrame = new ImageCounter(this, 10, 48, 'GAME_INTERFACE_STOPWATCH',
       'GAME_INTERFACE_SCORENUMBERS', 3, 11, 26, 0);
@@ -72,10 +88,29 @@ export default class GameHUD extends SceneWithMenu {
 
     this.menu = new InGameMenu(this);
     super.create();
+
+    if (!this.mapDisplay.ready) {
+      const background = this.add.image(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, `LOADING${this.level}`);
+
+      this.mapDisplay.events.on('load', () => {
+        background.destroy();
+        this.updateHealth(this.mapDisplay.claw.health.value);
+        this.updateLives(this.mapDisplay.claw.lives);
+        scoreFrame.setValue(this.mapDisplay.claw.score);
+      });
+    } else {
+      this.updateHealth(this.mapDisplay.claw.health.value);
+      this.updateLives(this.mapDisplay.claw.lives);
+      scoreFrame.setValue(this.mapDisplay.claw.score);
+    }
   }
 
   updateHealth(newValue: number) {
     this.healthFrame.setValue(newValue);
+  }
+
+  updateLives(lives: number) {
+    this.livesFrame.setValue(lives);
   }
 
   update(time: number, delta: number) {
@@ -91,6 +126,9 @@ export default class GameHUD extends SceneWithMenu {
         this.powerupFrame.setValue(Math.round(this.powerupTime / 1000));
 
         if (this.powerupTime <= 0) {
+          if (this.mapDisplay.claw.powerup === PowerupType.INVISIBILITY) {
+            this.mapDisplay.claw.alpha = 1;
+          }
           this.mapDisplay.claw.powerup = undefined;
           this.game.musicManager.resumePaused();
         }

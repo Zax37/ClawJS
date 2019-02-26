@@ -76,5 +76,8 @@ export default class SoundsManager {
   setAmbientVolume(volume: number) {
     this.ambientVolume = volume;
     this.game.dataManager.set('ambientVolume', volume.toString());
+    for (let i = 0; i < this.ambients.length; i++) {
+      this.ambients[i].setVolume(volume);
+    }
   }
 }

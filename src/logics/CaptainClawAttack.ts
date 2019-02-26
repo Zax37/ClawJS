@@ -1,3 +1,4 @@
+import { AttackType } from '../model/AttackType';
 import MapDisplay from '../scenes/MapDisplay';
 import CaptainClaw from './CaptainClaw';
 
@@ -13,6 +14,7 @@ export default class CaptainClawAttack extends Phaser.GameObjects.Zone {
   facingRight = false;
   isHigh = false;
   isSpecial = false;
+  attackType = AttackType.PLAYER;
 
   constructor(protected scene: MapDisplay, protected claw: CaptainClaw) {
     super(scene, claw.x + SWORD_ATTACK_RECT.x, claw.y - SWORD_ATTACK_RECT.y, SWORD_ATTACK_RECT.width, SWORD_ATTACK_RECT.height);

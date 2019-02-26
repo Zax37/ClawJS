@@ -3,6 +3,9 @@ import MapDisplay from '../../scenes/MapDisplay';
 import BouncingGoodie from '../BouncingGoodie';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 import { DEFAULTS } from '../../model/Defaults';
+import EndOfLevelPowerupAnimation from '../EndOfLevelPowerupAnimation';
+
+const END_OF_LEVEL_POWERUP_ID = 31;
 
 export default class Container {
   rawContents: number[] = [];
@@ -37,16 +40,28 @@ export default class Container {
     let collectableId = this.rawContents.pop();
     while (collectableId) {
       const collectableImage = this.imageFromCollectableId(collectableId);
-      const collectable = new BouncingGoodie(this.scene, this.mainLayer, {
-        x: fromX,
-        y: fromY,
-        z: DEFAULTS.POWERUP.z,
-        texture: collectableImage.startsWith('LEVEL') ? ('LEVEL' + this.scene.getBaseLevel()) : 'GAME',
-        logic: this.logicFromCollectableId(collectableId),
-        image: collectableImage,
-        speedX, speedY: speedY + Math.abs(incY) - Math.random() * 25,
-        frame: 1,
-      });
+      if (collectableId === END_OF_LEVEL_POWERUP_ID && this.object.speedX && this.object.speedY) {
+        const gem = new EndOfLevelPowerupAnimation(this.scene, this.mainLayer, {
+          x: fromX,
+          y: fromY,
+          texture: collectableImage.startsWith('LEVEL') ? ('LEVEL' + this.scene.getBaseLevel()) : 'GAME',
+          image: collectableImage,
+          speedX: this.object.speedX,
+          speedY: this.object.speedY,
+        });
+      } else {
+        const collectable = new BouncingGoodie(this.scene, this.mainLayer, {
+          x: fromX,
+          y: fromY,
+          z: DEFAULTS.POWERUP.z,
+          logic: this.logicFromCollectableId(collectableId),
+          texture: collectableImage.startsWith('LEVEL') ? ('LEVEL' + this.scene.getBaseLevel()) : 'GAME',
+          image: collectableImage,
+          speedX, speedY: speedY + Math.abs(incY) - Math.random() * 25,
+          frame: 1,
+        });
+      }
+
       collectableId = this.rawContents.pop();
 
       if (speedIncrement) {
@@ -128,7 +143,7 @@ export default class Container {
         return 'GAME_MAGIC_STARGLOW';
       case 30:
         return 'GAME_MAGICCLAW';
-      case 31:
+      case END_OF_LEVEL_POWERUP_ID:
         return 'LEVEL_GEM'; // or GAME_MAPPIECE
       case 32:
         return 'GAME_WARP';

@@ -48,6 +48,7 @@ export default class Collectible extends DynamicObject {
 
   private specialPowerup() {
     let value = 0;
+    let greenGlitter;
     switch (this.object.image) {
       case 'GAME_CATNIPS_NIP1':
       case 'GAME_CATNIPS_NIP2':
@@ -73,7 +74,13 @@ export default class Collectible extends DynamicObject {
         };
         break;
       case 'GAME_POWERUPS_EXTRALIFE':
+        break;
       case 'GAME_POWERUPS_GHOST':
+        this.collectableEffect = () => {
+          value = this.object.smarts || 15000;
+          this.scene.claw.addPowerup(PowerupType.INVISIBILITY, value);
+        };
+        break;
       case 'GAME_POWERUPS_INVULNERABLE':
         break;
       case 'GAME_POWERUPS_FIRESWORD':
@@ -106,13 +113,16 @@ export default class Collectible extends DynamicObject {
         break;
       case 'LEVEL_GEM':
       case 'GAME_MAPPIECE':
+        greenGlitter = true;
         this.sound = 'GAME_MAPPIECE';
-        this.collectableEffect = () => this.scene.game.goToBootyScreen();
+        this.collectableEffect = () => {
+          this.scene.game.dataManager.setPlayerData(this.scene.claw);
+          this.scene.game.goToBootyScreen();
+        };
         break;
       case 'GAME_WARP':
       case 'GAME_VERTWARP':
       case 'GAME_BOSSWARP':
-        this.sound = 'GAME_WARP';
         this.collectableEffect = () => {
           this.scene.claw.teleportTo(this.object.speedX!, this.object.speedY!);
 
@@ -126,7 +136,7 @@ export default class Collectible extends DynamicObject {
     }
 
     if (this.object.image !== 'GAME_BOSSWARP' && !this.fromContainer) {
-      this.glitter = new PowerupGlitter(this.scene, this.mainLayer, this.object);
+      this.glitter = new PowerupGlitter(this.scene, this.mainLayer, this.object, greenGlitter);
     }
   }
 
@@ -245,7 +255,7 @@ export default class Collectible extends DynamicObject {
   }
 
   protected collect() {
-    if (!this.collectCondition || this.collectCondition()) {
+    if (!this.scene.claw.dead && (!this.collectCondition || this.collectCondition())) {
       this.depth = DEFAULTS.FRONT.z;
       this.collider!.destroy();
       this.collider = undefined;

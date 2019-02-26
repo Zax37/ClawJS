@@ -1,4 +1,5 @@
 import DynamicObject from '../object/DynamicObject';
+import Booty from '../scenes/Booty';
 import GameHUD from '../scenes/GameHUD';
 import StaticObject from '../object/StaticObject';
 
@@ -6,13 +7,16 @@ export default class ImageCounter extends DynamicObject {
   private nums: StaticObject[] = [];
   private value = 0;
 
-  constructor(scene: GameHUD, x: number, y: number, image: string, private textImage: string, fixedWidth: number, spacing: number, startOffsetX: number, startOffsetY: number, animation?: string) {
-    super(scene, null, { x, y, z: 0, logic: '', texture: 'GAME', image, frame: 0, animation }, {}, true);
+  constructor(protected scene: GameHUD | Booty, x: number, y: number, private image: string, private textImage: string, fixedWidth: number, protected spacing: number, startOffsetX?: number, startOffsetY?: number, animation?: string) {
+    super(scene, null, { x, y, z: 0, logic: '', texture: 'GAME', image, frame: 1, animation }, {}, true);
+    if (!image) {
+      this.visible = false;
+    }
 
     for (let i = 0; i < fixedWidth; i++) {
       this.nums.push(new StaticObject(scene, null, {
-        x: x + startOffsetX + i * spacing,
-        y: y + startOffsetY,
+        x: x + (startOffsetX || 0) + i * spacing,
+        y: y + (startOffsetY || 0),
         z: 0,
         logic: '',
         frame: 0,
@@ -22,14 +26,34 @@ export default class ImageCounter extends DynamicObject {
     }
   }
 
+  increase() {
+    this.setValue(this.value + 1);
+  }
+
+  getValue() {
+    return this.value;
+  }
+
   setValue(newValue: number) {
     if (this.value !== newValue) {
       const oldValueStringLength = this.value.toString().length;
       const valueString = newValue.toString();
 
+      while (valueString.length > this.nums.length) {
+        this.nums.push(new StaticObject(this.scene, null, {
+          x: this.nums[0].x + this.nums.length * this.spacing,
+          y: this.nums[0].y,
+          z: 0,
+          logic: '',
+          frame: 0,
+          texture: 'GAME',
+          image: this.textImage,
+        }));
+      }
+
       if (oldValueStringLength - valueString.length) {
         for (let i = this.nums.length - oldValueStringLength; i < this.nums.length - valueString.length; i++) {
-          this.nums[i].setFrame(this.textImage + 0);
+          this.nums[i].setFrame(this.textImage + '0');
         }
       }
 
@@ -42,7 +66,9 @@ export default class ImageCounter extends DynamicObject {
   }
 
   setVisible(on: boolean) {
-    super.setVisible(on);
+    if (this.image) {
+      super.setVisible(on);
+    }
 
     for (let i = 0; i < this.nums.length; i++) {
       this.nums[i].visible = on;

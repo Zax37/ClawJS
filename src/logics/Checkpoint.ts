@@ -27,7 +27,7 @@ export default class Checkpoint extends DynamicObject {
   }
 
   protected check(claw: CaptainClaw) {
-    if (!this.checked) {
+    if (!this.checked && !claw.dead) {
       claw.setSpawn(this.x, this.y);
       this.play(this.logic === 'Checkpoint' ? 'CheckpointRise' : 'SuperCheckpointRise');
       this.checked = true;

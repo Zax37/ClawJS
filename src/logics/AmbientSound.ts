@@ -1,4 +1,4 @@
-import { ObjectData } from '../model/ObjectData';
+import { ObjectCreationData } from '../model/ObjectData';
 import MapDisplay from '../scenes/MapDisplay';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 
@@ -8,17 +8,29 @@ export default class AmbientSound extends Phaser.GameObjects.GameObject {
   minY?: number;
   maxX?: number;
   maxY?: number;
+  spot?: boolean;
 
-  constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectData) {
+  switchTime?: number;
+
+  minTimeOn?: number;
+  maxTimeOn?: number;
+  minTimeOff?: number;
+  maxTimeOff?: number;
+
+  constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
     super(scene, 'AmbientSound');
 
-    if (object.logic === 'GlobalAmbientSound') {
+    if (object.logic === 'SpotAmbientSound' || object.logic === 'AmbientPosSound') {
+      [this.minX, this.minY, this.maxX, this.maxY] = [object.x - 640, object.y - 640, object.x + 640, object.y + 640];
+      this.spot = true;
+
+      this.sound = scene.game.soundsManager.playAmbient(object.animation!, { volume: object.damage });
+      scene.sys.updateList.add(this);
+    } else {
       this.sound = scene.game.soundsManager.playAmbient(object.animation!, { volume: object.damage });
       scene.sys.updateList.add(this);
 
-      if (object.moveRect) {
-        [this.minX, this.minY, this.maxX, this.maxY] = object.moveRect;
-      } else if (object.minX || object.maxX) {
+      if (object.minX && object.maxX) {
         this.minX = object.minX;
         this.minY = object.minY;
         this.maxX = object.maxX;
@@ -27,8 +39,21 @@ export default class AmbientSound extends Phaser.GameObjects.GameObject {
         [this.minX, this.minY, this.maxX, this.maxY] = object.hitRect;
       }
 
-      if (!this.isClawInside) {
+      if (object.moveRect) {
+        [this.minTimeOn, this.maxTimeOn, this.minTimeOff, this.maxTimeOff] = object.moveRect;
         this.sound.pause();
+      }
+
+      if (this.minX && this.maxX) {
+        this.sound.pause();
+        /*this.sound.on('looped', () => {
+          if (!this.isClawInside) {
+            this.sound.pause();
+          } else {
+            console.log(this.scene.claw.x, this.scene.claw.y);
+            console.log(this.minX, this.minY, this.maxX, this.maxY);
+          }
+        });*/
       }
     }
   }
@@ -40,7 +65,7 @@ export default class AmbientSound extends Phaser.GameObjects.GameObject {
   }
 
   preUpdate() {
-    if (this.sound && this.minX) {
+    if (this.sound && this.spot) {
       if (this.sound.isPaused === this.isClawInside()) {
         if (this.sound.isPaused) {
           this.sound.resume();

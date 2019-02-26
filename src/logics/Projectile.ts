@@ -1,6 +1,8 @@
+import { AttackType } from '../model/AttackType';
 import DynamicObject from '../object/DynamicObject';
 import MapDisplay from '../scenes/MapDisplay';
 import { DEFAULTS } from '../model/Defaults';
+import Explosion from './Explosion';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 import Vector2 = Phaser.Math.Vector2;
 import GameObject = Phaser.GameObjects.GameObject;
@@ -16,16 +18,20 @@ export default class Projectile extends DynamicObject {
   damage: number;
   facingRight: boolean;
   prevX = 0;
+  private moveSpeed: number;
 
-  constructor(protected scene: MapDisplay, protected mainLayer: DynamicTilemapLayer, private object: { x: number, y: number, damage?: number, image?: string, direction: boolean }, public isSpecial?: boolean) {
+  constructor(protected scene: MapDisplay, protected mainLayer: DynamicTilemapLayer, public attackType: AttackType, private object: { x: number, y: number, damage?: number, texture?: string, image?: string, animation?: string, direction: boolean }, public isSpecial?: boolean, public explodes?: boolean) {
     super(scene, mainLayer, {
       ...DEFAULTS.BULLET,
       x: object.x,
       y: object.y,
-      image: object.image || 'GAME_BULLETS',
-    });
+      texture: object.texture || DEFAULTS.BULLET.texture,
+      image: object.image || DEFAULTS.BULLET.image,
+      animation: object.animation || 'GAME_CYCLE50',
+    }, {}, true);
 
     this.damage = object.damage || 8;
+    this.moveSpeed = attackType === AttackType.PLAYER ? 0.8 : 0.5;
 
     this.facingRight = this.flipX = object.direction;
     scene.physics.add.existing(this, false);
@@ -33,7 +39,7 @@ export default class Projectile extends DynamicObject {
 
     this.scene.physics.add.overlap(this, mainLayer, (self, tile: TileFix) => {
       if (tile.isSolid) {
-        this.destroy();
+        this.collision();
       }
     });
 
@@ -44,15 +50,26 @@ export default class Projectile extends DynamicObject {
     super.preUpdate(time, delta);
 
     if (this.object.direction) {
-      this.x -= delta;
+      this.x -= delta * this.moveSpeed;
     } else {
-      this.x += delta;
+      this.x += delta * this.moveSpeed;
     }
 
     if (this.prevX === this.x) {
-      this.destroy();
+      this.collision();
     } else {
       this.prevX = this.x;
     }
+  }
+
+  collision() {
+    if (this.explodes) {
+      const explosion = new Explosion(this.scene, this.mainLayer, {
+        x: this.x,
+        y: this.y + 10,
+        z: this.z,
+      });
+    }
+    this.destroy();
   }
 }

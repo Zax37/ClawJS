@@ -10,6 +10,8 @@ export default class MainMenu extends Menu {
   confirm(i: number) {
     switch (i) {
       case 0:
+        this.scene.game.dataManager.setPlayerData();
+        this.scene.game.treasureRegistry.setGameScore(0);
         this.scene.game.startLevel(1);
         break;
       case 3:

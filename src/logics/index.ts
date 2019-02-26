@@ -13,7 +13,7 @@ import HumanEnemy from './HumanEnemy';
 import GroundBlower from './GroundBlower';
 import PathElevator from './PathElevator';
 import PowderKeg from './PowderKeg';
-import Raux from './Raux';
+import Boss from './Boss';
 import SoundTrigger from './SoundTrigger';
 import SpringBoard from './SpringBoard';
 import StackedCrates from './StackedCrates';
@@ -72,7 +72,7 @@ export default {
   'PowderKeg': PowderKeg,
   'PunkRat': Beastie,
   'Rat': Beastie,
-  'Raux': Raux,
+  'Raux': Boss,
   'RobberThief': HumanEnemy,
   'SecondSuperCheckpoint': Checkpoint,
   'SmallSoundTrigger': SoundTrigger,

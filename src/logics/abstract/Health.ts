@@ -67,4 +67,8 @@ export default class Health extends EventEmitter {
   setAsBossHealth() {
     currentBossHealth = this;
   }
+
+  percentage() {
+    return this.value / this.max;
+  }
 }
