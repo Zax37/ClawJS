@@ -11,7 +11,7 @@ export default class Boss extends HumanEnemy {
   startedFight: boolean;
   attempt: number;
 
-  constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
+  constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, protected object: ObjectCreationData) {
     super(scene, mainLayer, object);
     this.container.rawContents = [31];
     this.health = new Health(100, scene.time);
@@ -21,8 +21,12 @@ export default class Boss extends HumanEnemy {
 
     this.goingRight = false;
     this.walking = false;
-    this.play(this.animations['STAND'].key);
+    this.flipX = false;
+    this.movingSpeed = 0.05;
+
     this.anims.stop();
+    this.setFrame(object.image + 1);
+    this.once('animationcomplete', () => this.setFrame(object.image + 1));
   }
 
   preUpdate(time: number, delta: number) {
@@ -38,6 +42,10 @@ export default class Boss extends HumanEnemy {
         this.flipX = false;
         this.stand(time);
       }
+
+      if (this.goingRight !== (this.scene.claw.x > this.x)) {
+        this.patrolFlip(time);
+      }
     } else {
       if (!this.bossStagger && this.isOnScreen()) {
         this.bossStagger = new BossStagger(this.scene, this);
@@ -47,13 +55,18 @@ export default class Boss extends HumanEnemy {
   }
 
   protected stand(time: number) {
-    if (!this.startedFight) return;
-    super.stand(time);
   }
 
   protected walk() {
     if (!this.startedFight) return;
     super.walk();
+  }
+
+  protected patrolFlip(time: number) {
+    if (this.scene.claw.dead) {
+      super.stand(time);
+    }
+    super.patrolFlip(time);
   }
 
   die(attackSource: CaptainClawAttack) {
@@ -66,6 +79,5 @@ export default class Boss extends HumanEnemy {
   staggerLine() {
     this.say('LEVEL_STAGING_ENEMY2');
     this.play(this.animations['STAND'].key);
-    this.toggleFlipX();
   }
 }

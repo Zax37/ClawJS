@@ -1,10 +1,12 @@
 import { CANVAS_WIDTH } from '../config';
+import { AttackType } from '../model/AttackType';
 import { ObjectCreationData } from '../model/ObjectData';
 import DynamicObject from '../object/DynamicObject';
 import MapDisplay from '../scenes/MapDisplay';
 import CaptainClaw from './CaptainClaw';
 import CaptainClawAttack from './CaptainClawAttack';
 import Enemy from './abstract/Enemy';
+import Projectile from './Projectile';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 
 export default class Beastie extends Enemy {
@@ -24,6 +26,7 @@ export default class Beastie extends Enemy {
       this.minX = this.x - 30;
       this.maxX = this.x + 15;
       this.body.allowGravity = false;
+      this.noBodyAttack = true;
       animKeys.push('LEVEL_PUNKRAT_STRIKE');
       animKeys.push('LEVEL_PUNKRAT_RECOIL');
 
@@ -40,6 +43,11 @@ export default class Beastie extends Enemy {
       });
       this.cannon.flipX = mirror;
       this.cannon.depth = this.cannon.z;
+      this.cannon.on('animationupdate', (animation: Phaser.Animations.Animation, frame: Phaser.Animations.AnimationFrame) => {
+        if (frame.index === 2) {
+          const projectile = new Projectile(this.scene, this.mainLayer, AttackType.ENEMY, { x: this.cannon!.x + (mirror ? -50 : 50), y: this.cannon!.y + 4, texture: 'LEVEL2', image: 'LEVEL_CANNONBALL', damage: 10, direction: mirror });
+        }
+      });
       this.cannon.on('animationcomplete', () => this.cannon!.setFrame('LEVEL_CANNON1'));
       this.attackRange = 0;
     } else if (object.logic === 'Rat') {

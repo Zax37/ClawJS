@@ -127,7 +127,9 @@ export default class CaptainClaw extends PhysicsObject {
     });
 
     const enemyCollider = scene.physics.add.overlap(this, scene.enemies, (self: CaptainClaw, enemy: Enemy) => {
-      this.hit(enemy);
+      if (!enemy.noBodyAttack) {
+        this.hit(enemy);
+      }
     });
 
     this.attackRect = new CaptainClawAttack(scene, this);
@@ -170,8 +172,9 @@ export default class CaptainClaw extends PhysicsObject {
     super.preUpdate(time, delta);
 
     if (this.dialogLine) {
+      const top = this.body.enable ? this.body.top - 30 : this.y - this.body.halfHeight - 30;
       this.dialogLine.x = this.x;
-      this.dialogLine.y = this.body.top - 30;
+      this.dialogLine.y = top;
     }
 
     if (this.dead || this.locked) {
@@ -180,6 +183,9 @@ export default class CaptainClaw extends PhysicsObject {
 
     if (this.hurting) {
       this.setFrame(this.hurtFrame!);
+      if (this.body.velocity.x) {
+        this.setVelocityX(this.body.velocity.x * 0.75);
+      }
       return;
     }
 
@@ -800,13 +806,14 @@ export default class CaptainClaw extends PhysicsObject {
         this.hurtFrame = 'CLAW_2'+ Math.round(Math.random())*2;
         if (this.isOnGround) {
           const dir = Math.sign(this.x - attackSource.x);
-          this.setVelocity(dir * 16, 0);
+          this.setVelocity(dir * 128, 0);
         } else {
           this.setVelocity(0, 0);
         }
       }
       setTimeout(() => {
         if (!this.dead) {
+          this.attacking = false;
           this.hurting = false;
           this.body.allowGravity = true;
           if (this.isOnGround) {

@@ -365,6 +365,8 @@ export default class AnimationManager {
         switch (animation) {
           case 'GAME_BACKWARD50':
           case 'GAME_BACKWARD100':
+          case 'GAME_BACKWARD200':
+          case 'GAME_BACKWARD500':
           case 'GAME_REVERSECYCLE50':
           case 'GAME_REVERSECYCLE100':
           case 'GAME_REVERSECYCLE200':
@@ -462,9 +464,13 @@ export default class AnimationManager {
       case 'GAME_REVERSECYCLE100':
       default:
         return 100;
+      case 'GAME_FORWARD200':
+      case 'GAME_BACKWARD200':
       case 'GAME_CYCLE200':
       case 'GAME_REVERSECYCLE200':
         return 200;
+      case 'GAME_FORWARD500':
+      case 'GAME_BACKWARD500':
       case 'GAME_CYCLE500':
       case 'GAME_REVERSECYCLE500':
         return 500;
@@ -475,6 +481,12 @@ export default class AnimationManager {
     switch (animation) {
       case 'GAME_FORWARD50':
       case 'GAME_FORWARD100':
+      case 'GAME_FORWARD200':
+      case 'GAME_FORWARD500':
+      case 'GAME_BACKWARD50':
+      case 'GAME_BACKWARD100':
+      case 'GAME_BACKWARD200':
+      case 'GAME_BACKWARD500':
       case 'GAME_SPLASH':
         return 0;
       default:
@@ -492,10 +504,23 @@ export default class AnimationManager {
         break;
       case 1:
         key = 'ADVANCE';
+        frameRate = 5;
         repeat = -1;
         break;
       case 2:
         key = 'STAND';
+        if (image === 'LEVEL_RAUX') {
+          frames = [
+            { ...frames[0], duration: 250 },
+            { ...frames[1], duration: 100 },
+            { ...frames[2], duration: 250 },
+            { ...frames[3], duration: 250 },
+            { ...frames[2], duration: 250 },
+            { ...frames[3], duration: 250 },
+            { ...frames[4], duration: 250 },
+            { ...frames[0], duration: 250 },
+          ];
+        }
         break;
       case 4:
         key = 'STRIKE';
@@ -521,6 +546,14 @@ export default class AnimationManager {
               { ...frames[0], duration: 100 },
             ];
             break;
+          case 'LEVEL_RAUX':
+            frames = [
+              { ...frames[0], duration: 10 },
+              { ...frames[1], duration: 20 },
+              { ...frames[2], duration: 45 },
+              { ...frames[3], duration: 50 },
+              { ...frames[4], duration: 50 },
+            ];
           default:
             break;
         }

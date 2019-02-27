@@ -20,6 +20,7 @@ import StackedCrates from './StackedCrates';
 import StaticDecoration from './StaticDecoration';
 import SteppingStone from './SteppingStone';
 import TogglePeg from './TogglePeg';
+import TowerCannon from './TowerCannon';
 
 export default {
   'AmbientPosSound': AmbientSound,
@@ -95,6 +96,8 @@ export default {
   'TogglePeg2': TogglePeg,
   'TogglePeg3': TogglePeg,
   'TogglePeg4': TogglePeg,
+  'TowerCannonLeft': TowerCannon,
+  'TowerCannonRight': TowerCannon,
   'TreasurePowerup': Collectible,
   'TriggerElevator': Elevator,
   'WaterRock': SpringBoard,

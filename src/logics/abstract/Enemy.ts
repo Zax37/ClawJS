@@ -34,6 +34,7 @@ export default class Enemy extends PhysicsObject {
   protected attackRange = 100;
 
   dialogLine?: StaticObject;
+  noBodyAttack: boolean;
 
   constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
     super(scene, mainLayer, {...object, z: DEFAULTS.ENEMY.z});
@@ -136,15 +137,22 @@ export default class Enemy extends PhysicsObject {
   protected canSee(claw: CaptainClaw) {
     const baseCondition = claw.powerup !== PowerupType.INVISIBILITY && (Math.abs(claw.y - this.y) < 50 && Math.abs(claw.x - this.x) < this.attackRange);
     if (baseCondition) {
+      const enemyEyesLevel = 0.4 * this.y + 0.6 * this.body.top;
       const fromX = Math.floor(Math.min(claw.x, this.x) / this.mainLayer.tilemap.tileWidth);
-      const fromY = Math.floor(Math.min(claw.y, this.y) / this.mainLayer.tilemap.tileHeight);
+      const fromY = Math.floor(Math.min(claw.y, enemyEyesLevel) / this.mainLayer.tilemap.tileHeight);
       const toX = Math.ceil(Math.max(claw.x, this.x) / this.mainLayer.tilemap.tileWidth);
 
-      const tilesOnTheWay = this.mainLayer.getTilesWithin(fromX, fromY, toX - fromX, 1);
+      const tilesOnTheWay = this.mainLayer.getTilesWithin(fromX, fromY, toX - fromX, 2);
       for (let i = 0; i < tilesOnTheWay.length; i++) {
         const tile: Tile = tilesOnTheWay[i];
         if (tile.isSolid) {
-          return false;
+          if (!tile.physics || !tile.physics.rect || tile.physics.invert) {
+            return false;
+          }
+          const rect = tile.physics.rect;
+          if (tile.pixelY + rect.bottom > enemyEyesLevel && tile.pixelY + rect.top < enemyEyesLevel) {
+            return false;
+          }
         }
       }
     }

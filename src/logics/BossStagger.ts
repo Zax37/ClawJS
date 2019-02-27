@@ -46,15 +46,16 @@ export default class BossStagger extends Phaser.GameObjects.GameObject {
     if (this.defeat) {
       if (this.transitionStartTime) {
         const duration = time - this.transitionStartTime;
-        const progress = Math.min(duration / (this.bossStaggerSound ? 3000 : 2000), 1);
+        const progress = Math.min(duration / (this.bossStaggerSound ? 2500 : 2000), 1);
 
         if (this.bossStaggerSound) {
-          this.defeat.y = (CANVAS_HEIGHT / 2) * progress - 100;
+          this.defeat.y = (CANVAS_HEIGHT * 0.4) * progress - 100;
           if (progress === 1) {
             this.bossStaggerSound.stop();
             this.bossStaggerSound = undefined;
             this.scene.game.soundsManager.playSound('GAME_SDPT2');
             this.scene.game.soundsManager.playVocal('LEVEL_STAGING_DEFEAT2', { delay: 0.1 });
+            this.scene.cameras.main.shake(50, 0.02);
             this.transitionStartTime = time;
           }
         } else if (progress >= 0.75) {
@@ -69,7 +70,7 @@ export default class BossStagger extends Phaser.GameObjects.GameObject {
         }
       } else if (!this.scene.claw.dialogLine) {
         this.bossStaggerSound = this.scene.game.soundsManager.playSound('GAME_SDPT1', { loop: true });
-        this.scene.cameras.main.shake(3000, 0.01);
+        this.scene.cameras.main.shake(2500, 0.01);
         this.transitionStartTime = time;
       }
     } else if (this.boss.dialogLine) {
