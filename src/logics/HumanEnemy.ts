@@ -18,7 +18,7 @@ export default class HumanEnemy extends Enemy {
 
   health: Health;
 
-  protected idleSounds: string[];
+  protected idleSounds: string[] = [];
   protected attackSound?: string;
   protected deathSound: string;
   protected strikeSound?: string;
@@ -39,7 +39,6 @@ export default class HumanEnemy extends Enemy {
         this.strikeSound = 'LEVEL_OFCSWSTB8-22';
         break;
       case 'Soldier':
-        this.idleSounds = [];
         this.attackSound = 'LEVEL_SOLDIER_00320020';
         this.deathSound = 'LEVEL_SOLDIER_00' + (320005 + Math.round(Math.random()));
         this.attackRange = CANVAS_WIDTH / 2;
@@ -116,11 +115,11 @@ export default class HumanEnemy extends Enemy {
   }
 
   protected hit(attackSource: CaptainClawAttack) {
-    const oldValue = this.health.value;
+    if (this.health.isBeingHurt()) return;
     this.health.hurt(attackSource.damage, HURT_DELAY);
     if (this.health.isDead()) {
       super.hit(attackSource);
-    } else if (oldValue > this.health.value) {
+    } else {
       this.scene.game.soundsManager.playSound('GAME_HIT' + (Math.floor(Math.random() * 4) + 1));
       this.play(attackSource.isHigh ? this.animations['HITHIGH'].key : this.animations['HITLOW'].key, true);
       this.walking = false;

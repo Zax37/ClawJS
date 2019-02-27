@@ -1,5 +1,5 @@
 import { ObjectCreationData } from '../model/ObjectData';
-import Booty from '../scenes/Booty';
+import BootyScene from '../scenes/BootyScene';
 import MapDisplay from '../scenes/MapDisplay';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 import GameHUD from '../scenes/GameHUD';
@@ -16,7 +16,7 @@ export default class DynamicObject extends Phaser.GameObjects.Sprite {
   protected animation: string;
   private s?: MapDisplay;
 
-  constructor(scene: MapDisplay | GameHUD | Booty, mainLayer: DynamicTilemapLayer | null, object: ObjectCreationData, defaults?: {}, playDefaultAnimation?: boolean) {
+  constructor(scene: MapDisplay | GameHUD | BootyScene, mainLayer: DynamicTilemapLayer | null, object: ObjectCreationData, defaults?: {}, playDefaultAnimation?: boolean) {
     if (defaults) {
       applyDefaults(object, defaults);
     }

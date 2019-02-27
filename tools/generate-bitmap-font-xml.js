@@ -32,6 +32,17 @@ var letters = {
   ':': { x: 698, y: 8, width: 9, height: 18 },
   '=': { x: 711, y: 8, width: 20, height: 11, yOffset: 16 },
   '_': { x: 710, y: 20, width: 27, height: 6, xOffset: 3, yOffset: 28 },
+  '.': { x: 698, y: 16, width: 9, height: 11, yOffset: 25, advance: 10 },
+  '0': { x: 734, width: 21, advance: 22 },
+  '1': { x: 756, width: 14, advance: 14 },
+  '2': { x: 771, width: 20, height: 27, advance: 21, yOffset: 8 },
+  '3': { x: 792, width: 20, advance: 21 },
+  '4': { x: 813, width: 21, advance: 22 },
+  '5': { x: 835, width: 19, advance: 20 },
+  '6': { x: 855, width: 20, advance: 21 },
+  '7': { x: 875, width: 21, advance: 21 },
+  '8': { x: 897, width: 19, advance: 19 },
+  '9': { x: 917, width: 20, advance: 21 },
 };
 
 var xml = '<font><info face="font" size="128"/><common lineHeight="' + lineHeight + '"/><chars count="' + Object.keys(letters).length + '">';

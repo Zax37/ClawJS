@@ -84,7 +84,6 @@ export default class CaptainClaw extends PhysicsObject {
   attempt = 0;
   lives = 6;
 
-  hurtMoveX: number;
   fixedX: number;
   jumpedFromY: number;
   passiveJumpHeight: number;
@@ -180,14 +179,6 @@ export default class CaptainClaw extends PhysicsObject {
     }
 
     if (this.hurting) {
-      if (this.hurtMoveX) {
-        if (this.hurtMoveX > 0) {
-          this.hurtMoveX -= 1;
-        } else {
-          this.hurtMoveX += 1;
-        }
-        this.x += this.hurtMoveX * delta / 100;
-      }
       this.setFrame(this.hurtFrame!);
       return;
     }
@@ -800,7 +791,6 @@ export default class CaptainClaw extends PhysicsObject {
       this.climbing = false;
       this.hurting = true;
       this.body.allowGravity = false;
-      this.body.immovable = true;
       this.health.hurt(attackSource.damage);
       this.scene.game.soundsManager.playSound('GAME_HIT' + (Math.floor(Math.random() * 4) + 1));
       if (this.health.isDead()) {
@@ -808,16 +798,17 @@ export default class CaptainClaw extends PhysicsObject {
       } else {
         this.scene.game.soundsManager.playVocalHurtSound('CLAW_HIT' + (Math.floor(Math.random() * 4) + 1));
         this.hurtFrame = 'CLAW_2'+ Math.round(Math.random())*2;
-        this.setVelocity(0, 0);
         if (this.isOnGround) {
-          this.hurtMoveX = Math.sign(this.x - attackSource.x) * 20;
+          const dir = Math.sign(this.x - attackSource.x);
+          this.setVelocity(dir * 16, 0);
+        } else {
+          this.setVelocity(0, 0);
         }
       }
       setTimeout(() => {
         if (!this.dead) {
           this.hurting = false;
           this.body.allowGravity = true;
-          this.body.immovable = false;
           if (this.isOnGround) {
             this.play('ClawStand');
           } else {

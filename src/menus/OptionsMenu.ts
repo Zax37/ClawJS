@@ -4,7 +4,8 @@ import GameHUD from '../scenes/GameHUD';
 
 export default class OptionsMenu extends Menu {
   constructor(protected scene: MenuScene | GameHUD, parent: Menu) {
-    super(scene, 'OPTIONS', ['MUSIC: '+scene.game.musicManager.getVolume(), 'SOUNDS:', 'VOCALS:', 'AMBIENTS:', 'BACK'], undefined, parent);
+    super(scene, 'OPTIONS', ['MUSIC: ' + scene.game.musicManager.getVolume().toFixed(1), 'SOUNDS: ' + scene.game.soundsManager.getSoundsVolume().toFixed(1),
+      'VOCALS: ' + scene.game.soundsManager.getVocalsVolume().toFixed(1), 'AMBIENTS: ' + scene.game.soundsManager.getAmbientVolume().toFixed(1), 'BACK'], undefined, parent);
   }
 
   confirm(i: number): void {
@@ -15,6 +16,7 @@ export default class OptionsMenu extends Menu {
         } else {
           this.scene.game.musicManager.setVolume(1);
         }
+        this.options[0].setText('MUSIC: ' + this.scene.game.musicManager.getVolume().toFixed(1));
         break;
       case 1:
         if (this.scene.game.soundsManager.getSoundsVolume()) {
@@ -22,6 +24,7 @@ export default class OptionsMenu extends Menu {
         } else {
           this.scene.game.soundsManager.setSoundsVolume(1);
         }
+        this.options[1].setText('SOUNDS: ' + this.scene.game.soundsManager.getSoundsVolume().toFixed(1));
         break;
       case 2:
         if (this.scene.game.soundsManager.getVocalsVolume()) {
@@ -29,6 +32,7 @@ export default class OptionsMenu extends Menu {
         } else {
           this.scene.game.soundsManager.setVocalsVolume(1);
         }
+        this.options[2].setText('VOCALS: ' + this.scene.game.soundsManager.getVocalsVolume().toFixed(1));
         break;
       case 3:
         if (this.scene.game.soundsManager.getAmbientVolume()) {
@@ -36,6 +40,7 @@ export default class OptionsMenu extends Menu {
         } else {
           this.scene.game.soundsManager.setAmbientVolume(1);
         }
+        this.options[3].setText('AMBIENTS: ' + this.scene.game.soundsManager.getAmbientVolume().toFixed(1));
         break;
       case 4:
         this.back();
@@ -49,15 +54,19 @@ export default class OptionsMenu extends Menu {
     switch (this.selected) {
       case 0:
         this.scene.game.musicManager.setVolume(Math.max(this.scene.game.musicManager.getVolume() - 0.1, 0));
+        this.options[0].setText('MUSIC: ' + this.scene.game.musicManager.getVolume().toFixed(1));
         break;
       case 1:
         this.scene.game.soundsManager.setSoundsVolume(Math.max(this.scene.game.soundsManager.getSoundsVolume() - 0.1, 0));
+        this.options[1].setText('SOUNDS: ' + this.scene.game.soundsManager.getSoundsVolume().toFixed(1));
         break;
       case 2:
         this.scene.game.soundsManager.setVocalsVolume(Math.max(this.scene.game.soundsManager.getVocalsVolume() - 0.1, 0));
+        this.options[2].setText('VOCALS: ' + this.scene.game.soundsManager.getVocalsVolume().toFixed(1));
         break;
       case 3:
         this.scene.game.soundsManager.setAmbientVolume(Math.max(this.scene.game.soundsManager.getAmbientVolume() - 0.1, 0));
+        this.options[3].setText('AMBIENTS: ' + this.scene.game.soundsManager.getAmbientVolume().toFixed(1));
         break;
       default:
         break;
@@ -69,15 +78,19 @@ export default class OptionsMenu extends Menu {
     switch (this.selected) {
       case 0:
         this.scene.game.musicManager.setVolume(Math.min(this.scene.game.musicManager.getVolume() + 0.1, 1));
+        this.options[0].setText('MUSIC: ' + this.scene.game.musicManager.getVolume().toFixed(1));
         break;
       case 1:
         this.scene.game.soundsManager.setSoundsVolume(Math.min(this.scene.game.soundsManager.getSoundsVolume() + 0.1, 1));
+        this.options[1].setText('SOUNDS: ' + this.scene.game.soundsManager.getSoundsVolume().toFixed(1));
         break;
       case 2:
         this.scene.game.soundsManager.setVocalsVolume(Math.min(this.scene.game.soundsManager.getVocalsVolume() + 0.1, 1));
+        this.options[2].setText('VOCALS: ' + this.scene.game.soundsManager.getVocalsVolume().toFixed(1));
         break;
       case 3:
         this.scene.game.soundsManager.setAmbientVolume(Math.min(this.scene.game.soundsManager.getAmbientVolume() + 0.1, 1));
+        this.options[3].setText('AMBIENTS: ' + this.scene.game.soundsManager.getAmbientVolume().toFixed(1));
         break;
       default:
         break;

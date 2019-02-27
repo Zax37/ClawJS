@@ -48,4 +48,10 @@ export default class MusicManager {
     this.game.dataManager.set('musicVolume', volume.toString());
     this.music.setVolume(volume);
   }
+
+  stop() {
+    if (this.music) {
+      this.music.stop();
+    }
+  }
 }

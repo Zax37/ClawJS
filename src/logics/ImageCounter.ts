@@ -1,5 +1,5 @@
 import DynamicObject from '../object/DynamicObject';
-import Booty from '../scenes/Booty';
+import BootyScene from '../scenes/BootyScene';
 import GameHUD from '../scenes/GameHUD';
 import StaticObject from '../object/StaticObject';
 
@@ -7,7 +7,7 @@ export default class ImageCounter extends DynamicObject {
   private nums: StaticObject[] = [];
   private value = 0;
 
-  constructor(protected scene: GameHUD | Booty, x: number, y: number, private image: string, private textImage: string, fixedWidth: number, protected spacing: number, startOffsetX?: number, startOffsetY?: number, animation?: string) {
+  constructor(protected scene: GameHUD | BootyScene, x: number, y: number, private image: string, private textImage: string, fixedWidth: number, protected spacing: number, startOffsetX?: number, startOffsetY?: number, animation?: string) {
     super(scene, null, { x, y, z: 0, logic: '', texture: 'GAME', image, frame: 1, animation }, {}, true);
     if (!image) {
       this.visible = false;

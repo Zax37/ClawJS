@@ -11,12 +11,13 @@ const TREASURE_TRANSITION_DURATION_BASE_COIN = 300;
 const TREASURE_TRANSITION_DELAY = 180;
 const TREASURE_TRANSITION_DELAY_COIN = 70;
 
-class MapPiece extends Phaser.GameObjects.Image {
+class BootyMapPiece extends Phaser.GameObjects.Image {
   startTime: number;
   targetX: number;
   targetY: number;
+  private curlingSound: Phaser.Sound.BaseSound.AudioSpriteSound;
 
-  constructor(protected scene: Booty, protected startX: number, protected startY: number, texture: string) {
+  constructor(protected scene: BootyScene, protected startX: number, protected startY: number, texture: string) {
     super(scene, startX, startY, texture);
 
     scene.sys.updateList.add(this);
@@ -29,7 +30,8 @@ class MapPiece extends Phaser.GameObjects.Image {
           if (time - this.startTime > INIT_DURATION) {
             this.scene.sys.displayList.add(this);
             this.scene.state = BootyState.TRANSITION;
-            this.scene.sound.play('CURLING1', {volume: 0.5});
+            this.curlingSound = this.scene.sound.add('CURLING1', { volume: this.scene.game.soundsManager.getSoundsVolume() });
+            this.curlingSound.play();
             this.startTime = time;
           }
         } else {
@@ -48,17 +50,25 @@ class MapPiece extends Phaser.GameObjects.Image {
           this.x = this.targetX;
           this.y = this.targetY;
           this.scene.state = BootyState.DIALOG;
-          this.scene.sound.play('IMPACT3', {volume: 0.5});
+          this.curlingSound.stop();
+          this.scene.sound.add('IMPACT3', { volume: this.scene.game.soundsManager.getSoundsVolume() }).play();
         }
         break;
       default:
         break;
     }
   }
+
+  destroy() {
+    if (this.curlingSound) {
+      this.curlingSound.destroy();
+    }
+    super.destroy();
+  }
 }
 
 class BootySupplyTreasure extends Phaser.GameObjects.Image {
-  constructor(protected scene: Booty, protected startX: number, protected startY: number, protected targetX: number, protected targetY: number, protected image: string, protected startTime: number, protected duration: number) {
+  constructor(protected scene: BootyScene, protected startX: number, protected startY: number, protected targetX: number, protected targetY: number, protected image: string, protected startTime: number, protected duration: number) {
     super(scene, startX, startY, 'GAME', image + 1);
     this.scene.sys.displayList.add(this);
     this.scene.sys.updateList.add(this);
@@ -99,7 +109,7 @@ class BootyTreasureLine extends Phaser.GameObjects.Image {
   private delay: number;
   private finished: boolean;
 
-  constructor(protected scene: Booty, protected targetX: number, protected targetY: number, protected treasure: {image: string, sound: string, type: TreasureType, score: number}) {
+  constructor(protected scene: BootyScene, protected targetX: number, protected targetY: number, protected treasure: {image: string, sound: string, type: TreasureType, score: number}) {
     super(scene, -100, targetY, 'GAME', treasure.image + 1);
 
     this.value = 0;
@@ -199,15 +209,61 @@ class BootyTreasureLine extends Phaser.GameObjects.Image {
   }
 }
 
-export default class Booty extends Phaser.Scene {
+class BootyGem extends Phaser.GameObjects.Sprite {
+  private startTime: number;
+  private afterInit: boolean;
+  private gemSound: Phaser.Sound.BaseSound;
+
+  constructor(protected scene: BootyScene, x: number, y: number) {
+    super(scene, x, y, 'gem', 1);
+
+    scene.sys.displayList.add(this);
+    scene.sys.updateList.add(this);
+
+    this.startTime = scene.time.now;
+  }
+
+  preUpdate(time: number, delta: number) {
+    const timeSinceStart = time - this.startTime;
+    const progress = Math.min(timeSinceStart / (this.afterInit ? MAIN_TRANSITION_DURATION : INIT_DURATION), 1);
+
+    if (this.afterInit) {
+      if (progress <= 0.5) {
+        this.setFrame(1 + Math.round(progress * 62));
+      } else if (progress < 0.9) {
+        this.setFrame(33 + Math.round((progress - 0.5) * 21));
+      } else {
+        this.setFrame(33);
+        this.scene.sys.updateList.remove(this);
+        this.scene.state = BootyState.DIALOG;
+      }
+    } else if (progress === 1) {
+      this.startTime = time;
+      this.afterInit = true;
+      this.gemSound = this.scene.sound.add('GEM', { volume: this.scene.game.soundsManager.getSoundsVolume() });
+      this.gemSound.play();
+    }
+  }
+
+  destroy() {
+    if (this.gemSound) {
+      this.gemSound.destroy();
+    }
+    super.destroy();
+  }
+}
+
+export default class BootyScene extends Phaser.Scene {
   private background: Phaser.GameObjects.Image;
-  private mappiece?: MapPiece;
+  private mappiece?: BootyMapPiece;
+  private gem?: BootyGem;
   private clawDialog?: Phaser.Sound.BaseSound;
   private treasureLines: BootyTreasureLine[];
+  private amuletMusic?: Phaser.Sound.BaseSound;
   level: number;
 
   game: Game;
-  static key = 'Booty';
+  static key = 'BootyScene';
 
   _state: BootyState;
 
@@ -219,7 +275,13 @@ export default class Booty extends Phaser.Scene {
     this._state = state;
     if (state === BootyState.DIALOG) {
       this.clawDialog = this.game.soundsManager.playVocal('CLAW_BOOTY' + this.level, { delay: 3 });
-      this.clawDialog.once('ended', () => this.state = BootyState.BOOTY);
+      this.clawDialog.once('ended', () => {
+        if (!this.amuletMusic || !this.amuletMusic.isPlaying) {
+          this.state = BootyState.BOOTY;
+        } else {
+          this.amuletMusic.once('ended', () => this.state = BootyState.BOOTY);
+        }
+      });
     } else if (state === BootyState.BOOTY) {
       if (this.clawDialog) {
         this.clawDialog.stop();
@@ -229,6 +291,12 @@ export default class Booty extends Phaser.Scene {
       if (this.mappiece) {
         this.mappiece.destroy();
         this.mappiece = undefined;
+      } else if (this.gem) {
+        this.gem.destroy();
+        this.gem = undefined;
+      }
+      if (this.amuletMusic) {
+        this.amuletMusic.stop();
       }
 
       this.background.setTexture(`BOOTY${this.level}B`);
@@ -246,12 +314,15 @@ export default class Booty extends Phaser.Scene {
         });
       }
     } else if (state === BootyState.END) {
+      if (this.amuletMusic) {
+        this.amuletMusic.play();
+      }
       this.treasureLines.forEach((treasureLine) => treasureLine.end());
     }
   }
 
   constructor() {
-    super({ key: Booty.key });
+    super({ key: BootyScene.key });
   }
 
   init(level: number) {
@@ -263,19 +334,31 @@ export default class Booty extends Phaser.Scene {
     this.load.image(`BOOTY${this.level}A`, `screens/BOOTY${this.level}A.png`);
     this.load.image(`BOOTY${this.level}B`, `screens/BOOTY${this.level}B.png`);
     this.load.image(`MAPPIECE1`, `ui/MAPPIECE1.png`);
+    this.load.atlas('gem', 'ui/gem.png', 'ui/gem.json');
 
     this.load.audio('maploop', [
       `music/MAPLOOP.ogg`,
     ]);
+    this.load.audio('amulet', [
+      `music/AMULET.ogg`,
+    ]);
 
     this.load.audio('CURLING1', 'sounds/CURLING1.wav');
     this.load.audio('IMPACT3', 'sounds/IMPACT3.wav');
+    this.load.audio('GEM', 'sounds/GEM.wav');
   }
 
   create() {
     this.background = this.add.image(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, `BOOTY${this.level}A`);
-    this.mappiece = new MapPiece(this, -50, -150, 'MAPPIECE1');
-    this.game.musicManager.play(this.sound.add('maploop'));
+    if (this.level === 1) {
+      this.mappiece = new BootyMapPiece(this, -50, -150, 'MAPPIECE1');
+      this.game.musicManager.play(this.sound.add('maploop'));
+    } else {
+      this.game.musicManager.stop();
+      this.gem = new BootyGem(this, CANVAS_WIDTH / 2 + 44, CANVAS_HEIGHT / 2 - 76);
+      this.amuletMusic = this.sound.add('amulet');
+      this.amuletMusic.play(undefined, { volume: this.game.musicManager.getVolume() });
+    }
 
     const treasureData = [
       { type: TreasureType.SKULL, image: 'GAME_TREASURE_JEWELEDSKULL_BLUE', sound: 'GAME_SCEPTER', score: 25000 },
@@ -295,6 +378,10 @@ export default class Booty extends Phaser.Scene {
 
     this.input.keyboard.on('keydown_SPACE', () => {
       if (this.state === BootyState.END) {
+        if (this.amuletMusic) {
+          this.amuletMusic.destroy();
+        }
+
         if (this.level === 2) {
           this.game.goToMainMenu();
         } else {

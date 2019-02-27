@@ -3,7 +3,7 @@ import CheatManager from './managers/CheatManager';
 import DataManager from './managers/DataManager';
 import MusicManager from './managers/MusicManager';
 import TreasureRegistry from './managers/TreasureRegistry';
-import Booty from './scenes/Booty';
+import BootyScene from './scenes/BootyScene';
 import GameHUD from './scenes/GameHUD';
 import MapDisplay from './scenes/MapDisplay';
 import MenuScene from './scenes/MenuScene';
@@ -43,7 +43,7 @@ export default class Game extends Phaser.Game {
         keys.push(GameHUD.key);
         break;
       case GameState.BootyScreen:
-        keys.push(Booty.key);
+        keys.push(BootyScene.key);
         break;
     }
 
@@ -78,7 +78,7 @@ export default class Game extends Phaser.Game {
 
   goToBootyScreen() {
     if (this.state !== GameState.InGame) return;
-    this.stopCurrentScenes().then(() => this.scene.start(Booty.key, this.retailLevelNumber));
+    this.stopCurrentScenes().then(() => this.scene.start(BootyScene.key, this.retailLevelNumber));
     this.state = GameState.BootyScreen;
   }
 }

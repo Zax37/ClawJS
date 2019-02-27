@@ -21,6 +21,7 @@ export default class MainMenu extends Menu {
         this.hide();
         this.scene.background.setTexture('CREDITS_BG');
         this.scene.isMenuOn = false;
+        this.scene.setSocialIconsVisible(true);
         break;
       case 5:
         this.hide();

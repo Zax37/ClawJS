@@ -17,6 +17,7 @@ export default class Boss extends HumanEnemy {
     this.health = new Health(100, scene.time);
     this.attackSound = 'LEVEL_RAUX_00840003';
     this.deathSound = 'LEVEL_RAUX_00840005';
+    this.strikeSound = 'LEVEL_LARASW';
 
     this.goingRight = false;
     this.walking = false;
@@ -32,6 +33,10 @@ export default class Boss extends HumanEnemy {
       if (this.attempt !== this.scene.claw.attempt) {
         this.health.reset();
         this.attempt = this.scene.claw.attempt;
+        this.x = this.object.x;
+        this.y = this.object.y;
+        this.flipX = false;
+        this.stand(time);
       }
     } else {
       if (!this.bossStagger && this.isOnScreen()) {
