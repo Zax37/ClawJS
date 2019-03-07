@@ -4,7 +4,6 @@ const { serveFile } = require('./utils');
 
 const port = process.env.PORT || 3000;
 
-
 // Start minimal UI endpoint
 http.createServer(function (req, res) {
   if (req.url === '/') {

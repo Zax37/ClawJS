@@ -2,7 +2,7 @@ import { DEFAULTS } from '../../model/Defaults';
 import { ObjectCreationData } from '../../model/ObjectData';
 import DynamicObject from '../../object/DynamicObject';
 import MapDisplay from '../../scenes/MapDisplay';
-import CaptainClaw from '../CaptainClaw';
+import CaptainClaw from '../main/CaptainClaw';
 import PhysicsObject from './PhysicsObject';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 

@@ -1,5 +1,5 @@
 import Game from '../game';
-import CaptainClaw from '../logics/CaptainClaw';
+import CaptainClaw from '../logics/main/CaptainClaw';
 import { LEVEL_DEFAULTS, LevelData } from '../model/LevelDefaults';
 import MapFactory from '../tilemap/MapFactory';
 import GameHUD from './GameHUD';

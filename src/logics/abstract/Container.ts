@@ -1,9 +1,9 @@
 import { ObjectCreationData } from '../../model/ObjectData';
 import MapDisplay from '../../scenes/MapDisplay';
-import BouncingGoodie from '../BouncingGoodie';
+import BouncingGoodie from '../main/BouncingGoodie';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 import { DEFAULTS } from '../../model/Defaults';
-import EndOfLevelPowerupAnimation from '../EndOfLevelPowerupAnimation';
+import EndOfLevelPowerupAnimation from '../main/EndOfLevelPowerupAnimation';
 
 const END_OF_LEVEL_POWERUP_ID = 31;
 

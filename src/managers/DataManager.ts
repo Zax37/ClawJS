@@ -1,4 +1,4 @@
-import CaptainClaw from '../logics/CaptainClaw';
+import CaptainClaw from '../logics/main/CaptainClaw';
 
 export default class DataManager {
   private playerData?: CaptainClaw;

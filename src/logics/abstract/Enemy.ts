@@ -5,14 +5,14 @@ import { ObjectCreationData } from '../../model/ObjectData';
 import { PowerupType } from '../../model/PowerupType';
 import MapDisplay from '../../scenes/MapDisplay';
 import Tile from '../../tilemap/Tile';
-import CaptainClaw from '../CaptainClaw';
-import Explosion from '../Explosion';
-import Projectile from '../Projectile';
+import CaptainClaw from '../main/CaptainClaw';
+import Explosion from '../main/Explosion';
+import Projectile from '../main/Projectile';
 import Container from './Container';
 import PhysicsObject from './PhysicsObject';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 import StaticObject from '../../object/StaticObject';
-import CaptainClawAttack from '../CaptainClawAttack';
+import CaptainClawAttack from '../main/CaptainClawAttack';
 
 
 export default class Enemy extends PhysicsObject {

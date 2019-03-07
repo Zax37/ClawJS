@@ -1,26 +1,30 @@
-import AmbientSound from './AmbientSound';
-import AnimatedDecoration from './AnimatedDecoration';
-import Beastie from './Beastie';
-import BouncingGoodie from './BouncingGoodie';
-import CaptainClaw from './CaptainClaw';
-import Checkpoint from './Checkpoint';
-import Collectible from './Collectible';
-import Crate from './Crate';
-import CrumblingPeg from './CrumblingPeg';
-import CursePowerup from './CursePowerup';
-import Elevator from './Elevator';
-import HumanEnemy from './HumanEnemy';
-import GroundBlower from './GroundBlower';
-import PathElevator from './PathElevator';
-import PowderKeg from './PowderKeg';
-import Boss from './Boss';
-import SoundTrigger from './SoundTrigger';
-import SpringBoard from './SpringBoard';
-import StackedCrates from './StackedCrates';
-import StaticDecoration from './StaticDecoration';
-import SteppingStone from './SteppingStone';
-import TogglePeg from './TogglePeg';
-import TowerCannon from './TowerCannon';
+import BootyGem from './booty/BootyGem';
+import BootySupplyTreasure from './booty/BootySupplyTreasure';
+import BootyTreasureLine from './booty/BootyTreasureLine';
+import AmbientSound from './main/AmbientSound';
+import AnimatedDecoration from './main/AnimatedDecoration';
+import Beastie from './main/Beastie';
+import BouncingGoodie from './main/BouncingGoodie';
+import CaptainClaw from './main/CaptainClaw';
+import Checkpoint from './main/Checkpoint';
+import Collectible from './main/Collectible';
+import Crate from './main/Crate';
+import CrumblingPeg from './main/CrumblingPeg';
+import CursePowerup from './main/CursePowerup';
+import Elevator from './main/Elevator';
+import HumanEnemy from './main/HumanEnemy';
+import GroundBlower from './main/GroundBlower';
+import PathElevator from './main/PathElevator';
+import PowderKeg from './main/PowderKeg';
+import Boss from './main/Boss';
+import SoundTrigger from './main/SoundTrigger';
+import SpringBoard from './main/SpringBoard';
+import StackedCrates from './main/StackedCrates';
+import StaticDecoration from './main/StaticDecoration';
+import SteppingStone from './main/SteppingStone';
+import TogglePeg from './main/TogglePeg';
+import TowerCannon from './main/TowerCannon';
+import BootyMapPiece from './booty/BootyMapPiece';
 
 export default {
   'AmbientPosSound': AmbientSound,
@@ -102,4 +106,11 @@ export default {
   'TriggerElevator': Elevator,
   'WaterRock': SpringBoard,
   'WideSoundTrigger': SoundTrigger,
+};
+
+export {
+  BootyGem,
+  BootyMapPiece,
+  BootySupplyTreasure,
+  BootyTreasureLine,
 };

@@ -4,7 +4,7 @@ import { PowerupType } from '../model/PowerupType';
 import MapDisplay from './MapDisplay';
 import SceneWithMenu from './SceneWithMenu';
 import InGameMenu from '../menus/InGameMenu';
-import ImageCounter from '../logics/ImageCounter';
+import ImageCounter from '../logics/main/ImageCounter';
 
 export default class GameHUD extends SceneWithMenu {
   game: Game;

@@ -1,6 +1,6 @@
 import LayerData = Phaser.Tilemaps.LayerData;
 import PhysicsObject from '../logics/abstract/PhysicsObject';
-import CaptainClaw from '../logics/CaptainClaw';
+import CaptainClaw from '../logics/main/CaptainClaw';
 import { TileAttributes, TileType } from '../model/TileAttributes';
 
 const ladders: Array<{ top: number, left: number, right: number, bottom: number }> = [];
