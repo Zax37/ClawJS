@@ -25,6 +25,7 @@ import SteppingStone from './main/SteppingStone';
 import TogglePeg from './main/TogglePeg';
 import TowerCannon from './main/TowerCannon';
 import BootyMapPiece from './booty/BootyMapPiece';
+import Changelog from './menu/Changelog';
 
 export default {
   'AmbientPosSound': AmbientSound,
@@ -113,4 +114,5 @@ export {
   BootyMapPiece,
   BootySupplyTreasure,
   BootyTreasureLine,
+  Changelog,
 };

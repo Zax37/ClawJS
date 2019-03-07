@@ -2,6 +2,7 @@ export const CANVAS_WIDTH = 800;
 export const CANVAS_HEIGHT = 600;
 import p from '../package.json';
 import scenes from './scenes';
+import { Plugin as NineSlicePlugin } from 'phaser3-nineslice';
 
 export const config: GameConfig = {
   title: p.title,
@@ -19,4 +20,7 @@ export const config: GameConfig = {
   height: CANVAS_HEIGHT,
   parent: 'game',
   scene: scenes,
+  plugins: {
+    global: [ NineSlicePlugin.DefaultCfg ],
+  },
 };

@@ -1,6 +1,6 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../config';
 import CaptainClaw from '../logics/main/CaptainClaw';
-import logics from '../logics/index';
+import logics from '../logics';
 import { TileType } from '../model/TileAttributes';
 import MapDisplay from '../scenes/MapDisplay';
 import Tile from './Tile';

@@ -1,5 +1,6 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../config';
 import Game from '../game';
+import { Changelog } from '../logics';
 import SceneWithMenu from './SceneWithMenu';
 import MainMenu from '../menus/MainMenu';
 import p from '../../package.json';
@@ -7,6 +8,7 @@ import p from '../../package.json';
 export default class MenuScene extends SceneWithMenu {
   background: Phaser.GameObjects.Image;
   socialIcons: Phaser.GameObjects.Image[] = [];
+  changelog?: Changelog;
 
   game: Game;
   static key = 'MenuScene';
@@ -20,6 +22,7 @@ export default class MenuScene extends SceneWithMenu {
     this.load.image('CREDITS_BG', `screens/CREDITS.png`);
     this.load.image('HELP_BG', `screens/HELP.png`);
     this.load.atlas('social-icons', 'ui/social-icons.png', 'ui/social-icons.json');
+    this.load.image('frame', `ui/frame.png`);
 
     this.load.atlas('fonts', 'ui/FONTS.png', 'ui/FONTS.json');
 
@@ -66,6 +69,7 @@ export default class MenuScene extends SceneWithMenu {
     });
 
     const version = this.add.text(CANVAS_WIDTH - 58, CANVAS_HEIGHT - 48, p.version, { font: '12px Arial', fill: '#ffffff' }).setOrigin(1, 1);
+    this.changelog = new Changelog(this, 'CHANGELOG:\n\n- added changelog');
 
     /*let icons: Phaser.GameObjects.Image[] = [];
     for (let i = 0; i < 15; i++) {
@@ -112,6 +116,11 @@ export default class MenuScene extends SceneWithMenu {
   }
 
   menuConfirm() {
+    if (this.changelog) {
+      this.changelog.destroy();
+      this.changelog = undefined;
+      return;
+    }
     if (!this.isMenuOn) {
       this.background.setTexture('MENU_BG');
       this.isMenuOn = true;
