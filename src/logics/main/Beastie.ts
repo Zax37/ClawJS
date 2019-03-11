@@ -45,7 +45,19 @@ export default class Beastie extends Enemy {
       this.cannon.depth = this.cannon.z;
       this.cannon.on('animationupdate', (animation: Phaser.Animations.Animation, frame: Phaser.Animations.AnimationFrame) => {
         if (frame.index === 2) {
-          const projectile = new Projectile(this.scene, this.mainLayer, AttackType.ENEMY, { x: this.cannon!.x + (mirror ? -50 : 50), y: this.cannon!.y + 4, texture: 'LEVEL2', image: 'LEVEL_CANNONBALL', damage: 10, direction: mirror });
+          if (this.dead) {
+            this.cannon!.anims.stop();
+            this.cannon!.setFrame('LEVEL_CANNON1');
+          } else {
+            const projectile = new Projectile(this.scene, this.mainLayer, AttackType.ENEMY, {
+              x: this.cannon!.x + (mirror ? -50 : 50),
+              y: this.cannon!.y + 4,
+              texture: 'LEVEL2',
+              image: 'LEVEL_CANNONBALL',
+              damage: 10,
+              direction: mirror
+            });
+          }
         }
       });
       this.cannon.on('animationcomplete', () => this.cannon!.setFrame('LEVEL_CANNON1'));
@@ -135,7 +147,7 @@ export default class Beastie extends Enemy {
   }
 
   private animComplete(animation: Phaser.Animations.Animation, frame: Phaser.Animations.AnimationFrame) {
-    if (this.animations['strike'] && animation.key === this.animations['strike'].key) {
+    if (this.animations['strike'] && animation.key === this.animations['strike'].key && !this.dead) {
       this.cannon!.playAnimation();
       this.play(this.animations['recoil'].key);
       this.scene.game.soundsManager.playSound('LEVEL_CANONSH1', { delay: 0.1 });

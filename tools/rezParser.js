@@ -62,19 +62,59 @@ function readRezDirectoryContents(reader, offset, size) {
     return dirs;
 }
 
-function unpackRezData(reader, rezStructure, output) {
-    if (!fs.existsSync(output)) {
-        fs.mkdirSync(output);
+class RezParser {
+    parse(buffer) {
+        const header = rezHeaderParser.parse(buffer);
+
+        const reader = new BufferReader(buffer);
+        const data = readRezDirectoryContents(reader, header.mainDirOffset, header.mainDirSize);
+        data.type = EntryType.DIRECTORY;
+
+        return { header, data, reader };
     }
 
-    for (let i = 0; i < rezStructure.length; i++) {
-        if (rezStructure[i].type === EntryType.DIRECTORY) {
-            unpackRezData(reader, rezStructure[i].contents, path.resolve(output, rezStructure[i].name));
-        } else if (rezStructure[i].type === EntryType.FILE) {
-            reader.seek(rezStructure[i].offset);
+    dumpModel(outputPath, rezFile) {
+        let str = '{';
 
-            fs.writeFileSync(path.resolve(output, rezStructure[i].name), reader.nextBuffer(rezStructure[i].length));
+        function dump(structure, pathStr) {
+            for (let i = 0; i < structure.length; i++) {
+                if (structure[i].type === EntryType.DIRECTORY) {
+                    str += (`"${structure[i].name}": { `);
+                    dump(structure[i].contents, pathStr ? pathStr + '\\\\' + structure[i].name : structure[i].name);
+                    str = str.substring(0, str.length - 1) + (' },');
+                } else if (structure[i].type === EntryType.FILE) {
+                    str += (`"${structure[i].name}": { "path": "${pathStr ? pathStr + '\\\\' + structure[i].name : structure[i].name}" },`);
+                }
+            }
         }
+
+        dump(rezFile.data, '');
+        str = str.substring(0, str.length - 1) + '}';
+        fs.writeFileSync(outputPath, str);
+    }
+
+    unpack(outputPath, outputModel, rezFile) {
+        if (rezFile === undefined) {
+            rezFile = outputModel;
+            outputModel = undefined;
+        }
+
+        function unpackRezData(reader, rezStructure, output) {
+            if (!fs.existsSync(output)) {
+                fs.mkdirSync(output);
+            }
+
+            for (let i = 0; i < rezStructure.length; i++) {
+                if (rezStructure[i].type === EntryType.DIRECTORY) {
+                    unpackRezData(reader, rezStructure[i].contents, path.resolve(output, rezStructure[i].name));
+                } else if (rezStructure[i].type === EntryType.FILE) {
+                    reader.seek(rezStructure[i].offset);
+                    fs.writeFileSync(path.resolve(output, rezStructure[i].name), reader.nextBuffer(rezStructure[i].length));
+                }
+            }
+        }
+
+        unpackRezData(rezFile.reader, rezFile.data, outputPath);
     }
 }
 
@@ -82,14 +122,12 @@ if (process.argv[2] && process.argv[3]) {
     const rezPath = path.resolve(process.argv[2]);
     const outPath = path.resolve(process.argv[3]);
 
-    const rezFileBuffer = fs.readFileSync(rezPath);
-    const rezHeader = rezHeaderParser.parse(rezFileBuffer);
-
-    const reader = new BufferReader(rezFileBuffer);
-    const rezData = readRezDirectoryContents(reader, rezHeader.mainDirOffset, rezHeader.mainDirSize);
-    rezData.type = EntryType.DIRECTORY;
-
-    unpackRezData(reader, rezData, outPath);
+    const rezParser = new RezParser();
+    const rezFile = rezParser.parse(fs.readFileSync(rezPath));
+    rezParser.dumpModel(path.resolve('rez-mapping-model.json'), rezFile);
+    //rezParser.unpack(outPath, rezFile);
 } else {
     console.log("Call arguments for rezParser: REZ_FILE_PATH, OUTPUT_DIRECTORY_PATH.")
 }
+
+module.exports = RezParser;

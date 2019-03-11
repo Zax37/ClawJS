@@ -16,6 +16,7 @@ export default class Collectible extends DynamicObject {
   private collectableEffect?: () => void;
   protected glitter?: Phaser.GameObjects.Sprite;
   private treasure?: boolean;
+  private reusable?: boolean;
 
   protected sound: string;
 
@@ -53,7 +54,8 @@ export default class Collectible extends DynamicObject {
       case 'GAME_CATNIPS_NIP1':
       case 'GAME_CATNIPS_NIP2':
         value = this.object.smarts || (this.object.image === 'GAME_CATNIPS_NIP1' ? 15000 : 30000);
-        this.collectableEffect = () => this.scene.claw.addPowerup(PowerupType.CATNIP, value);
+        this.reusable = this.object.damage === 1;
+        this.collectableEffect = () => this.scene.claw.addPowerup(PowerupType.CATNIP, value, this.reusable);
         this.sound = 'GAME_CATNMAG';
         break;
       case 'GAME_HEALTH_POTION3':
@@ -76,16 +78,19 @@ export default class Collectible extends DynamicObject {
       case 'GAME_POWERUPS_EXTRALIFE':
         break;
       case 'GAME_POWERUPS_GHOST':
+        value = this.object.smarts || 30000;
+        this.reusable = this.object.damage === 1;
         this.collectableEffect = () => {
-          value = this.object.smarts || 15000;
-          this.scene.claw.addPowerup(PowerupType.INVISIBILITY, value);
+          this.scene.claw.addPowerup(PowerupType.INVISIBILITY, value, this.reusable);
         };
         break;
       case 'GAME_POWERUPS_INVULNERABLE':
         break;
       case 'GAME_POWERUPS_FIRESWORD':
+        value = this.object.smarts || 30000;
+        this.reusable = this.object.damage === 1;
         this.collectableEffect = () => {
-          this.scene.claw.addPowerup(PowerupType.FIRESWORD, this.object.smarts || 15000);
+          this.scene.claw.addPowerup(PowerupType.FIRESWORD, value, this.reusable);
         };
         break;
       case 'GAME_POWERUPS_ICESWORD':
@@ -123,6 +128,10 @@ export default class Collectible extends DynamicObject {
       case 'GAME_WARP':
       case 'GAME_VERTWARP':
       case 'GAME_BOSSWARP':
+        if (this.object.smarts === 1 || this.object.image === 'GAME_BOSSWARP') {
+          this.reusable = true;
+        }
+
         this.collectableEffect = () => {
           this.scene.claw.teleportTo(this.object.speedX!, this.object.speedY!);
 
@@ -256,15 +265,16 @@ export default class Collectible extends DynamicObject {
 
   protected collect() {
     if (!this.scene.claw.dead && (!this.collectCondition || this.collectCondition())) {
-      this.depth = DEFAULTS.FRONT.z;
-      this.collider!.destroy();
-      this.collider = undefined;
+      if (!this.reusable) {
+        this.collider!.destroy();
+        this.collider = undefined;
+      }
 
       if (this.sound) {
         this.scene.game.soundsManager.playSound(this.sound);
       }
 
-      if (this.glitter) {
+      if (this.glitter && !this.reusable) {
         this.glitter.destroy();
       }
 
@@ -272,7 +282,9 @@ export default class Collectible extends DynamicObject {
         this.collectableEffect();
       }
 
-      if (!this.treasure) {
+      if (this.treasure) {
+        this.depth = DEFAULTS.FRONT.z;
+      } else if (!this.reusable) {
         this.destroy();
       }
     }

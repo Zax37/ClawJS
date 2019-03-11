@@ -33,11 +33,10 @@ export default class TowerCannon extends DynamicObject {
   preUpdate(time: number, delta: number) {
     super.preUpdate(time, delta);
 
-    if (time - this.lastShotTime > SHOOTING_DELAY) {
-      this.lastShotTime = time;
-      this.playAnimation();
-
-      if (this.isOnScreen()) {
+    if (this.isOnScreen()) {
+      if (time - this.lastShotTime > SHOOTING_DELAY) {
+        this.lastShotTime = time;
+        this.playAnimation();
         this.scene.game.soundsManager.playSound('LEVEL_CANONSH1');
       }
     }

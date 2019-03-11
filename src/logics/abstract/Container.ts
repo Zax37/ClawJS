@@ -1,4 +1,6 @@
+import TreasureRegistry from '../../managers/TreasureRegistry';
 import { ObjectCreationData } from '../../model/ObjectData';
+import { TreasureType } from '../../model/TreasureType';
 import MapDisplay from '../../scenes/MapDisplay';
 import BouncingGoodie from '../main/BouncingGoodie';
 import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
@@ -206,6 +208,66 @@ export default class Container {
         return 'GAME_VERTWARP';
       case 61:
         return 'LEVEL_HEALTH';
+    }
+  }
+
+  registerContents(treasureRegistry: TreasureRegistry) {
+    for (let i = 0; i < this.rawContents.length; i++) {
+      switch (this.rawContents[i]) {
+        default:
+          break;
+        case 1:
+          treasureRegistry.register(TreasureType.GOLDBAR);
+          break;
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+          treasureRegistry.register(TreasureType.RING);
+          break;
+        case 6:
+          treasureRegistry.register(TreasureType.NECKLACE);
+          break;
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+          treasureRegistry.register(TreasureType.CROSS);
+          break;
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+          treasureRegistry.register(TreasureType.SCEPTER);
+          break;
+        case 15:
+        case 16:
+        case 17:
+        case 18:
+          treasureRegistry.register(TreasureType.GECKO);
+          break;
+        case 33:
+          treasureRegistry.register(TreasureType.COIN);
+          break;
+        case 41:
+        case 42:
+        case 43:
+        case 44:
+          treasureRegistry.register(TreasureType.CHALICE);
+          break;
+        case 45:
+        case 46:
+        case 47:
+        case 48:
+          treasureRegistry.register(TreasureType.CROWN);
+          break;
+        case 49:
+        case 50:
+        case 51:
+        case 52:
+          treasureRegistry.register(TreasureType.SKULL);
+          break;
+      }
     }
   }
 }

@@ -17,6 +17,7 @@ export default class Crate extends DynamicObject {
     if (this.container.rawContents.length === 0) {
       this.container.rawContents.push(33);
     }
+    this.container.registerContents(scene.game.treasureRegistry);
 
     scene.physics.add.existing(this);
     scene.attackable.add(this);

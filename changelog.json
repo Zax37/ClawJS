@@ -1,0 +1,10 @@
+{
+  "1.1.1": [
+    "added changelog message displayed on first\nlaunch of new update or [b]upon clicking on version number[/b]",
+    "added support for reusable warps, fireswords and other powerups",
+    "fixed max number of treasure showing in level summary",
+    "fixed powerups default time and time when added by cheat codes",
+    "fixed PunkRat cannons shooting after their death",
+    "fixed TowerCannons shooting when out of player's reach"
+  ]
+}

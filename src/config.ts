@@ -3,6 +3,7 @@ export const CANVAS_HEIGHT = 600;
 import p from '../package.json';
 import scenes from './scenes';
 import { Plugin as NineSlicePlugin } from 'phaser3-nineslice';
+import { BBCodeTextPlugin } from 'phaser3-rex-plugins';
 
 export const config: GameConfig = {
   title: p.title,
@@ -21,6 +22,13 @@ export const config: GameConfig = {
   parent: 'game',
   scene: scenes,
   plugins: {
-    global: [ NineSlicePlugin.DefaultCfg ],
+    global: [
+      NineSlicePlugin.DefaultCfg,
+      {
+        key: 'rexBBCodeTextPlugin',
+        plugin: BBCodeTextPlugin,
+        start: false
+      },
+    ],
   },
 };

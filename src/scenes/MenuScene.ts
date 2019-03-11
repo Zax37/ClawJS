@@ -1,9 +1,9 @@
+import p from '../../package.json';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../config';
 import Game from '../game';
 import { Changelog } from '../logics';
-import SceneWithMenu from './SceneWithMenu';
 import MainMenu from '../menus/MainMenu';
-import p from '../../package.json';
+import SceneWithMenu from './SceneWithMenu';
 
 export default class MenuScene extends SceneWithMenu {
   background: Phaser.GameObjects.Image;
@@ -68,8 +68,26 @@ export default class MenuScene extends SceneWithMenu {
       this.socialIcons.push(image);
     });
 
-    const version = this.add.text(CANVAS_WIDTH - 58, CANVAS_HEIGHT - 48, p.version, { font: '12px Arial', fill: '#ffffff' }).setOrigin(1, 1);
-    this.changelog = new Changelog(this, 'CHANGELOG:\n\n- added changelog');
+    const version = this.add.text(CANVAS_WIDTH - 48, CANVAS_HEIGHT - 32, p.version, { font: '12px Arial', fill: '#ffffff' }).setOrigin(1, 1);
+    version.setPadding(20, 24, 20, 24);
+    version.setInteractive({ useHandCursor: true });
+
+    const openChangelog = () => {
+      if (!this.changelog) {
+        version.disableInteractive();
+        this.isMenuOn = false;
+        this.changelog = new Changelog(this);
+        this.changelog.once('destroy', () => version.setInteractive({ useHandCursor: true }));
+      }
+    };
+
+    version.on('pointerup', openChangelog);
+
+    this.game.soundsManager.setScene(this);
+    if (this.game.dataManager.get('lastPlayedVersion') !== p.version || p.version.endsWith('-RC')) {
+      this.game.dataManager.set('lastPlayedVersion', p.version);
+      openChangelog();
+    }
 
     /*let icons: Phaser.GameObjects.Image[] = [];
     for (let i = 0; i < 15; i++) {
@@ -87,40 +105,14 @@ export default class MenuScene extends SceneWithMenu {
     this.game.soundsManager.setScene(this);
     this.game.musicManager.play(this.sound.add('menu_music'));
     super.create();
-
-    /*let manager = this;
-    icons.forEach((icon, i) => {
-      icon.on('pointerover', function (this: Phaser.GameObjects.Image) {
-        this.setTint(0xff0000);
-      });
-
-      icon.on('pointerout', function (this: Phaser.GameObjects.Image) {
-        this.clearTint();
-      });
-
-      icon.on('pointerdown', function (this: Phaser.GameObjects.Image) {
-        this.setTint(0x660000);
-      });
-
-      icon.on('pointerup', function (this: Phaser.GameObjects.Image) {
-        manager.game.startLevel(i + 1);
-      });
-    });
-
-    const el = document.getElementsByTagName('body')[0];
-    const requestFullScreen = el.requestFullscreen;
-
-    if (requestFullScreen) {
-      el.addEventListener('dblclick', requestFullScreen);
-    }*/
   }
 
   menuConfirm() {
     if (this.changelog) {
       this.changelog.destroy();
       this.changelog = undefined;
-      return;
     }
+
     if (!this.isMenuOn) {
       this.background.setTexture('MENU_BG');
       this.isMenuOn = true;

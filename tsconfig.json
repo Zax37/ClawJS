@@ -24,6 +24,7 @@
   },
   "include": [
     "./src/**/*",
-    "phaser.d.ts"
+    "phaser.d.ts",
+    "phaser3-rex-plugins.d.ts"
   ]
 }

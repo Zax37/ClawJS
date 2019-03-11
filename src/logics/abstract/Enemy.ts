@@ -40,6 +40,7 @@ export default class Enemy extends PhysicsObject {
     super(scene, mainLayer, {...object, z: DEFAULTS.ENEMY.z});
     this.depth = DEFAULTS.ENEMY.z;
     this.container = new Container(scene, mainLayer, object);
+    this.container.registerContents(scene.game.treasureRegistry);
     this.damage = 10;
 
     this.scene.enemies.add(this);

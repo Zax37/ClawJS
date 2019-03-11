@@ -608,7 +608,7 @@ export default class CaptainClaw extends PhysicsObject {
     }
   }
 
-  addPowerup(powerup: PowerupType, time: number) {
+  addPowerup(powerup: PowerupType, time: number, replaceTime?: boolean) {
     if (this.powerup !== powerup) {
       if (this.powerup === undefined) {
         this.scene.game.musicManager.playPausingCurrent(this.scene.powerupMusic);
@@ -616,12 +616,13 @@ export default class CaptainClaw extends PhysicsObject {
       if (powerup === PowerupType.FIRESWORD) {
         this.say('CLAW_FIRESWORD');
       } else if (powerup === PowerupType.INVISIBILITY) {
+        this.say('CLAW_GHOSTORVADER');
         this.alpha = 0.5;
       }
       this.powerup = powerup;
       this.scene.events.emit('PowerupTimeChange', time);
     } else {
-      this.scene.events.emit('PowerupTimeChange', this.scene.hud.powerupTime + time);
+      this.scene.events.emit('PowerupTimeChange', replaceTime ? time : this.scene.hud.powerupTime + time);
     }
   }
 

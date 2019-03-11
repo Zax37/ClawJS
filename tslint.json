@@ -16,7 +16,7 @@
     "class-name": true,
     "curly": [true, "ignore-same-line"],
     "deprecation": true,
-    "forin": true,
+    "forin": false,
     "interface-name": [true, "never-prefix"],
     "jsdoc-format": true,
     "label-position": true,
