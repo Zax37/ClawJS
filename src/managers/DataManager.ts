@@ -1,7 +1,7 @@
-import CaptainClaw from '../logics/main/CaptainClaw';
+import { PlayerDataContainer, PlayerDataInterface } from '../model/PlayerData';
 
 export default class DataManager {
-  private playerData?: CaptainClaw;
+  private playerData: PlayerDataContainer;
 
   get(key: string) {
     return localStorage.getItem(key);
@@ -15,7 +15,7 @@ export default class DataManager {
     return this.playerData;
   }
 
-  setPlayerData(playerData?: CaptainClaw) {
-    this.playerData = playerData;
+  setPlayerData(playerData: PlayerDataInterface) {
+    this.playerData = new PlayerDataContainer(playerData);
   }
 }

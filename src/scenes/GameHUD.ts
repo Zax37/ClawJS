@@ -1,6 +1,7 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../config';
 import Game from '../game';
 import { PowerupType } from '../model/PowerupType';
+import { WeaponType } from '../model/WeaponType';
 import MapDisplay from './MapDisplay';
 import SceneWithMenu from './SceneWithMenu';
 import InGameMenu from '../menus/InGameMenu';
@@ -13,9 +14,7 @@ export default class GameHUD extends SceneWithMenu {
   mapDisplay: MapDisplay;
   private centerText: Phaser.GameObjects.Text;
   private fpsText: Phaser.GameObjects.Text;
-  private healthFrame: ImageCounter;
   private powerupFrame: ImageCounter;
-  private livesFrame: ImageCounter;
   powerupTime: number;
   private centerTextTime: number;
   private fade: Phaser.GameObjects.Rectangle;
@@ -41,24 +40,43 @@ export default class GameHUD extends SceneWithMenu {
     this.powerupTime = 0;
     this.centerTextTime = 0;
 
+    const playerData = this.game.dataManager.getPlayerData();
+    const getAmmoInterfaceImage = (weapon: WeaponType) => {
+      switch (weapon) {
+        case WeaponType.pistol:
+          return 'GAME_INTERFACE_WEAPONS_PISTOL';
+        case WeaponType.magic:
+          return 'GAME_INTERFACE_WEAPONS_MAGIC';
+        case WeaponType.tnt:
+          return 'GAME_INTERFACE_WEAPONS_DYNAMITE';
+        default:
+          return '';
+      }
+    };
+
     const scoreFrame = new ImageCounter(this, 14, 14, 'GAME_INTERFACE_TREASURECHEST',
       'GAME_INTERFACE_SCORENUMBERS', 8, 11, 22, 0, 'GAME_INTERFACE_CHEST');
+    scoreFrame.setValue(playerData.score);
 
-    this.healthFrame = new ImageCounter(this, CANVAS_WIDTH - 32, 14, 'GAME_INTERFACE_HEALTHHEART',
+    const healthFrame = new ImageCounter(this, CANVAS_WIDTH - 32, 14, 'GAME_INTERFACE_HEALTHHEART',
       'GAME_INTERFACE_HEALTHNUMBERS', 3, 11, -20, 0);
-    this.healthFrame.setValue(100);
+    healthFrame.setValue(playerData.health);
 
-    const ammoFrame = new ImageCounter(this, CANVAS_WIDTH - 26, 44, 'GAME_INTERFACE_WEAPONS_PISTOL',
+    const ammoFrame = new ImageCounter(this, CANVAS_WIDTH - 26, 44, getAmmoInterfaceImage(playerData.weapon),
       'GAME_INTERFACE_SMALLNUMBERS', 2, 9, -17, 2);
-    ammoFrame.setValue(5);
+    ammoFrame.setValue(playerData[WeaponType[playerData.weapon]]);
+    Object.keys(WeaponType)
+      .filter(key => !isNaN(Number(key)) && WeaponType[key] !== playerData.weapon)
+      .forEach(weapon => {
+        ammoFrame.requestAnimation('GAME', getAmmoInterfaceImage(Number(weapon)));
+      });
 
-    this.livesFrame = new ImageCounter(this, CANVAS_WIDTH - 18, 72, 'GAME_INTERFACE_LIVESHEAD',
+    const livesFrame = new ImageCounter(this, CANVAS_WIDTH - 18, 72, 'GAME_INTERFACE_LIVESHEAD',
       'GAME_INTERFACE_SMALLNUMBERS', 1, 9, -15, 1);
-    this.livesFrame.setValue(6);
+    livesFrame.setValue(playerData.lives);
 
     this.powerupFrame = new ImageCounter(this, 10, 48, 'GAME_INTERFACE_STOPWATCH',
       'GAME_INTERFACE_SCORENUMBERS', 3, 11, 26, 0);
-
     this.powerupFrame.visible = false;
 
     this.centerText = this.add.text(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, '', { font: '12px Arial', fill: '#ffffff' });
@@ -70,14 +88,37 @@ export default class GameHUD extends SceneWithMenu {
     this.fade.setOrigin(0, 0);
     this.fade.alpha = 0;
 
-    this.mapDisplay.events.on('ScoreChange', function (this: GameHUD, newScoreValue: number) {
-      scoreFrame.setValue(newScoreValue);
-    }, this);
+    playerData.on('change', (dataType: string, newValue: number) => {
+      switch (dataType) {
+        case 'lives':
+          livesFrame.setValue(newValue);
+          break;
+        case 'health':
+          healthFrame.setValue(newValue);
+          break;
+        case 'score':
+          scoreFrame.setValue(newValue);
+          break;
+        case 'pistol':
+        case 'magic':
+        case 'tnt':
+          if (dataType === WeaponType[playerData.weapon]) {
+            ammoFrame.setValue(newValue);
+          }
+          break;
+        case 'weapon':
+          ammoFrame.playAnimation('GAME' + getAmmoInterfaceImage(newValue));
+          ammoFrame.setValue(playerData[WeaponType[newValue]]);
+          break;
+        default:
+          break;
+      }
+    });
 
-    this.mapDisplay.events.on('PowerupTimeChange', function (this: GameHUD, newPowerupTime: number) {
+    this.mapDisplay.events.on('PowerupTimeChange', (newPowerupTime: number) => {
       this.powerupTime = newPowerupTime;
       this.powerupFrame.setVisible(true);
-    }, this);
+    });
 
     this.input.keyboard.on('keydown_ESC', () => this.togglePause());
     this.input.keyboard.on('keydown_M', () => {
@@ -94,23 +135,8 @@ export default class GameHUD extends SceneWithMenu {
 
       this.mapDisplay.events.on('load', () => {
         background.destroy();
-        this.updateHealth(this.mapDisplay.claw.health.value);
-        this.updateLives(this.mapDisplay.claw.lives);
-        scoreFrame.setValue(this.mapDisplay.claw.score);
       });
-    } else {
-      this.updateHealth(this.mapDisplay.claw.health.value);
-      this.updateLives(this.mapDisplay.claw.lives);
-      scoreFrame.setValue(this.mapDisplay.claw.score);
     }
-  }
-
-  updateHealth(newValue: number) {
-    this.healthFrame.setValue(newValue);
-  }
-
-  updateLives(lives: number) {
-    this.livesFrame.setValue(lives);
   }
 
   update(time: number, delta: number) {

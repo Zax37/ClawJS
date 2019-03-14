@@ -29,17 +29,19 @@ export default class DynamicObject extends Phaser.GameObjects.Sprite {
     scene.sys.displayList.add(this);
     scene.sys.updateList.add(this);
 
-    if (scene.game.animationManager.request(object.texture, object.image, object.animation)) {
-      this.animation = object.texture + object.image;
-      if (playDefaultAnimation) {
-        this.playAnimation();
-      }
+    this.animation = object.texture + object.image;
+    if (this.requestAnimation(object.texture, object.image, object.animation) && playDefaultAnimation) {
+      this.playAnimation();
     }
   }
 
   preUpdate(time: number, delta: number) {
     if (this.s && this.s.transitioning) return;
     super.preUpdate(time, delta);
+  }
+
+  requestAnimation(texture: string, image: string, animation?: string) {
+    return this.s && this.s.game.animationManager.request(texture, image, animation ? animation : texture + image);
   }
 
   playAnimation(animation?: string) {

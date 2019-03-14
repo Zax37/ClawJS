@@ -1,9 +1,11 @@
 {
   "1.1.1": [
-    "added changelog message displayed on first\nlaunch of new update or [b]upon clicking on version number[/b]",
-    "added support for reusable warps, fireswords and other powerups",
-    "fixed max number of treasure showing in level summary",
-    "fixed powerups default time and time when added by cheat codes",
+    "added changelog message displayed on first launch of new update or [u]upon clicking on version number[/u]",
+    "added support for reusable warps and powerups",
+    "added secondary weapon switching and ammo powerup effects",
+    "added life powerup effect and same upon collecting 500000 points",
+    "fixed counting total number of each treasure type in level summary",
+    "fixed default powerup time added by cheats and upon collection",
     "fixed PunkRat cannons shooting after their death",
     "fixed TowerCannons shooting when out of player's reach"
   ]

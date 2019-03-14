@@ -68,30 +68,24 @@ export default class Collectible extends DynamicObject {
       case 'LEVEL_HEALTH':
         value += 5;
         this.sound = this.sound || 'GAME_FOODITEM';
-        this.collectCondition = () => {
-          return !this.scene.claw.health.isFull();
-        };
-        this.collectableEffect = () => {
-          this.scene.claw.health.heal(value);
-        };
+        this.collectCondition = () => !this.scene.claw.health.isFull();
+        this.collectableEffect = () => this.scene.claw.health.heal(value);
         break;
       case 'GAME_POWERUPS_EXTRALIFE':
+        this.sound = 'GAME_EXTRALIFE';
+        this.collectableEffect = () => this.scene.claw.playerData.lives++;
         break;
       case 'GAME_POWERUPS_GHOST':
         value = this.object.smarts || 30000;
         this.reusable = this.object.damage === 1;
-        this.collectableEffect = () => {
-          this.scene.claw.addPowerup(PowerupType.INVISIBILITY, value, this.reusable);
-        };
+        this.collectableEffect = () => this.scene.claw.addPowerup(PowerupType.INVISIBILITY, value, this.reusable);
         break;
       case 'GAME_POWERUPS_INVULNERABLE':
         break;
       case 'GAME_POWERUPS_FIRESWORD':
         value = this.object.smarts || 30000;
         this.reusable = this.object.damage === 1;
-        this.collectableEffect = () => {
-          this.scene.claw.addPowerup(PowerupType.FIRESWORD, value, this.reusable);
-        };
+        this.collectableEffect = () => this.scene.claw.addPowerup(PowerupType.FIRESWORD, value, this.reusable);
         break;
       case 'GAME_POWERUPS_ICESWORD':
       case 'GAME_POWERUPS_LIGHTNINGSWORD':
@@ -104,9 +98,12 @@ export default class Collectible extends DynamicObject {
       case 'GAME_AMMO_SHOT':
         value += 5;
         this.sound = 'GAME_AMMUNITION';
+        this.collectableEffect = () => this.scene.claw.playerData.pistol += value;
+        break;
       case 'GAME_DYNAMITE':
         value += 5;
         this.sound = 'GAME_AMMUNITION';
+        this.collectableEffect = () => this.scene.claw.playerData.tnt += value;
         break;
       case 'GAME_MAGICCLAW':
         value += 25;
@@ -115,13 +112,14 @@ export default class Collectible extends DynamicObject {
       case 'GAME_MAGIC_GLOW':
         value += 5;
         this.sound = 'GAME_MAGICPOWERUP';
+        this.collectableEffect = () => this.scene.claw.playerData.magic += value;
         break;
       case 'LEVEL_GEM':
       case 'GAME_MAPPIECE':
         greenGlitter = true;
         this.sound = 'GAME_MAPPIECE';
         this.collectableEffect = () => {
-          this.scene.game.dataManager.setPlayerData(this.scene.claw);
+          this.scene.game.dataManager.setPlayerData(this.scene.claw.playerData);
           this.scene.game.goToBootyScreen();
         };
         break;
@@ -251,8 +249,8 @@ export default class Collectible extends DynamicObject {
 
     this.collectableEffect = () => {
       this.scene.game.treasureRegistry.collect(treasureType);
-      this.scene.claw.score += score;
-      this.scene.events.emit('ScoreChange', this.scene.claw.score);
+      this.scene.claw.playerData.score += score;
+      this.scene.events.emit('ScoreChange', this.scene.claw.playerData.score);
 
       const points = new PointsIcon(this.scene, this.mainLayer, {
         x: this.x,

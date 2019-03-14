@@ -1,3 +1,4 @@
+import { DEFAULT_PLAYER_DATA } from '../model/PlayerData';
 import Menu from './Menu';
 import OptionsMenu from './OptionsMenu';
 import MenuScene from '../scenes/MenuScene';
@@ -10,7 +11,7 @@ export default class MainMenu extends Menu {
   confirm(i: number) {
     switch (i) {
       case 0:
-        this.scene.game.dataManager.setPlayerData();
+        this.scene.game.dataManager.setPlayerData(DEFAULT_PLAYER_DATA);
         this.scene.game.treasureRegistry.setGameScore(0);
         this.scene.game.startLevel(1);
         break;

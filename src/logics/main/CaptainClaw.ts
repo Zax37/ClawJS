@@ -3,16 +3,18 @@ import { AttackType } from '../../model/AttackType';
 import { DEFAULTS } from '../../model/Defaults';
 import { DeathType } from '../../model/LevelDefaults';
 import { MinimalObjectCreationData } from '../../model/ObjectData';
+import { PlayerDataContainer } from '../../model/PlayerData';
 import { PowerupType } from '../../model/PowerupType';
+import { WeaponType } from '../../model/WeaponType';
+import StaticObject from '../../object/StaticObject';
 import MapDisplay from '../../scenes/MapDisplay';
 import Tile from '../../tilemap/Tile';
+import Enemy from '../abstract/Enemy';
 import Health from '../abstract/Health';
 import PhysicsObject from '../abstract/PhysicsObject';
 import CaptainClawAttack from './CaptainClawAttack';
-import Enemy from '../abstract/Enemy';
-import Splash from './Splash';
-import StaticObject from '../../object/StaticObject';
 import Projectile from './Projectile';
+import Splash from './Splash';
 
 const DEFAULT_JUMP_HEIGHT = 145;
 const RUNNING_LEAP_JUMP_HEIGHT = 171;
@@ -80,9 +82,8 @@ export default class CaptainClaw extends PhysicsObject {
   spawnY: number;
 
   health: Health;
-  score = 0;
-  attempt = 0;
-  lives = 6;
+  playerData: PlayerDataContainer;
+  attempt: number;
 
   fixedX: number;
   jumpedFromY: number;
@@ -102,15 +103,15 @@ export default class CaptainClaw extends PhysicsObject {
     this.anims.play('ClawStand');
     this.depth = DEFAULTS.CLAW.z;
 
-    this.health = new Health(MAX_HEALTH, scene.time);
-    this.health.on('change', () => this.scene.hud.updateHealth(this.health.value));
+    this.attempt = 0;
+    this.playerData = scene.game.dataManager.getPlayerData();
+    this.playerData.on('extralife', () => scene.game.soundsManager.playSound('GAME_EXTRALIFE'));
 
-    const data = scene.game.dataManager.getPlayerData();
-    if (data) {
-      this.health.set(data.health.value);
-      this.lives = data.lives;
-      this.score = data.score;
-    }
+    this.health = new Health(MAX_HEALTH, scene.time);
+    this.health.set(this.playerData.health);
+    this.health.on('change', () => {
+      this.playerData.health = this.health.value;
+    });
 
     scene.claw = this;
     this.alignToGround();
@@ -759,8 +760,7 @@ export default class CaptainClaw extends PhysicsObject {
   }
 
   died() {
-    if (this.lives-- > 0) {
-      this.scene.hud.updateLives(this.lives);
+    if (this.playerData.lives-- > 0) {
       this.scene.game.soundsManager.playSound('GAME_CIRCLEFADE');
       this.scene.cameras.main.fadeOut(1000);
       setTimeout(() => {
@@ -825,5 +825,14 @@ export default class CaptainClaw extends PhysicsObject {
         }
       }, 500);
     }
+  }
+
+  toggleWeapon() {
+    if (this.playerData.weapon === WeaponType.tnt) {
+      this.playerData.weapon = WeaponType.pistol;
+    } else {
+      this.playerData.weapon++;
+    }
+    this.scene.game.soundsManager.playSound('GAME_CLICK');
   }
 }
