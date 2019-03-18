@@ -1,4 +1,3 @@
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 import { AttackType } from '../../model/AttackType';
 import { DEFAULTS } from '../../model/Defaults';
 import { DeathType } from '../../model/LevelDefaults';
@@ -6,15 +5,16 @@ import { MinimalObjectCreationData } from '../../model/ObjectData';
 import { PlayerDataContainer } from '../../model/PlayerData';
 import { PowerupType } from '../../model/PowerupType';
 import { WeaponType } from '../../model/WeaponType';
-import StaticObject from '../../object/StaticObject';
-import MapDisplay from '../../scenes/MapDisplay';
-import Tile from '../../tilemap/Tile';
-import Enemy from '../abstract/Enemy';
-import Health from '../abstract/Health';
-import PhysicsObject from '../abstract/PhysicsObject';
-import CaptainClawAttack from './CaptainClawAttack';
-import Projectile from './Projectile';
-import Splash from './Splash';
+import { StaticObject } from '../../object/StaticObject';
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { Tile } from '../../tilemap/Tile';
+import { Enemy } from '../abstract/Enemy';
+import { Health } from '../abstract/Health';
+import { PhysicsObject } from '../abstract/PhysicsObject';
+import { CaptainClawAttack } from './CaptainClawAttack';
+import { GlitterMother } from './GlitterMother';
+import { Projectile } from './Projectile';
+import { Splash } from './Splash';
 
 const DEFAULT_JUMP_HEIGHT = 145;
 const RUNNING_LEAP_JUMP_HEIGHT = 171;
@@ -43,7 +43,7 @@ export const MAX_HEALTH = 100;
 //const CLAW_MOVE_RECT = new Rect(-16, -52, 16, 60);
 //const CLAW_MOVE_RECT_CROUCHING = new Rect(-16, 10, 16, 60);
 
-export default class CaptainClaw extends PhysicsObject {
+export class CaptainClaw extends PhysicsObject {
   inputs = {
     JUMP: false,
     UP: false,
@@ -77,6 +77,7 @@ export default class CaptainClaw extends PhysicsObject {
   isOnGround = true;
 
   powerup?: PowerupType;
+  glitter?: GlitterMother;
 
   spawnX: number;
   spawnY: number;
@@ -98,10 +99,10 @@ export default class CaptainClaw extends PhysicsObject {
   dialogLine?: StaticObject;
   hurtFrame?: string;
 
-  constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: MinimalObjectCreationData) {
+  constructor(scene: MapDisplay, mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, object: MinimalObjectCreationData) {
     super(scene, mainLayer, object);
     this.anims.play('ClawStand');
-    this.depth = DEFAULTS.CLAW.z;
+    this.setDepth(DEFAULTS.CLAW.z);
 
     this.attempt = 0;
     this.playerData = scene.game.dataManager.getPlayerData();
@@ -575,6 +576,14 @@ export default class CaptainClaw extends PhysicsObject {
   }
 
   private setCrouching(on: boolean) {
+    const change = this.isCrouching !== on;
+    if (this.glitter && change) {
+      this.glitter.lock();
+    }
+
+    this.isCrouching = on;
+    this.isBlockedTop = false;
+
     if (on) {
       this.body.allowGravity = false;
       this.setSize(34, 50);
@@ -582,16 +591,12 @@ export default class CaptainClaw extends PhysicsObject {
       this.body.allowGravity = true;
       this.anims.play('ClawDuck');
       this.body.velocity.x = 0;
-      this.isCrouching = true;
-      this.isBlockedTop = false;
 
       if (this.inputs.LEFT && !this.flipX) this.flipX = true;
       else if (this.inputs.RIGHT) this.flipX = false;
     } else {
       this.setSize(34, 114);
       this.setOffset(34, -12);
-      this.isCrouching = false;
-      this.isBlockedTop = false;
       if (this.isOnElevator) {
         const tlx = Math.floor(this.body.left / this.mainLayer.tilemap.tileWidth);
         const tly = Math.floor(this.body.top / this.mainLayer.tilemap.tileHeight);
@@ -607,19 +612,45 @@ export default class CaptainClaw extends PhysicsObject {
         );
       }
     }
+
+    if (this.glitter && change) {
+      this.glitter.unlock();
+    }
+  }
+
+  clearPowerup() {
+    this.powerup = undefined;
+    if (this.glitter) {
+      this.glitter.destroy();
+      this.glitter = undefined;
+    }
+    this.alpha = 1;
+    this.clearTint();
   }
 
   addPowerup(powerup: PowerupType, time: number, replaceTime?: boolean) {
     if (this.powerup !== powerup) {
       if (this.powerup === undefined) {
         this.scene.game.musicManager.playPausingCurrent(this.scene.powerupMusic);
+      } else {
+        this.clearPowerup();
       }
-      if (powerup === PowerupType.FIRESWORD) {
-        this.say('CLAW_FIRESWORD');
-      } else if (powerup === PowerupType.INVISIBILITY) {
-        this.say('CLAW_GHOSTORVADER');
-        this.alpha = 0.5;
+
+      switch (powerup) {
+        case PowerupType.FIRESWORD:
+          this.say('CLAW_FIRESWORD');
+          break;
+        case PowerupType.INVISIBILITY:
+          this.say('CLAW_GHOSTORVADER');
+          this.alpha = 0.5;
+          break;
+        case PowerupType.CATNIP:
+          this.glitter = new GlitterMother(this.scene, this.mainLayer, this);
+          break;
+        default:
+          break;
       }
+
       this.powerup = powerup;
       this.scene.events.emit('PowerupTimeChange', time);
     } else {
@@ -671,10 +702,7 @@ export default class CaptainClaw extends PhysicsObject {
     this.anims.play('ClawSpikeDeath');
 
     if (this.powerup !== undefined) {
-      if (this.powerup === PowerupType.INVISIBILITY) {
-        this.alpha = 1;
-      }
-      this.powerup = undefined;
+      this.clearPowerup();
       this.scene.game.musicManager.resumePaused();
       this.scene.events.emit('PowerupTimeChange', 0);
     }

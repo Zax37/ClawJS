@@ -1,9 +1,9 @@
-import DynamicObject from '../../object/DynamicObject';
-import BootyScene from '../../scenes/BootyScene';
-import GameHUD from '../../scenes/GameHUD';
-import StaticObject from '../../object/StaticObject';
+import { DynamicObject } from '../../object/DynamicObject';
+import { StaticObject } from '../../object/StaticObject';
+import { BootyScene } from '../../scenes/BootyScene';
+import { GameHUD } from '../../scenes/GameHUD';
 
-export default class ImageCounter extends DynamicObject {
+export class ImageCounter extends DynamicObject {
   private nums: StaticObject[] = [];
   private value = 0;
 

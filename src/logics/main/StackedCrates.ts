@@ -1,9 +1,8 @@
 import { DEFAULTS } from '../../model/Defaults';
 import { ObjectCreationData } from '../../model/ObjectData';
-import MapDisplay from '../../scenes/MapDisplay';
-import Container from '../abstract/Container';
-import Crate from './Crate';
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { Container } from '../abstract/Container';
+import { Crate } from './Crate';
 
 class ChildCrate extends Crate {
   above?: ChildCrate;
@@ -12,7 +11,7 @@ class ChildCrate extends Crate {
   fallSpeed = 0;
   bounce = 0;
 
-  constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
+  constructor(scene: MapDisplay, mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, object: ObjectCreationData) {
     super(scene, mainLayer, object);
 
     this.body.width -= 10;
@@ -65,11 +64,11 @@ class ChildCrate extends Crate {
   }
 }
 
-export default class StackedCrates {
+export class StackedCrates {
   childCrates: ChildCrate[] = [];
   container: Container;
 
-  constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, protected object: ObjectCreationData) {
+  constructor(scene: MapDisplay, mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, protected object: ObjectCreationData) {
     this.container = new Container(scene, mainLayer, object);
     const z = object.z ? object.z : object.logic === 'FrontStackedCrates' ? DEFAULTS.FRONT.z : DEFAULTS.BEHIND.z;
 

@@ -1,6 +1,6 @@
 import { PlayerDataContainer, PlayerDataInterface } from '../model/PlayerData';
 
-export default class DataManager {
+export class DataManager {
   private playerData: PlayerDataContainer;
 
   get(key: string) {

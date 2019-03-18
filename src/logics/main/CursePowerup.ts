@@ -1,10 +1,9 @@
 import { ObjectCreationData } from '../../model/ObjectData';
-import DynamicObject from '../../object/DynamicObject';
-import MapDisplay from '../../scenes/MapDisplay';
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import { DynamicObject } from '../../object/DynamicObject';
+import { MapDisplay } from '../../scenes/MapDisplay';
 
-export default class CursePowerup extends DynamicObject {
-  constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
+export class CursePowerup extends DynamicObject {
+  constructor(scene: MapDisplay, mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, object: ObjectCreationData) {
     super(scene, mainLayer, object);
   }
 

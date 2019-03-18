@@ -1,6 +1,6 @@
-import Game from '../game';
+import { Game } from '../game';
 
-export default class SoundsManager {
+export class SoundsManager {
   private scene: Phaser.Scene;
 
   private soundsVolume: number;

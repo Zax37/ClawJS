@@ -1,18 +1,17 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../../config';
 import { AttackType } from '../../model/AttackType';
 import { ObjectCreationData } from '../../model/ObjectData';
-import DynamicObject from '../../object/DynamicObject';
-import MapDisplay from '../../scenes/MapDisplay';
-import Projectile from './Projectile';
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import { DynamicObject } from '../../object/DynamicObject';
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { Projectile } from './Projectile';
 
 const SHOOTING_DELAY = 3000;
 
-export default class TowerCannon extends DynamicObject {
+export class TowerCannon extends DynamicObject {
   private isRight: boolean;
   private lastShotTime: number;
 
-  constructor(protected scene: MapDisplay, protected mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
+  constructor(protected scene: MapDisplay, protected mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, object: ObjectCreationData) {
     super(scene, mainLayer, {
       ...object,
       x: object.x - 1,

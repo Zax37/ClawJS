@@ -1,15 +1,14 @@
 import { ObjectCreationData } from '../../model/ObjectData';
-import MapDisplay from '../../scenes/MapDisplay';
-import Collectible from './Collectible';
-import PowerupGlitter from './PowerupGlitter';
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { Collectible } from './Collectible';
+import { PowerupGlitter } from './PowerupGlitter';
 
-export default class BouncingGoodie extends Collectible {
+export class BouncingGoodie extends Collectible {
   body: Phaser.Physics.Arcade.Body;
   mapCollider: Phaser.Physics.Arcade.Collider;
   lastCollide = 0;
 
-  constructor(protected scene: MapDisplay, protected mainLayer: DynamicTilemapLayer, protected object: ObjectCreationData) {
+  constructor(protected scene: MapDisplay, protected mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, protected object: ObjectCreationData) {
     super(scene, mainLayer, object, true);
 
     this.mapCollider = scene.physics.add.collider(this, mainLayer, () => {

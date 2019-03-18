@@ -1,6 +1,6 @@
-import Game from '../game';
+import { Game } from '../game';
 
-export default class MusicManager {
+export class MusicManager {
   private music: Phaser.Sound.BaseSound;
   private pausedMusic: Phaser.Sound.BaseSound;
   private volume: number;

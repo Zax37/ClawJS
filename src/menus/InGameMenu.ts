@@ -1,8 +1,8 @@
-import Menu from './Menu';
-import OptionsMenu from './OptionsMenu';
-import GameHUD from '../scenes/GameHUD';
+import { GameHUD } from '../scenes/GameHUD';
+import { Menu } from './Menu';
+import { OptionsMenu } from './OptionsMenu';
 
-export default class InGameMenu extends Menu {
+export class InGameMenu extends Menu {
   constructor(protected scene: GameHUD) {
     super(scene, '', ['RESUME GAME', 'END LIFE', 'OPTIONS', 'END GAME']);
     this.hide();

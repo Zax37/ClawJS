@@ -1,15 +1,14 @@
 import { ObjectCreationData } from '../../model/ObjectData';
-import MapDisplay from '../../scenes/MapDisplay';
-import ElevatorLike from '../abstract/ElevatorLike';
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { ElevatorLike } from '../abstract/ElevatorLike';
 
-export default class CrumblingPeg extends ElevatorLike {
+export class CrumblingPeg extends ElevatorLike {
   private crumbling = false;
   private attempt = 0;
   private respawns: boolean;
   private sound: string;
 
-  constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
+  constructor(protected scene: MapDisplay, mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, object: ObjectCreationData) {
     super(scene, mainLayer, object, { animation: 'GAME_FORWARD50' });
     const levelData = scene.getLevelData();
     this.body.setSize(levelData.CrumblingPegDefRect.width, levelData.CrumblingPegDefRect.height);

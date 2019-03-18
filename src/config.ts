@@ -1,9 +1,9 @@
 export const CANVAS_WIDTH = 800;
 export const CANVAS_HEIGHT = 600;
-import p from '../package.json';
-import scenes from './scenes';
 import { Plugin as NineSlicePlugin } from 'phaser3-nineslice';
 import { BBCodeTextPlugin } from 'phaser3-rex-plugins';
+import p from '../package.json';
+import scenes from './scenes';
 
 export const config: GameConfig = {
   title: p.title,

@@ -1,9 +1,9 @@
 import { DEFAULT_PLAYER_DATA } from '../model/PlayerData';
-import Menu from './Menu';
-import OptionsMenu from './OptionsMenu';
-import MenuScene from '../scenes/MenuScene';
+import { MenuScene, MenuSceneState } from '../scenes/MenuScene';
+import { Menu } from './Menu';
+import { OptionsMenu } from './OptionsMenu';
 
-export default class MainMenu extends Menu {
+export class MainMenu extends Menu {
   constructor(protected scene: MenuScene) {
     super(scene, 'MAIN MENU', ['SINGLE PLAYER', 'MULTIPLAYER', 'REPLAY MOVIES', 'OPTIONS', 'CREDITS', 'HELP'], [1,2]);
   }
@@ -20,14 +20,11 @@ export default class MainMenu extends Menu {
         break;
       case 4:
         this.hide();
-        this.scene.background.setTexture('CREDITS_BG');
-        this.scene.isMenuOn = false;
-        this.scene.setSocialIconsVisible(true);
+        this.scene.setState(MenuSceneState.CREDITS);
         break;
       case 5:
         this.hide();
-        this.scene.background.setTexture('HELP_BG');
-        this.scene.isMenuOn = false;
+        this.scene.setState(MenuSceneState.HELP);
         break;
       default:
         break;

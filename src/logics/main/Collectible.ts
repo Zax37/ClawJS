@@ -3,13 +3,12 @@ import { DEFAULTS } from '../../model/Defaults';
 import { ObjectCreationData } from '../../model/ObjectData';
 import { PowerupType } from '../../model/PowerupType';
 import { TreasureType } from '../../model/TreasureType';
-import DynamicObject from '../../object/DynamicObject';
-import MapDisplay from '../../scenes/MapDisplay';
-import PointsIcon from './PointsIcon';
-import PowerupGlitter from './PowerupGlitter';
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import { DynamicObject } from '../../object/DynamicObject';
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { PointsIcon } from './PointsIcon';
+import { PowerupGlitter } from './PowerupGlitter';
 
-export default class Collectible extends DynamicObject {
+export class Collectible extends DynamicObject {
   body: Phaser.Physics.Arcade.Body;
   collider?: Phaser.Physics.Arcade.Collider;
   private collectCondition?: () => boolean;
@@ -20,7 +19,7 @@ export default class Collectible extends DynamicObject {
 
   protected sound: string;
 
-  constructor(protected scene: MapDisplay, protected mainLayer: DynamicTilemapLayer, protected object: ObjectCreationData, protected fromContainer?: boolean) {
+  constructor(protected scene: MapDisplay, protected mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, protected object: ObjectCreationData, protected fromContainer?: boolean) {
     super(scene, mainLayer, object, DEFAULTS.POWERUP, true);
 
     switch (object.logic) {
@@ -281,7 +280,7 @@ export default class Collectible extends DynamicObject {
       }
 
       if (this.treasure) {
-        this.depth = DEFAULTS.FRONT.z;
+        this.setDepth(DEFAULTS.FRONT.z);
       } else if (!this.reusable) {
         this.destroy();
       }

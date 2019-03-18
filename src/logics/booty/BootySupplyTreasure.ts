@@ -1,6 +1,6 @@
-import BootyScene from '../../scenes/BootyScene';
+import { BootyScene } from '../../scenes/BootyScene';
 
-export default class BootySupplyTreasure extends Phaser.GameObjects.Image {
+export class BootySupplyTreasure extends Phaser.GameObjects.Image {
   constructor(protected scene: BootyScene, protected startX: number, protected startY: number,
               protected targetX: number, protected targetY: number, protected image: string,
               protected startTime: number, protected duration: number) {

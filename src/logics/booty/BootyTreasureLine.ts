@@ -1,14 +1,14 @@
 import { TreasureType } from '../../model/TreasureType';
-import BootyScene from '../../scenes/BootyScene';
-import ImageCounter from '../main/ImageCounter';
-import BootySupplyTreasure from './BootySupplyTreasure';
+import { BootyScene } from '../../scenes/BootyScene';
+import { ImageCounter } from '../main/ImageCounter';
+import { BootySupplyTreasure } from './BootySupplyTreasure';
 
 const TREASURE_TRANSITION_DURATION_BASE = 450;
 const TREASURE_TRANSITION_DURATION_BASE_COIN = 300;
 const TREASURE_TRANSITION_DELAY = 180;
 const TREASURE_TRANSITION_DELAY_COIN = 70;
 
-export default class BootyTreasureLine extends Phaser.GameObjects.Image {
+export class BootyTreasureLine extends Phaser.GameObjects.Image {
   startTime: number;
   startX: number;
   startY: number;

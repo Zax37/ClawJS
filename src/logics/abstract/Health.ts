@@ -1,10 +1,6 @@
-import EventEmitter = Phaser.Events.EventEmitter;
-
-let currentBossHealth: Health | undefined;
-
 const DEFAULT_HURT_TIME = 1000;
 
-export default class Health extends EventEmitter {
+export class Health extends Phaser.Events.EventEmitter {
   value: number;
   max: number;
   timeout: number;
@@ -58,14 +54,6 @@ export default class Health extends EventEmitter {
   reset() {
     this.value = this.max;
     this.emit('change');
-  }
-
-  static get BossHealth() {
-    return currentBossHealth;
-  }
-
-  setAsBossHealth() {
-    currentBossHealth = this;
   }
 
   percentage() {

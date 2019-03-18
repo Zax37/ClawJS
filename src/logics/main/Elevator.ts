@@ -1,9 +1,8 @@
-import Vector2 = Phaser.Math.Vector2;
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
-import MapDisplay from '../../scenes/MapDisplay';
-import ElevatorLike from '../abstract/ElevatorLike';
-import TimeCycle from '../abstract/TimeCycle';
 import { ObjectCreationData } from '../../model/ObjectData';
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { ElevatorLike } from '../abstract/ElevatorLike';
+import { TimeCycle } from '../abstract/TimeCycle';
+import Vector2 = Phaser.Math.Vector2;
 
 enum ElevatorType {
   DEFAULT,
@@ -14,7 +13,7 @@ enum ElevatorType {
 
 const MIN_VAL = 0.0001;
 
-export default class Elevator extends ElevatorLike {
+export class Elevator extends ElevatorLike {
   minX: number;
   minY: number;
   maxX: number;
@@ -34,7 +33,7 @@ export default class Elevator extends ElevatorLike {
   private timerVert = 0;
   private timerHoriz = 0;
 
-  constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
+  constructor(protected scene: MapDisplay, mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, object: ObjectCreationData) {
     super(scene, mainLayer, object);
     const levelData = scene.getLevelData();
     this.body.setSize(levelData.ElevatorDefRect.width, levelData.ElevatorDefRect.height);

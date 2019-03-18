@@ -1,10 +1,9 @@
 import { DEFAULTS } from '../../model/Defaults';
-import DynamicObject from '../../object/DynamicObject';
-import MapDisplay from '../../scenes/MapDisplay';
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import { DynamicObject } from '../../object/DynamicObject';
+import { MapDisplay } from '../../scenes/MapDisplay';
 
-export default class PowerupGlitter extends DynamicObject {
-  constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: { x: number, y: number, z?: number }, green?: boolean) {
+export class PowerupGlitter extends DynamicObject {
+  constructor(scene: MapDisplay, mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, object: { x: number, y: number, z?: number }, green?: boolean) {
     super(scene, mainLayer, {
       x: object.x,
       y: object.y,

@@ -1,8 +1,8 @@
-import Menu from './Menu';
-import MenuScene from '../scenes/MenuScene';
-import GameHUD from '../scenes/GameHUD';
+import { GameHUD } from '../scenes/GameHUD';
+import { MenuScene } from '../scenes/MenuScene';
+import { Menu } from './Menu';
 
-export default class OptionsMenu extends Menu {
+export class OptionsMenu extends Menu {
   constructor(protected scene: MenuScene | GameHUD, parent: Menu) {
     super(scene, 'OPTIONS', ['MUSIC: ' + scene.game.musicManager.getVolume().toFixed(1), 'SOUNDS: ' + scene.game.soundsManager.getSoundsVolume().toFixed(1),
       'VOCALS: ' + scene.game.soundsManager.getVocalsVolume().toFixed(1), 'AMBIENTS: ' + scene.game.soundsManager.getAmbientVolume().toFixed(1), 'BACK'], undefined, parent);

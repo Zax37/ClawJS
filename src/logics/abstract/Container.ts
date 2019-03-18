@@ -1,18 +1,17 @@
-import TreasureRegistry from '../../managers/TreasureRegistry';
+import { TreasureRegistry } from '../../managers/TreasureRegistry';
+import { DEFAULTS } from '../../model/Defaults';
 import { ObjectCreationData } from '../../model/ObjectData';
 import { TreasureType } from '../../model/TreasureType';
-import MapDisplay from '../../scenes/MapDisplay';
-import BouncingGoodie from '../main/BouncingGoodie';
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
-import { DEFAULTS } from '../../model/Defaults';
-import EndOfLevelPowerupAnimation from '../main/EndOfLevelPowerupAnimation';
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { BouncingGoodie } from '../main/BouncingGoodie';
+import { EndOfLevelPowerupAnimation } from '../main/EndOfLevelPowerupAnimation';
 
 const END_OF_LEVEL_POWERUP_ID = 31;
 
-export default class Container {
+export class Container {
   rawContents: number[] = [];
 
-  constructor(protected scene: MapDisplay, protected mainLayer: DynamicTilemapLayer, protected object: ObjectCreationData) {
+  constructor(protected scene: MapDisplay, protected mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, protected object: ObjectCreationData) {
     if (object.powerup) {
       this.rawContents.push(object.powerup);
     }

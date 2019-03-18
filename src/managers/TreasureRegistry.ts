@@ -1,6 +1,6 @@
 import { TreasureType } from '../model/TreasureType';
 
-export default class TreasureRegistry {
+export class TreasureRegistry {
   private registeredTreasure: { [key: number]: number; } = {};
   private collectedTreasure: { [key: number]: number; } = {};
   private levelScore: number;

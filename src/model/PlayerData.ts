@@ -1,4 +1,3 @@
-import EventEmitter = Phaser.Events.EventEmitter;
 import { WeaponType } from './WeaponType';
 
 export interface PlayerDataInterface {
@@ -23,7 +22,7 @@ export const DEFAULT_PLAYER_DATA = {
 
 export const SCORE_FOR_EXTRA_LIFE = 500000;
 
-export class PlayerDataContainer extends EventEmitter implements PlayerDataInterface {
+export class PlayerDataContainer extends Phaser.Events.EventEmitter implements PlayerDataInterface {
   private _lives: number;
   private _health: number;
   private _score: number;

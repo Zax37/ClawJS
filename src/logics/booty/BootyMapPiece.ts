@@ -1,10 +1,10 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../../config';
-import BootyScene, { BootyState } from '../../scenes/BootyScene';
+import { BootyScene, BootyState } from '../../scenes/BootyScene';
 
 const INIT_DURATION = 5000;
 const MAIN_TRANSITION_DURATION = 2500;
 
-export default class BootyMapPiece extends Phaser.GameObjects.Image {
+export class BootyMapPiece extends Phaser.GameObjects.Image {
   startTime: number;
   targetX: number;
   targetY: number;

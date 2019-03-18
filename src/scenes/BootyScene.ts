@@ -1,11 +1,13 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../config';
-import Game from '../game';
-import { BootyGem, BootyMapPiece, BootyTreasureLine } from '../logics';
+import { Game } from '../game';
+import { BootyGem } from '../logics/booty/BootyGem';
+import { BootyMapPiece } from '../logics/booty/BootyMapPiece';
+import { BootyTreasureLine } from '../logics/booty/BootyTreasureLine';
 import { TreasureType } from '../model/TreasureType';
 
 export enum BootyState { INIT, TRANSITION, DIALOG, BOOTY, END }
 
-export default class BootyScene extends Phaser.Scene {
+export class BootyScene extends Phaser.Scene {
   private background: Phaser.GameObjects.Image;
   private mappiece?: BootyMapPiece;
   private gem?: BootyGem;

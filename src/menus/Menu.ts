@@ -1,7 +1,6 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../config';
-import EventEmitter = Phaser.Events.EventEmitter;
 
-export default abstract class Menu extends EventEmitter {
+export abstract class Menu extends Phaser.Events.EventEmitter {
   title: Phaser.GameObjects.BitmapText;
   options: Phaser.GameObjects.BitmapText[];
   disabled: number[];
@@ -70,9 +69,9 @@ export default abstract class Menu extends EventEmitter {
   back() {
     if (this.parent) {
       this.parent.show();
+      this.emit('MenuChange', this.parent);
+      this.destroy();
     }
-    this.emit('MenuChange', this.parent);
-    this.destroy();
   }
 
   upPress() {

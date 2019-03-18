@@ -1,13 +1,12 @@
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
-import MapDisplay from '../../scenes/MapDisplay';
-import ElevatorLike from '../abstract/ElevatorLike';
 import { ObjectCreationData } from '../../model/ObjectData';
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { ElevatorLike } from '../abstract/ElevatorLike';
 
-export default class PathElevator extends ElevatorLike {
+export class PathElevator extends ElevatorLike {
   speedX: number;
   speedY: number;
 
-  constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
+  constructor(scene: MapDisplay, mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, object: ObjectCreationData) {
     super(scene, mainLayer, object);
     const levelData = scene.getLevelData();
     this.body.setSize(levelData.ElevatorDefRect.width, levelData.ElevatorDefRect.height);

@@ -1,8 +1,7 @@
 import { ObjectCreationData } from '../../model/ObjectData';
-import MapDisplay from '../../scenes/MapDisplay';
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import { MapDisplay } from '../../scenes/MapDisplay';
 
-export default class AmbientSound extends Phaser.GameObjects.GameObject {
+export class AmbientSound extends Phaser.GameObjects.GameObject {
   sound: Phaser.Sound.BaseSound.AudioSpriteSound;
   minX?: number;
   minY?: number;
@@ -17,7 +16,7 @@ export default class AmbientSound extends Phaser.GameObjects.GameObject {
   minTimeOff?: number;
   maxTimeOff?: number;
 
-  constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
+  constructor(protected scene: MapDisplay, mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, object: ObjectCreationData) {
     super(scene, 'AmbientSound');
 
     if (object.logic === 'SpotAmbientSound' || object.logic === 'AmbientPosSound') {

@@ -1,6 +1,11 @@
 declare module 'phaser3-rex-plugins' {
   export class BBCodeTextPlugin extends Phaser.Plugins.BasePlugin {
   }
+
+  class MouseWheelToUpDown {
+    constructor(scene: Phaser.Scene);
+    createCursorKeys(): Phaser.Input.Keyboard.CursorKeys;
+  }
 }
 
 declare namespace Phaser.GameObjects {

@@ -1,17 +1,16 @@
 import { CANVAS_WIDTH } from '../../config';
 import { ObjectCreationData } from '../../model/ObjectData';
-import MapDisplay from '../../scenes/MapDisplay';
-import Health from '../abstract/Health';
-import CaptainClaw from './CaptainClaw';
-import CaptainClawAttack from './CaptainClawAttack';
-import Enemy from '../abstract/Enemy';
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { Enemy } from '../abstract/Enemy';
+import { Health } from '../abstract/Health';
+import { CaptainClaw } from './CaptainClaw';
+import { CaptainClawAttack } from './CaptainClawAttack';
 
 const STAND_DELAY = 4100;
 const HURT_DELAY = 350;
 const STAND_ANIMATION_CHANGE_DELAY = 1000;
 
-export default class HumanEnemy extends Enemy {
+export class HumanEnemy extends Enemy {
   protected animations: {
     [key: string]: Phaser.Animations.Animation;
   };
@@ -26,7 +25,7 @@ export default class HumanEnemy extends Enemy {
   private standingSince: number;
   private standingAnimationChangeDelay: number;
 
-  constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, protected object: ObjectCreationData) {
+  constructor(protected scene: MapDisplay, mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, protected object: ObjectCreationData) {
     super(scene, mainLayer, object);
 
     this.animations = scene.game.animationManager.requestEnemyAnimations(object.texture, object.image);

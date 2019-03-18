@@ -1,6 +1,6 @@
-import MapDisplay from '../scenes/MapDisplay';
+import { MapDisplay } from '../scenes/MapDisplay';
 
-export default class Cheat {
+export class Cheat {
   private combo: string;
   private major: boolean;
   private effect: (scene: MapDisplay) => void;

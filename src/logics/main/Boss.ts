@@ -1,17 +1,16 @@
 import { ObjectCreationData } from '../../model/ObjectData';
-import MapDisplay from '../../scenes/MapDisplay';
-import Health from '../abstract/Health';
-import BossStagger from './BossStagger';
-import CaptainClawAttack from './CaptainClawAttack';
-import HumanEnemy from './HumanEnemy';
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { Health } from '../abstract/Health';
+import { BossStagger } from './BossStagger';
+import { CaptainClawAttack } from './CaptainClawAttack';
+import { HumanEnemy } from './HumanEnemy';
 
-export default class Boss extends HumanEnemy {
+export class Boss extends HumanEnemy {
   private bossStagger: BossStagger;
   startedFight: boolean;
   attempt: number;
 
-  constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, protected object: ObjectCreationData) {
+  constructor(protected scene: MapDisplay, mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, protected object: ObjectCreationData) {
     super(scene, mainLayer, object);
     this.container.rawContents = [31];
     this.health = new Health(100, scene.time);

@@ -39069,6 +39069,7 @@ declare namespace Phaser {
                  */
                 static reset(): Phaser.Input.Keyboard.Key;
 
+                onDown(Function: any): void;
             }
 
             /**

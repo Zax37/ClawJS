@@ -1,13 +1,12 @@
 import { WATER_ROCK_RECT } from '../../model/LevelDefaults';
-import MapDisplay from '../../scenes/MapDisplay';
-import ElevatorLike from '../abstract/ElevatorLike';
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 import { ObjectCreationData } from '../../model/ObjectData';
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { ElevatorLike } from '../abstract/ElevatorLike';
 
-export default class SpringBoard extends ElevatorLike {
+export class SpringBoard extends ElevatorLike {
   private jumpHeight: number;
 
-  constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
+  constructor(scene: MapDisplay, mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, object: ObjectCreationData) {
     super(scene, mainLayer, object);
     const levelData = scene.getLevelData();
 

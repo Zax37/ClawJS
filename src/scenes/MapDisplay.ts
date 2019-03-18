@@ -1,10 +1,10 @@
-import Game from '../game';
-import CaptainClaw from '../logics/main/CaptainClaw';
+import { Game } from '../game';
+import { CaptainClaw } from '../logics/main/CaptainClaw';
 import { LEVEL_DEFAULTS, LevelData } from '../model/LevelDefaults';
-import MapFactory from '../tilemap/MapFactory';
-import GameHUD from './GameHUD';
+import { MapFactory } from '../tilemap/MapFactory';
+import { GameHUD } from './GameHUD';
 
-export default class MapDisplay extends Phaser.Scene {
+export class MapDisplay extends Phaser.Scene {
   private camera: Phaser.Cameras.Scene2D.Camera;
   claw: CaptainClaw;
 
@@ -74,7 +74,6 @@ export default class MapDisplay extends Phaser.Scene {
       spacing: 2,
     });
     this.load.atlas('CLAW', 'imagesets/CLAW.png', 'imagesets/CLAW.json');
-    this.load.atlas('GAME', 'imagesets/GAME.png', 'imagesets/GAME.json');
     this.load.atlas(
       'LEVEL' + this.baseLevel,
       `imagesets/LEVEL${this.baseLevel}.png`,

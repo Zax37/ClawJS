@@ -1,18 +1,17 @@
-import { ObjectCreationData } from '../../model/ObjectData';
-import MapDisplay from '../../scenes/MapDisplay';
-import ElevatorLike from '../abstract/ElevatorLike';
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
-import TimeCycle from '../abstract/TimeCycle';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../../config';
+import { ObjectCreationData } from '../../model/ObjectData';
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { ElevatorLike } from '../abstract/ElevatorLike';
+import { TimeCycle } from '../abstract/TimeCycle';
 
-export default class TogglePeg extends ElevatorLike {
+export class TogglePeg extends ElevatorLike {
   private cycle: TimeCycle;
   private switchPoint: number;
   private timer = 0;
   private sound: string;
   private static?: boolean;
 
-  constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
+  constructor(protected scene: MapDisplay, mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, object: ObjectCreationData) {
     super(scene, mainLayer, { ...object, animation: 'GAME_FORWARD50' });
     const levelData = scene.getLevelData();
     this.body.setSize(levelData.TogglePegDefRect.width, levelData.TogglePegDefRect.height);

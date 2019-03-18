@@ -1,15 +1,14 @@
 import { AttackType } from '../../model/AttackType';
-import DynamicObject from '../../object/DynamicObject';
-import MapDisplay from '../../scenes/MapDisplay';
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import { DynamicObject } from '../../object/DynamicObject';
+import { MapDisplay } from '../../scenes/MapDisplay';
 
-export default class Explosion extends DynamicObject {
+export class Explosion extends DynamicObject {
   body: Phaser.Physics.Arcade.Body;
   attackType = AttackType.ENVIRONMENT;
   damage = 10;
   facingRight: boolean;
 
-  constructor(protected scene: MapDisplay, protected mainLayer: DynamicTilemapLayer, private object: { x: number, y: number, z: number}) {
+  constructor(protected scene: MapDisplay, protected mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, private object: { x: number, y: number, z: number}) {
     super(scene, mainLayer, {
       ...object,
       logic: 'Explosion',

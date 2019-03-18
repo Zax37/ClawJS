@@ -1,9 +1,9 @@
-import BootyScene, { BootyState } from '../../scenes/BootyScene';
+import { BootyScene, BootyState } from '../../scenes/BootyScene';
 
 const INIT_DURATION = 5000;
 const MAIN_TRANSITION_DURATION = 2500;
 
-export default class BootyGem extends Phaser.GameObjects.Sprite {
+export class BootyGem extends Phaser.GameObjects.Sprite {
   private startTime: number;
   private afterInit: boolean;
   private gemSound: Phaser.Sound.BaseSound;

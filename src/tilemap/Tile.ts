@@ -1,6 +1,5 @@
-import LayerData = Phaser.Tilemaps.LayerData;
-import PhysicsObject from '../logics/abstract/PhysicsObject';
-import CaptainClaw from '../logics/main/CaptainClaw';
+import { PhysicsObject } from '../logics/abstract/PhysicsObject';
+import { CaptainClaw } from '../logics/main/CaptainClaw';
 import { TileAttributes, TileType } from '../model/TileAttributes';
 
 const ladders: Array<{ top: number, left: number, right: number, bottom: number }> = [];
@@ -15,12 +14,12 @@ function groundCollider(object: PhysicsObject, tile: Tile) {
   }
 }
 
-export default class Tile extends Phaser.Tilemaps.Tile {
+export class Tile extends Phaser.Tilemaps.Tile {
   customCollision?: boolean;
   isSolid?: boolean;
   physics: { rect?: { top: number, left: number, right: number, bottom: number }, invert?: boolean };
 
-  constructor(layerData: LayerData, tileIndex: integer, x: integer, y: integer, width: integer, height: integer, tileAttributes: TileAttributes) {
+  constructor(layerData: Phaser.Tilemaps.LayerData, tileIndex: integer, x: integer, y: integer, width: integer, height: integer, tileAttributes: TileAttributes) {
     super(layerData, tileIndex, x, y, width, height);
 
     if (tileAttributes) {

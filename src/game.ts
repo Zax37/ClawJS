@@ -1,13 +1,13 @@
-import AnimationManager from './managers/AnimationManager';
-import CheatManager from './managers/CheatManager';
-import DataManager from './managers/DataManager';
-import MusicManager from './managers/MusicManager';
-import TreasureRegistry from './managers/TreasureRegistry';
-import BootyScene from './scenes/BootyScene';
-import GameHUD from './scenes/GameHUD';
-import MapDisplay from './scenes/MapDisplay';
-import MenuScene from './scenes/MenuScene';
-import SoundsManager from './managers/SoundsManager';
+import { AnimationManager } from './managers/AnimationManager';
+import { CheatManager } from './managers/CheatManager';
+import { DataManager } from './managers/DataManager';
+import { MusicManager } from './managers/MusicManager';
+import { SoundsManager } from './managers/SoundsManager';
+import { TreasureRegistry } from './managers/TreasureRegistry';
+import { BootyScene } from './scenes/BootyScene';
+import { GameHUD } from './scenes/GameHUD';
+import { MapDisplay } from './scenes/MapDisplay';
+import { MenuScene } from './scenes/MenuScene';
 
 enum GameState {
   InMenu,
@@ -15,7 +15,7 @@ enum GameState {
   BootyScreen,
 }
 
-export default class Game extends Phaser.Game {
+export class Game extends Phaser.Game {
   private state = GameState.InMenu;
   private retailLevelNumber: number;
   animationManager = new AnimationManager(this);

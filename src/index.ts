@@ -1,7 +1,7 @@
 import 'phaser';
 
 import { config } from './config';
-import Game from './game';
+import { Game } from './game';
 
 /*function checkHash() {
   if (window.location.hash && window.location.hash.startsWith('#RETAIL')) {

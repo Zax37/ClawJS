@@ -1,7 +1,7 @@
-import Menu from '../menus/Menu';
-import Game from '../game';
+import { Game } from '../game';
+import { Menu } from '../menus/Menu';
 
-export default class SceneWithMenu extends Phaser.Scene {
+export class SceneWithMenu extends Phaser.Scene {
   menu: Menu;
   game: Game;
   isMenuOn = true;
@@ -30,6 +30,7 @@ export default class SceneWithMenu extends Phaser.Scene {
       }
     });
     this.input.keyboard.on('keydown_ENTER', () => this.menuConfirm());
+    this.input.keyboard.on('keydown_ESC', () => this.menuBack());
     this.menu.on('MenuChange', this.updateMenu.bind(this));
   }
 
@@ -38,6 +39,10 @@ export default class SceneWithMenu extends Phaser.Scene {
       this.menu.confirm(this.menu.selected);
       this.game.soundsManager.playSound('GAME_SELECT');
     }
+  }
+
+  protected menuBack() {
+    this.menu.back();
   }
 
   protected updateMenu(menu: Menu) {

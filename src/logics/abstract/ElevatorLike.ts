@@ -1,16 +1,15 @@
 import { DEFAULTS } from '../../model/Defaults';
 import { ObjectCreationData } from '../../model/ObjectData';
-import DynamicObject from '../../object/DynamicObject';
-import MapDisplay from '../../scenes/MapDisplay';
-import CaptainClaw from '../main/CaptainClaw';
-import PhysicsObject from './PhysicsObject';
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import { DynamicObject } from '../../object/DynamicObject';
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { CaptainClaw } from '../main/CaptainClaw';
+import { PhysicsObject } from './PhysicsObject';
 
-export default class ElevatorLike extends DynamicObject {
+export class ElevatorLike extends DynamicObject {
   body: Phaser.Physics.Arcade.Body;
   objectStandingOnIt?: PhysicsObject;
 
-  constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData, defaults?: {}) {
+  constructor(scene: MapDisplay, mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, object: ObjectCreationData, defaults?: {}) {
     super(scene, mainLayer, object, defaults ? Object.assign(DEFAULTS.ELEVATORLIKE, defaults) : DEFAULTS.ELEVATORLIKE);
 
     scene.sys.displayList.add(this);

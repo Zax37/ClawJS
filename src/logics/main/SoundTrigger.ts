@@ -1,8 +1,7 @@
-import MapDisplay from '../../scenes/MapDisplay';
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 import { ObjectCreationData } from '../../model/ObjectData';
+import { MapDisplay } from '../../scenes/MapDisplay';
 
-export default class SoundTrigger extends Phaser.GameObjects.Zone {
+export class SoundTrigger extends Phaser.GameObjects.Zone {
   body: Phaser.Physics.Arcade.Body;
 
   activated = false;
@@ -11,7 +10,7 @@ export default class SoundTrigger extends Phaser.GameObjects.Zone {
   times: number;
   sound: string;
 
-  constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
+  constructor(protected scene: MapDisplay, mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, object: ObjectCreationData) {
     super(scene, object.x, object.y);
 
     if (object.animation) {

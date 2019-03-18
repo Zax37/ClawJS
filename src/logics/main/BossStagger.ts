@@ -1,9 +1,9 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../../config';
-import StaticObject from '../../object/StaticObject';
-import MapDisplay from '../../scenes/MapDisplay';
-import Boss from './Boss';
+import { StaticObject } from '../../object/StaticObject';
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { Boss } from './Boss';
 
-export default class BossStagger extends Phaser.GameObjects.GameObject {
+export class BossStagger extends Phaser.GameObjects.GameObject {
   private transitionStartTime: number;
   private direction: boolean;
   private defeat: StaticObject;

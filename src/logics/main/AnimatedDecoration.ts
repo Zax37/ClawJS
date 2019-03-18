@@ -1,11 +1,10 @@
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 import { DEFAULTS } from '../../model/Defaults';
 import { ObjectCreationData } from '../../model/ObjectData';
-import DynamicObject from '../../object/DynamicObject';
-import MapDisplay from '../../scenes/MapDisplay';
+import { DynamicObject } from '../../object/DynamicObject';
+import { MapDisplay } from '../../scenes/MapDisplay';
 
-export default class AnimatedDecoration extends DynamicObject {
-  constructor(scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
+export class AnimatedDecoration extends DynamicObject {
+  constructor(scene: MapDisplay, mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, object: ObjectCreationData) {
     let defaults = {};
     switch (object.logic) {
       default:

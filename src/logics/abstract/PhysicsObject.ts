@@ -1,15 +1,14 @@
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
 import { MinimalObjectCreationData } from '../../model/ObjectData';
-import MapDisplay from '../../scenes/MapDisplay';
-import Tile from '../../tilemap/Tile';
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { Tile } from '../../tilemap/Tile';
 
-export default class PhysicsObject extends Phaser.Physics.Arcade.Sprite {
+export class PhysicsObject extends Phaser.Physics.Arcade.Sprite {
   body: Phaser.Physics.Arcade.Body;
   isOnElevator = false;
   isBlockedTop = false;
   tilesCollider?: Phaser.Physics.Arcade.Collider;
 
-  constructor(protected scene: MapDisplay, protected mainLayer: DynamicTilemapLayer, object: MinimalObjectCreationData) {
+  constructor(protected scene: MapDisplay, protected mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, object: MinimalObjectCreationData) {
     super(scene, object.x, object.y, object.texture, object.image ? object.image + object.frame : undefined);
 
     scene.sys.displayList.add(this);

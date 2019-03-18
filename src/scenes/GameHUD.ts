@@ -1,18 +1,19 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../config';
-import Game from '../game';
-import { PowerupType } from '../model/PowerupType';
+import { Game } from '../game';
+import { ImageCounter } from '../logics/main/ImageCounter';
+import { InGameMenu } from '../menus/InGameMenu';
 import { WeaponType } from '../model/WeaponType';
-import MapDisplay from './MapDisplay';
-import SceneWithMenu from './SceneWithMenu';
-import InGameMenu from '../menus/InGameMenu';
-import ImageCounter from '../logics/main/ImageCounter';
+import { MapDisplay } from './MapDisplay';
+import { SceneWithMenu } from './SceneWithMenu';
 
-export default class GameHUD extends SceneWithMenu {
+const TEXT_FONT = '12px "Lucida Console", Monaco, monospace';
+
+export class GameHUD extends SceneWithMenu {
   game: Game;
   static key = 'GameHUD';
 
   mapDisplay: MapDisplay;
-  private centerText: Phaser.GameObjects.Text;
+  private cheatText: Phaser.GameObjects.Text;
   private fpsText: Phaser.GameObjects.Text;
   private powerupFrame: ImageCounter;
   powerupTime: number;
@@ -32,7 +33,6 @@ export default class GameHUD extends SceneWithMenu {
   }
 
   preload() {
-    this.load.atlas('GAME', 'imagesets/GAME.png', 'imagesets/GAME.json');
     this.load.image(`LOADING${this.level}`, `screens/LOADING${this.level}.png`);
   }
 
@@ -79,9 +79,9 @@ export default class GameHUD extends SceneWithMenu {
       'GAME_INTERFACE_SCORENUMBERS', 3, 11, 26, 0);
     this.powerupFrame.visible = false;
 
-    this.centerText = this.add.text(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, '', { font: '12px Arial', fill: '#ffffff' });
-    this.centerText.setOrigin(0.5, 0.5);
-    this.fpsText = this.add.text(10, CANVAS_HEIGHT - 10, '', { font: '12px Arial', fill: '#ffffff' });
+    this.cheatText = this.add.text(CANVAS_WIDTH / 2, 110, '', { font: TEXT_FONT, fill: '#ffffff' });
+    this.cheatText.setOrigin(0.5, 0.5);
+    this.fpsText = this.add.text(10, CANVAS_HEIGHT - 10, '', { font: TEXT_FONT, fill: '#ffffff' });
     this.fpsText.setOrigin(0, 1);
     this.mapDisplay = this.scene.get(MapDisplay.key) as MapDisplay;
     this.fade = this.add.rectangle(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, 0, 1);
@@ -143,7 +143,7 @@ export default class GameHUD extends SceneWithMenu {
     if (this.centerTextTime > 0) {
       this.centerTextTime -= delta;
     } else {
-      this.centerText.visible = false;
+      this.cheatText.visible = false;
     }
 
     if (this.powerupTime > 0) {
@@ -152,10 +152,7 @@ export default class GameHUD extends SceneWithMenu {
         this.powerupFrame.setValue(Math.round(this.powerupTime / 1000));
 
         if (this.powerupTime <= 0) {
-          if (this.mapDisplay.claw.powerup === PowerupType.INVISIBILITY) {
-            this.mapDisplay.claw.alpha = 1;
-          }
-          this.mapDisplay.claw.powerup = undefined;
+          this.mapDisplay.claw.clearPowerup();
           this.game.musicManager.resumePaused();
         }
       }
@@ -172,9 +169,9 @@ export default class GameHUD extends SceneWithMenu {
   }
 
   textOut(text: string) {
-    this.centerText.setText(text);
-    this.centerText.visible = true;
-    this.centerTextTime = 2000;
+    this.cheatText.setText(text);
+    this.cheatText.visible = true;
+    this.centerTextTime = 5000;
   }
 
   togglePause(skipSound?: boolean) {

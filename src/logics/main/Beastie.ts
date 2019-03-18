@@ -1,15 +1,15 @@
 import { CANVAS_WIDTH } from '../../config';
 import { AttackType } from '../../model/AttackType';
+import { DEFAULTS } from '../../model/Defaults';
 import { ObjectCreationData } from '../../model/ObjectData';
-import DynamicObject from '../../object/DynamicObject';
-import MapDisplay from '../../scenes/MapDisplay';
-import CaptainClaw from './CaptainClaw';
-import CaptainClawAttack from './CaptainClawAttack';
-import Enemy from '../abstract/Enemy';
-import Projectile from './Projectile';
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import { DynamicObject } from '../../object/DynamicObject';
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { Enemy } from '../abstract/Enemy';
+import { CaptainClaw } from './CaptainClaw';
+import { CaptainClawAttack } from './CaptainClawAttack';
+import { Projectile } from './Projectile';
 
-export default class Beastie extends Enemy {
+export class Beastie extends Enemy {
   private cannon?: DynamicObject;
   private nonMoving?: boolean;
   private beenInRange?: boolean;
@@ -18,7 +18,7 @@ export default class Beastie extends Enemy {
     [key: string]: Phaser.Animations.Animation;
   };
 
-  constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, protected object: ObjectCreationData) {
+  constructor(protected scene: MapDisplay, mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, protected object: ObjectCreationData) {
     super(scene, mainLayer, object);
     const animKeys: string[] = [];
 
@@ -34,7 +34,7 @@ export default class Beastie extends Enemy {
       this.cannon = new DynamicObject(scene, mainLayer, {
         x: (mirror ? -20 : 0) + object.x,
         y: object.y + 15,
-        z: object.z - 1,
+        z: DEFAULTS.ENEMY.z - 1,
         logic: 'GroundCannon',
         texture: object.texture,
         image: 'LEVEL_CANNON',
@@ -42,7 +42,6 @@ export default class Beastie extends Enemy {
         frame: 1,
       });
       this.cannon.flipX = mirror;
-      this.cannon.depth = this.cannon.z;
       this.cannon.on('animationupdate', (animation: Phaser.Animations.Animation, frame: Phaser.Animations.AnimationFrame) => {
         if (frame.index === 2) {
           if (this.dead) {
@@ -85,6 +84,8 @@ export default class Beastie extends Enemy {
     if (!this.nonMoving) {
       this.play(this.animations['walk'].key);
     }
+
+    this.setDepth(DEFAULTS.ENEMY.z);
   }
 
   protected attack(claw: CaptainClaw) {

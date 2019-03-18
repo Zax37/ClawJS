@@ -1,10 +1,10 @@
 import { AttackType } from '../../model/AttackType';
-import MapDisplay from '../../scenes/MapDisplay';
-import CaptainClaw from './CaptainClaw';
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { CaptainClaw } from './CaptainClaw';
 
 const SWORD_ATTACK_RECT = { x: 70, y: -2, width: 42, height: 21 };
 
-export default class CaptainClawAttack extends Phaser.GameObjects.Zone {
+export class CaptainClawAttack extends Phaser.GameObjects.Zone {
   body: Phaser.Physics.Arcade.Body;
   xDiff: number;
   yDiff: number;

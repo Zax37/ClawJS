@@ -1,26 +1,24 @@
 import { AttackType } from '../../model/AttackType';
-import DynamicObject from '../../object/DynamicObject';
-import MapDisplay from '../../scenes/MapDisplay';
 import { DEFAULTS } from '../../model/Defaults';
-import Explosion from './Explosion';
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import { DynamicObject } from '../../object/DynamicObject';
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { Explosion } from './Explosion';
 import Vector2 = Phaser.Math.Vector2;
-import GameObject = Phaser.GameObjects.GameObject;
 
 const MIN_VAL = 0.001;
 
-class TileFix extends GameObject {
+class TileFix extends Phaser.GameObjects.GameObject {
   isSolid?: boolean;
 }
 
-export default class Projectile extends DynamicObject {
+export class Projectile extends DynamicObject {
   body: Phaser.Physics.Arcade.Body;
   damage: number;
   facingRight: boolean;
   prevX = 0;
   private moveSpeed: number;
 
-  constructor(protected scene: MapDisplay, protected mainLayer: DynamicTilemapLayer, public attackType: AttackType, private object: { x: number, y: number, damage?: number, texture?: string, image?: string, animation?: string, direction: boolean }, public isSpecial?: boolean, public explodes?: boolean) {
+  constructor(protected scene: MapDisplay, protected mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, public attackType: AttackType, private object: { x: number, y: number, damage?: number, texture?: string, image?: string, animation?: string, direction: boolean }, public isSpecial?: boolean, public explodes?: boolean) {
     super(scene, mainLayer, {
       ...DEFAULTS.BULLET,
       x: object.x,

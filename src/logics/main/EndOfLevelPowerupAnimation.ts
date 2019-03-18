@@ -1,17 +1,16 @@
 import { DEFAULTS } from '../../model/Defaults';
-import DynamicObject from '../../object/DynamicObject';
-import MapDisplay from '../../scenes/MapDisplay';
-import Collectible from './Collectible';
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import { DynamicObject } from '../../object/DynamicObject';
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { Collectible } from './Collectible';
 import Vector2 = Phaser.Math.Vector2;
 
 const TRANSITION_TIME = 2500;
 
-export default class EndOfLevelPowerupAnimation extends DynamicObject {
+export class EndOfLevelPowerupAnimation extends DynamicObject {
   private startTime: number;
   private curve: Phaser.Curves.CubicBezier;
 
-  constructor(protected scene: MapDisplay, protected mainLayer: DynamicTilemapLayer, protected object: { x: number, y: number, texture: string, image: string, speedX: number, speedY: number }) {
+  constructor(protected scene: MapDisplay, protected mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, protected object: { x: number, y: number, texture: string, image: string, speedX: number, speedY: number }) {
     super(scene, mainLayer, {
       ...object,
       z: DEFAULTS.POWERUP.z,

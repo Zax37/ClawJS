@@ -1,7 +1,7 @@
-import Game from '../game';
+import { Game } from '../game';
 import { isNumber } from '../util';
 
-export default class AnimationManager {
+export class AnimationManager {
   gameAnimsLoaded = false;
   anims = {};
 
@@ -554,6 +554,7 @@ export default class AnimationManager {
               { ...frames[3], duration: 50 },
               { ...frames[4], duration: 50 },
             ];
+            break;
           default:
             break;
         }

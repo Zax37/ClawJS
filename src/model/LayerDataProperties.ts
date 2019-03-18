@@ -1,4 +1,4 @@
-export default interface LayerDataProperties {
+export interface LayerDataProperties {
   fillTileIndex: integer;
   fillColor: number;
   imageSet: string;

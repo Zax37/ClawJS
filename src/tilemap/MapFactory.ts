@@ -1,11 +1,11 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../config';
-import CaptainClaw from '../logics/main/CaptainClaw';
 import logics from '../logics';
+import { CaptainClaw } from '../logics/main/CaptainClaw';
 import { TileType } from '../model/TileAttributes';
-import MapDisplay from '../scenes/MapDisplay';
-import Tile from './Tile';
+import { MapDisplay } from '../scenes/MapDisplay';
+import { Tile } from './Tile';
 
-export default class MapFactory {
+export class MapFactory {
   static parse(scene: MapDisplay, data: any) {
     let mainLayer = data.layers[data.mainLayerIndex];
 

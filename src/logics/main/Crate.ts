@@ -1,17 +1,16 @@
 import { DEFAULTS } from '../../model/Defaults';
 import { ObjectCreationData } from '../../model/ObjectData';
-import DynamicObject from '../../object/DynamicObject';
-import MapDisplay from '../../scenes/MapDisplay';
-import Container from '../abstract/Container';
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import { DynamicObject } from '../../object/DynamicObject';
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { Container } from '../abstract/Container';
 
-export default class Crate extends DynamicObject {
+export class Crate extends DynamicObject {
   private container: Container;
   body: Phaser.Physics.Arcade.Body;
   speedX = 0;
   speedY = -300;
 
-  constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
+  constructor(protected scene: MapDisplay, mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, object: ObjectCreationData) {
     super(scene, mainLayer, object, DEFAULTS[object.logic]);
     this.container = new Container(scene, mainLayer, object);
     if (this.container.rawContents.length === 0) {

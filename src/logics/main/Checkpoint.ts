@@ -1,15 +1,14 @@
 import { ObjectCreationData } from '../../model/ObjectData';
-import DynamicObject from '../../object/DynamicObject';
-import MapDisplay from '../../scenes/MapDisplay';
-import CaptainClaw from './CaptainClaw';
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
+import { DynamicObject } from '../../object/DynamicObject';
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { CaptainClaw } from './CaptainClaw';
 
-export default class Checkpoint extends DynamicObject {
+export class Checkpoint extends DynamicObject {
   body: Phaser.Physics.Arcade.Body;
   private logic: string;
   private checked = false;
 
-  constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
+  constructor(protected scene: MapDisplay, mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, object: ObjectCreationData) {
     super(scene, mainLayer, object, { z: 3998 });
 
     scene.physics.add.existing(this);

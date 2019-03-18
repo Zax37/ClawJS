@@ -1,14 +1,29 @@
-import p from '../../package.json';
+import { MouseWheelToUpDown } from 'phaser3-rex-plugins';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../config';
-import Game from '../game';
-import { Changelog } from '../logics';
-import MainMenu from '../menus/MainMenu';
-import SceneWithMenu from './SceneWithMenu';
+import { Game } from '../game';
+import { Changelog } from '../logics/menu/Changelog';
+import { MainMenu } from '../menus/MainMenu';
+import { SceneWithMenu } from './SceneWithMenu';
+import p from '../../package.json';
 
-export default class MenuScene extends SceneWithMenu {
+class UpDownCursors {
+  up: Phaser.Input.Keyboard.Key;
+  down: Phaser.Input.Keyboard.Key;
+}
+
+export enum MenuSceneState {
+  MAIN, CREDITS, HELP
+}
+
+export class MenuScene extends SceneWithMenu {
   background: Phaser.GameObjects.Image;
   socialIcons: Phaser.GameObjects.Image[] = [];
   changelog?: Changelog;
+
+  keyboardCursors: UpDownCursors;
+  scrollCursors: UpDownCursors;
+
+  state: MenuSceneState;
 
   game: Game;
   static key = 'MenuScene';
@@ -18,11 +33,16 @@ export default class MenuScene extends SceneWithMenu {
   }
 
   preload() {
+    this.load.atlas('GAME', 'imagesets/GAME.png', 'imagesets/GAME.json');
+
     this.load.image('MENU_BG', `screens/MENU.png`);
     this.load.image('CREDITS_BG', `screens/CREDITS.png`);
     this.load.image('HELP_BG', `screens/HELP.png`);
     this.load.atlas('social-icons', 'ui/social-icons.png', 'ui/social-icons.json');
     this.load.image('frame', `ui/frame.png`);
+    this.load.image('paper', `ui/paper.png`);
+    this.load.image('scroll', `ui/scroll.png`);
+    this.load.image('accept', `ui/accept.png`);
 
     this.load.atlas('fonts', 'ui/FONTS.png', 'ui/FONTS.json');
 
@@ -36,37 +56,42 @@ export default class MenuScene extends SceneWithMenu {
     ]);
   }
 
+  update(time: number, delta: number) {
+    if (this.changelog) {
+      if (this.keyboardCursors.up.isDown) {
+        this.changelog.scrollUp();
+      } else if (this.keyboardCursors.down.isDown) {
+        this.changelog.scrollDown();
+      }
+    }
+  }
+
   create() {
+    this.state = MenuSceneState.MAIN;
+
+    const scrollUp = () => {
+      if (this.changelog) {
+        this.changelog.scrollUp();
+      }
+    };
+
+    const scrollDown = () => {
+      if (this.changelog) {
+        this.changelog.scrollDown();
+      }
+    };
+
+    this.keyboardCursors = this.input.keyboard.createCursorKeys() as UpDownCursors;
+    this.scrollCursors = new MouseWheelToUpDown(this).createCursorKeys() as UpDownCursors;
+    this.scrollCursors.up.onDown = scrollUp;
+    this.scrollCursors.down.onDown = scrollDown;
     this.sound.pauseOnBlur = false;
     Phaser.GameObjects.BitmapText.ParseFromAtlas(this, 'regular', 'fonts', 'MENU_DEFAULT.png', 'REGULAR');
     Phaser.GameObjects.BitmapText.ParseFromAtlas(this, 'selected', 'fonts', 'MENU_SELECTED.png', 'SELECTED');
     Phaser.GameObjects.BitmapText.ParseFromAtlas(this, 'disabled', 'fonts', 'MENU_DISABLED.png', 'REGULAR');
 
     this.background = this.add.image(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, 'MENU_BG');
-
-    [
-      { icon: 'facebook', url: 'https://www.facebook.com/Zax37' },
-      { icon: 'twitter', url: 'https://twitter.com/Crew37Zax' },
-      { icon: 'youtube', url: 'https://www.youtube.com/channel/UCyj4Zn9wuIfOVz547rtXLJw' },
-      { icon: 'twitch', url: 'https://www.twitch.tv/zax37' },
-      { icon: 'discord', url: 'https://discordapp.com/users/185756278335864833' },
-    ].forEach((social, i) => {
-      const image = this.add.image(CANVAS_WIDTH / 2 - 50 + i * 48, CANVAS_HEIGHT / 2 + 84, 'social-icons', social.icon);
-      image.setScale(0.5, 0.5);
-      image.visible = false;
-      image.setInteractive({ useHandCursor: true });
-
-      image.on('pointerover', () => image.setTint(0xcc3737));
-      image.on('pointerout', () => image.clearTint());
-      image.on('pointerdown', () => image.setTint(0x370000));
-
-      image.on('pointerup', () => {
-        window.open(social.url, '_blank');
-        image.clearTint();
-      });
-
-      this.socialIcons.push(image);
-    });
+    this.createSocialIcons();
 
     const version = this.add.text(CANVAS_WIDTH - 48, CANVAS_HEIGHT - 32, p.version, { font: '12px Arial', fill: '#ffffff' }).setOrigin(1, 1);
     version.setPadding(20, 24, 20, 24);
@@ -77,7 +102,11 @@ export default class MenuScene extends SceneWithMenu {
         version.disableInteractive();
         this.isMenuOn = false;
         this.changelog = new Changelog(this);
-        this.changelog.once('destroy', () => version.setInteractive({ useHandCursor: true }));
+        this.changelog.once('destroy', () => {
+          this.changelog = undefined;
+          this.isMenuOn = this.state === MenuSceneState.MAIN;
+          version.setInteractive({ useHandCursor: true });
+        });
       }
     };
 
@@ -108,22 +137,77 @@ export default class MenuScene extends SceneWithMenu {
   }
 
   menuConfirm() {
-    if (this.changelog) {
-      this.changelog.destroy();
-      this.changelog = undefined;
-    }
+    return this.closeAnyOpenWindow() && super.menuConfirm();
+  }
 
-    if (!this.isMenuOn) {
-      this.background.setTexture('MENU_BG');
-      this.isMenuOn = true;
-      this.menu.show();
-      this.setSocialIconsVisible(false);
-    } else {
-      super.menuConfirm();
+  menuBack() {
+    return this.closeAnyOpenWindow() && super.menuBack();
+  }
+
+  setState(state: MenuSceneState) {
+    switch (state) {
+      case MenuSceneState.CREDITS:
+        this.background.setTexture('CREDITS_BG');
+        this.setSocialIconsVisible(true);
+        break;
+      case MenuSceneState.HELP:
+        this.background.setTexture('HELP_BG');
+        break;
+      case MenuSceneState.MAIN:
+        this.background.setTexture('MENU_BG');
+        this.menu.show();
+        break;
+      default:
+        break;
     }
+    this.state = state;
+    this.isMenuOn = state === MenuSceneState.MAIN;
+  }
+
+  createSocialIcons() {
+    [
+      { icon: 'facebook', url: 'https://www.facebook.com/Zax37' },
+      { icon: 'twitter', url: 'https://twitter.com/Crew37Zax' },
+      { icon: 'youtube', url: 'https://www.youtube.com/channel/UCyj4Zn9wuIfOVz547rtXLJw' },
+      { icon: 'twitch', url: 'https://www.twitch.tv/zax37' },
+      { icon: 'discord', url: 'https://discordapp.com/users/185756278335864833' },
+    ].forEach((social, i) => {
+      const image = this.add.image(CANVAS_WIDTH / 2 - 50 + i * 48, CANVAS_HEIGHT / 2 + 84, 'social-icons', social.icon);
+      image.setScale(0.5, 0.5);
+      image.visible = false;
+      image.setInteractive({ useHandCursor: true });
+
+      image.on('pointerover', () => image.setTint(0xcc3737));
+      image.on('pointerout', () => image.clearTint());
+      image.on('pointerdown', () => image.setTint(0x370000));
+
+      image.on('pointerup', () => {
+        window.open(social.url, '_blank');
+        image.clearTint();
+      });
+
+      this.socialIcons.push(image);
+    });
   }
 
   setSocialIconsVisible(on: boolean) {
     this.socialIcons.forEach((icon) => icon.visible = on);
+  }
+
+  private closeAnyOpenWindow() {
+    if (this.changelog) {
+      this.changelog.destroy();
+    } else {
+      if (this.isMenuOn) {
+        return true;
+      } else {
+        if (this.state === MenuSceneState.CREDITS) {
+          this.setSocialIconsVisible(false);
+        }
+        this.setState(MenuSceneState.MAIN);
+      }
+    }
+
+    return false;
   }
 }

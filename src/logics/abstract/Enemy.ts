@@ -3,19 +3,18 @@ import { AttackType } from '../../model/AttackType';
 import { DEFAULTS } from '../../model/Defaults';
 import { ObjectCreationData } from '../../model/ObjectData';
 import { PowerupType } from '../../model/PowerupType';
-import MapDisplay from '../../scenes/MapDisplay';
-import Tile from '../../tilemap/Tile';
-import CaptainClaw from '../main/CaptainClaw';
-import Explosion from '../main/Explosion';
-import Projectile from '../main/Projectile';
-import Container from './Container';
-import PhysicsObject from './PhysicsObject';
-import DynamicTilemapLayer = Phaser.Tilemaps.DynamicTilemapLayer;
-import StaticObject from '../../object/StaticObject';
-import CaptainClawAttack from '../main/CaptainClawAttack';
+import { StaticObject } from '../../object/StaticObject';
+import { MapDisplay } from '../../scenes/MapDisplay';
+import { Tile } from '../../tilemap/Tile';
+import { CaptainClaw } from '../main/CaptainClaw';
+import { CaptainClawAttack } from '../main/CaptainClawAttack';
+import { Explosion } from '../main/Explosion';
+import { Projectile } from '../main/Projectile';
+import { Container } from './Container';
+import { PhysicsObject } from './PhysicsObject';
 
 
-export default class Enemy extends PhysicsObject {
+export class Enemy extends PhysicsObject {
   private attacksCollider: Phaser.Physics.Arcade.Collider;
 
   protected container: Container;
@@ -36,9 +35,9 @@ export default class Enemy extends PhysicsObject {
   dialogLine?: StaticObject;
   noBodyAttack: boolean;
 
-  constructor(protected scene: MapDisplay, mainLayer: DynamicTilemapLayer, object: ObjectCreationData) {
-    super(scene, mainLayer, {...object, z: DEFAULTS.ENEMY.z});
-    this.depth = DEFAULTS.ENEMY.z;
+  constructor(protected scene: MapDisplay, mainLayer: Phaser.Tilemaps.DynamicTilemapLayer, object: ObjectCreationData) {
+    super(scene, mainLayer, object);
+    this.setDepth(DEFAULTS.ENEMY.z);
     this.container = new Container(scene, mainLayer, object);
     this.container.registerContents(scene.game.treasureRegistry);
     this.damage = 10;
@@ -83,7 +82,7 @@ export default class Enemy extends PhysicsObject {
       this.tilesCollider = undefined;
     }
     this.dead = true;
-    this.depth = DEFAULTS.FRONT.z;
+    this.setDepth(DEFAULTS.FRONT.z);
     this.setVelocity(attackSource.facingRight ? -100 : 100, -400);
     this.container.dropContents(this.x, this.y, Math.random() * 20 - 5, -300, 20);
     this.scene.game.soundsManager.playSound('GAME_HIT' + Math.floor(1 + Math.random() * 4));

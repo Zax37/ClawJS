@@ -1,4 +1,4 @@
-export default class TimeCycle {
+export class TimeCycle {
   constructor(private startDiff: number, private cycleLength: number) {
   }
 
