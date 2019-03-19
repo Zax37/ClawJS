@@ -1,11 +1,12 @@
 import { DEFAULT_PLAYER_DATA } from '../model/PlayerData';
-import { MenuScene, MenuSceneState } from '../scenes/MenuScene';
+import { MenuScene } from '../scenes/MenuScene';
+import { AboutMenu } from './AboutMenu';
 import { Menu } from './Menu';
 import { OptionsMenu } from './OptionsMenu';
 
 export class MainMenu extends Menu {
   constructor(protected scene: MenuScene) {
-    super(scene, 'MAIN MENU', ['SINGLE PLAYER', 'MULTIPLAYER', 'REPLAY MOVIES', 'OPTIONS', 'CREDITS', 'HELP'], [1,2]);
+    super(scene, 'MAIN MENU', ['SINGLE PLAYER', 'MULTIPLAYER', 'REPLAY MOVIES', 'OPTIONS', 'ABOUT'], [1,2], undefined, 40);
   }
 
   confirm(i: number) {
@@ -19,12 +20,7 @@ export class MainMenu extends Menu {
         this.emit('MenuChange', new OptionsMenu(this.scene, this));
         break;
       case 4:
-        this.hide();
-        this.scene.setState(MenuSceneState.CREDITS);
-        break;
-      case 5:
-        this.hide();
-        this.scene.setState(MenuSceneState.HELP);
+        this.emit('MenuChange', new AboutMenu(this.scene, this));
         break;
       default:
         break;

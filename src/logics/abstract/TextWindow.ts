@@ -1,22 +1,16 @@
 import { NineSlice } from 'phaser3-nineslice';
 import { MenuScene } from '../../scenes/MenuScene';
-import { Window } from '../abstract/Window';
-import c from '../../../changelog.json';
+import { Window } from './Window';
 
 const MAX_TEXT_WIDTH = 512;
 const MAX_TEXT_HEIGHT = 300;
 
-export class Changelog extends Window {
-  private text: Phaser.GameObjects.BBCodeText;
-  private windowHeight: number;
+export class TextWindow extends Window {
+  protected text: Phaser.GameObjects.BBCodeText;
+  protected windowHeight: number;
 
-  constructor(scene: MenuScene) {
-    const changelogText = '\n\n\n[b]CHANGELOG[/b]' + Object.keys(c).map(
-      (version) => `\n\n[b]${version}[/b]\n\n`
-        + c[version].map((change: string) => '- ' + change).join(',\n\n') + '.\n'
-    );
-
-    const text = scene.add.rexBBCodeText(0, 0, changelogText, {
+  constructor(scene: MenuScene, contents: string) {
+    const text = scene.add.rexBBCodeText(0, 0, contents, {
       fontFamily: 'CenturyGothic, Century Gothic, Geneva, AppleGothic, sans-serif',
       fontSize: 15, color: '0', underline: { thickness: 1, offset: 2 },
       lineSpacing: 1, baselineY: 2, wrap: { mode: 'word', width: MAX_TEXT_WIDTH },

@@ -6,7 +6,7 @@ export abstract class Menu extends Phaser.Events.EventEmitter {
   disabled: number[];
   selected: number;
 
-  protected constructor(protected scene: Phaser.Scene, title: string, options: string[], disabled?: number[], protected parent?: Menu) {
+  protected constructor(protected scene: Phaser.Scene, title: string, options: string[], disabled?: number[], protected parent?: Menu, protected offset?: number) {
     super();
     this.disabled = disabled ? disabled.sort() : [];
     this.selected = 0;
@@ -17,7 +17,7 @@ export abstract class Menu extends Phaser.Events.EventEmitter {
       }
     }
 
-    this.title = scene.add.dynamicBitmapText(CANVAS_WIDTH / 2 + 8, CANVAS_HEIGHT / 2 - 50, 'regular', title, 164);
+    this.title = scene.add.dynamicBitmapText(CANVAS_WIDTH / 2 + 8, CANVAS_HEIGHT / 2 - (offset ? offset * 1.5 : 60), 'regular', title, 164);
     this.title.setOrigin(0.5,0.5);
     this.options = this.createOptions(options);
 
@@ -41,7 +41,7 @@ export abstract class Menu extends Phaser.Events.EventEmitter {
     for (let i = 0; i < options.length; i++) {
       const option = this.scene.add.dynamicBitmapText(
         CANVAS_WIDTH / 2 + 8,
-        CANVAS_HEIGHT / 2 + i * 36,
+        CANVAS_HEIGHT / 2 + 4 + i * (this.offset || 38),
         this.isDisabled(i) ? 'disabled' : i === this.selected ? 'selected' : 'regular',
         options[i], 128);
       option.setOrigin(0.5,0.5);

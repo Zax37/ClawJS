@@ -1,7 +1,9 @@
 import { MouseWheelToUpDown } from 'phaser3-rex-plugins';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../config';
 import { Game } from '../game';
-import { Changelog } from '../logics/menu/Changelog';
+import { TextWindow } from '../logics/abstract/TextWindow';
+import { ChangelogWindow } from '../logics/menu/ChangelogWindow';
+import { CreditsWindow } from '../logics/menu/CreditsWindow';
 import { MainMenu } from '../menus/MainMenu';
 import { SceneWithMenu } from './SceneWithMenu';
 import p from '../../package.json';
@@ -18,7 +20,8 @@ export enum MenuSceneState {
 export class MenuScene extends SceneWithMenu {
   background: Phaser.GameObjects.Image;
   socialIcons: Phaser.GameObjects.Image[] = [];
-  changelog?: Changelog;
+  scrollableWindow?: TextWindow;
+  version: Phaser.GameObjects.Text;
 
   keyboardCursors: UpDownCursors;
   scrollCursors: UpDownCursors;
@@ -34,7 +37,6 @@ export class MenuScene extends SceneWithMenu {
 
   preload() {
     this.load.atlas('GAME', 'imagesets/GAME.png', 'imagesets/GAME.json');
-
     this.load.image('MENU_BG', `screens/MENU.png`);
     this.load.image('CREDITS_BG', `screens/CREDITS.png`);
     this.load.image('HELP_BG', `screens/HELP.png`);
@@ -45,8 +47,6 @@ export class MenuScene extends SceneWithMenu {
     this.load.image('accept', `ui/accept.png`);
 
     this.load.atlas('fonts', 'ui/FONTS.png', 'ui/FONTS.json');
-
-    //  The XML data for the fonts in the atlas
     this.load.xml('REGULAR', 'ui/REGULAR.xml');
     this.load.xml('SELECTED', 'ui/SELECTED.xml');
 
@@ -57,34 +57,21 @@ export class MenuScene extends SceneWithMenu {
   }
 
   update(time: number, delta: number) {
-    if (this.changelog) {
+    if (this.scrollableWindow) {
       if (this.keyboardCursors.up.isDown) {
-        this.changelog.scrollUp();
+        this.scrollableWindow.scrollUp();
       } else if (this.keyboardCursors.down.isDown) {
-        this.changelog.scrollDown();
+        this.scrollableWindow.scrollDown();
       }
     }
   }
 
   create() {
     this.state = MenuSceneState.MAIN;
-
-    const scrollUp = () => {
-      if (this.changelog) {
-        this.changelog.scrollUp();
-      }
-    };
-
-    const scrollDown = () => {
-      if (this.changelog) {
-        this.changelog.scrollDown();
-      }
-    };
-
     this.keyboardCursors = this.input.keyboard.createCursorKeys() as UpDownCursors;
     this.scrollCursors = new MouseWheelToUpDown(this).createCursorKeys() as UpDownCursors;
-    this.scrollCursors.up.onDown = scrollUp;
-    this.scrollCursors.down.onDown = scrollDown;
+    this.scrollCursors.up.onDown = () => this.scrollableWindow && this.scrollableWindow.scrollUp();
+    this.scrollCursors.down.onDown = () => this.scrollableWindow && this.scrollableWindow.scrollDown();
     this.sound.pauseOnBlur = false;
     Phaser.GameObjects.BitmapText.ParseFromAtlas(this, 'regular', 'fonts', 'MENU_DEFAULT.png', 'REGULAR');
     Phaser.GameObjects.BitmapText.ParseFromAtlas(this, 'selected', 'fonts', 'MENU_SELECTED.png', 'SELECTED');
@@ -93,29 +80,15 @@ export class MenuScene extends SceneWithMenu {
     this.background = this.add.image(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, 'MENU_BG');
     this.createSocialIcons();
 
-    const version = this.add.text(CANVAS_WIDTH - 48, CANVAS_HEIGHT - 32, p.version, { font: '12px Arial', fill: '#ffffff' }).setOrigin(1, 1);
-    version.setPadding(20, 24, 20, 24);
-    version.setInteractive({ useHandCursor: true });
+    this.version = this.add.text(CANVAS_WIDTH - 48, CANVAS_HEIGHT - 32, p.version, { font: '12px Arial', fill: '#ffffff' }).setOrigin(1, 1);
+    this.version.setPadding(20, 24, 20, 24);
+    this.version.setInteractive({ useHandCursor: true });
 
-    const openChangelog = () => {
-      if (!this.changelog) {
-        version.disableInteractive();
-        this.isMenuOn = false;
-        this.changelog = new Changelog(this);
-        this.changelog.once('destroy', () => {
-          this.changelog = undefined;
-          this.isMenuOn = this.state === MenuSceneState.MAIN;
-          version.setInteractive({ useHandCursor: true });
-        });
-      }
-    };
-
-    version.on('pointerup', openChangelog);
-
+    this.version.on('pointerup', () => this.openPopup(new ChangelogWindow(this)));
     this.game.soundsManager.setScene(this);
     if (this.game.dataManager.get('lastPlayedVersion') !== p.version || p.version.endsWith('-RC')) {
       this.game.dataManager.set('lastPlayedVersion', p.version);
-      openChangelog();
+      this.openPopup(new CreditsWindow(this));
     }
 
     /*let icons: Phaser.GameObjects.Image[] = [];
@@ -137,11 +110,23 @@ export class MenuScene extends SceneWithMenu {
   }
 
   menuConfirm() {
-    return this.closeAnyOpenWindow() && super.menuConfirm();
+    if (this.scrollableWindow) {
+      this.scrollableWindow.destroy();
+    } else if (this.isMenuOn) {
+      super.menuConfirm();
+    } else {
+      this.setState(MenuSceneState.MAIN);
+    }
   }
 
   menuBack() {
-    return this.closeAnyOpenWindow() && super.menuBack();
+    if (this.scrollableWindow) {
+      this.scrollableWindow.destroy();
+    } else if (this.isMenuOn) {
+      super.menuBack();
+    } else {
+      this.setState(MenuSceneState.MAIN);
+    }
   }
 
   setState(state: MenuSceneState) {
@@ -155,6 +140,7 @@ export class MenuScene extends SceneWithMenu {
         break;
       case MenuSceneState.MAIN:
         this.background.setTexture('MENU_BG');
+        this.setSocialIconsVisible(false);
         this.menu.show();
         break;
       default:
@@ -194,20 +180,16 @@ export class MenuScene extends SceneWithMenu {
     this.socialIcons.forEach((icon) => icon.visible = on);
   }
 
-  private closeAnyOpenWindow() {
-    if (this.changelog) {
-      this.changelog.destroy();
-    } else {
-      if (this.isMenuOn) {
-        return true;
-      } else {
-        if (this.state === MenuSceneState.CREDITS) {
-          this.setSocialIconsVisible(false);
-        }
-        this.setState(MenuSceneState.MAIN);
-      }
+  openPopup(popupWindow: CreditsWindow) {
+    if (!this.scrollableWindow) {
+      this.version.disableInteractive();
+      this.isMenuOn = false;
+      this.scrollableWindow = popupWindow;
+      this.scrollableWindow.once('destroy', () => {
+        this.scrollableWindow = undefined;
+        this.isMenuOn = this.state === MenuSceneState.MAIN;
+        this.version.setInteractive({ useHandCursor: true });
+      });
     }
-
-    return false;
   }
 }

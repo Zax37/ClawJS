@@ -2,6 +2,7 @@
   "1.1.1": [
     "added changelog message displayed on first launch of new update or [u]upon clicking on version number[/u]",
     "added scroll support so user can browse windows with longer contents, like this one",
+    "added \"about\" submenu with original credits, special thanks etc.",
     "added support for reusable warps and powerups",
     "added secondary weapon switching and ammo powerup effects",
     "added life powerup effect and same upon collecting 500000 points",
