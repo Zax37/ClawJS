@@ -1,13 +1,13 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../config';
-import { Game } from '../game';
 import { BootyGem } from '../logics/booty/BootyGem';
 import { BootyMapPiece } from '../logics/booty/BootyMapPiece';
 import { BootyTreasureLine } from '../logics/booty/BootyTreasureLine';
 import { TreasureType } from '../model/TreasureType';
+import { Scene } from './Scene';
 
 export enum BootyState { INIT, TRANSITION, DIALOG, BOOTY, END }
 
-export class BootyScene extends Phaser.Scene {
+export class BootyScene extends Scene {
   private background: Phaser.GameObjects.Image;
   private mappiece?: BootyMapPiece;
   private gem?: BootyGem;
@@ -16,7 +16,6 @@ export class BootyScene extends Phaser.Scene {
   private amuletMusic?: Phaser.Sound.BaseSound;
   level: number;
 
-  game: Game;
   static key = 'BootyScene';
 
   _state: BootyState;
@@ -30,10 +29,10 @@ export class BootyScene extends Phaser.Scene {
     if (state === BootyState.DIALOG) {
       this.clawDialog = this.game.soundsManager.playVocal('CLAW_BOOTY' + this.level, { delay: 3 });
       this.clawDialog.once('ended', () => {
-        if (!this.amuletMusic || !this.amuletMusic.isPlaying) {
-          this.state = BootyState.BOOTY;
-        } else {
+        if (this.amuletMusic && this.amuletMusic.isPlaying) {
           this.amuletMusic.once('ended', () => this.state = BootyState.BOOTY);
+        } else {
+          this.state = BootyState.BOOTY;
         }
       });
     } else if (state === BootyState.BOOTY) {

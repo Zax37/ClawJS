@@ -1,10 +1,10 @@
-import { Game } from '../game';
 import { CaptainClaw } from '../logics/main/CaptainClaw';
 import { LEVEL_DEFAULTS, LevelData } from '../model/LevelDefaults';
 import { MapFactory } from '../tilemap/MapFactory';
 import { GameHUD } from './GameHUD';
+import { Scene } from './Scene';
 
-export class MapDisplay extends Phaser.Scene {
+export class MapDisplay extends Scene {
   private camera: Phaser.Cameras.Scene2D.Camera;
   claw: CaptainClaw;
 
@@ -17,7 +17,6 @@ export class MapDisplay extends Phaser.Scene {
   private map: any;
   private levelData: LevelData;
 
-  game: Game;
   hud: GameHUD;
   static key = 'MapDisplay';
 

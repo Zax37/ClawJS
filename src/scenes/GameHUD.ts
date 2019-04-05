@@ -1,5 +1,4 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../config';
-import { Game } from '../game';
 import { ImageCounter } from '../logics/main/ImageCounter';
 import { InGameMenu } from '../menus/InGameMenu';
 import { WeaponType } from '../model/WeaponType';
@@ -9,7 +8,6 @@ import { SceneWithMenu } from './SceneWithMenu';
 const TEXT_FONT = '12px "Lucida Console", Monaco, monospace';
 
 export class GameHUD extends SceneWithMenu {
-  game: Game;
   static key = 'GameHUD';
 
   mapDisplay: MapDisplay;

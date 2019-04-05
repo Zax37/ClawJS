@@ -1,9 +1,8 @@
-import { Game } from '../game';
 import { Menu } from '../menus/Menu';
+import { Scene } from './Scene';
 
-export class SceneWithMenu extends Phaser.Scene {
+export class SceneWithMenu extends Scene {
   menu: Menu;
-  game: Game;
   isMenuOn = true;
 
   create() {

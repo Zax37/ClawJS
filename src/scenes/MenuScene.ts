@@ -1,6 +1,5 @@
 import { MouseWheelToUpDown } from 'phaser3-rex-plugins';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../config';
-import { Game } from '../game';
 import { TextWindow } from '../logics/abstract/TextWindow';
 import { ChangelogWindow } from '../logics/menu/ChangelogWindow';
 import { CreditsWindow } from '../logics/menu/CreditsWindow';
@@ -28,7 +27,6 @@ export class MenuScene extends SceneWithMenu {
 
   state: MenuSceneState;
 
-  game: Game;
   static key = 'MenuScene';
 
   constructor() {
