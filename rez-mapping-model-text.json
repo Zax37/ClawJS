@@ -1,0 +1,766 @@
+{
+  "STATES": {
+    "MENU": {
+      "IMAGES": {
+        "MAIN": {
+          "001_SINGLEPLAYER.PCX": {
+            "path": "IMAGES\\STATES\\MENU\\MAIN\\001_SINGLEPLAYER.PCX"
+          },
+          "002_SINGLEPLAYER.PCX": {
+            "path": "IMAGES\\STATES\\MENU\\MAIN\\002_SINGLEPLAYER.PCX"
+          },
+          "003_MULTIPLAYER.PCX": {
+            "path": "IMAGES\\STATES\\MENU\\MAIN\\003_MULTIPLAYER.PCX"
+          },
+          "004_MULTIPLAYER.PCX": {
+            "path": "IMAGES\\STATES\\MENU\\MAIN\\004_MULTIPLAYER.PCX"
+          },
+          "005_REPLAYMOVIES.PCX": {
+            "path": "IMAGES\\STATES\\MENU\\MAIN\\005_REPLAYMOVIES.PCX"
+          },
+          "006_REPLAYMOVIES.PCX": {
+            "path": "IMAGES\\STATES\\MENU\\MAIN\\006_REPLAYMOVIES.PCX"
+          },
+          "007_REPLAYMOVIES.PCX": {
+            "path": "IMAGES\\STATES\\MENU\\MAIN\\007_REPLAYMOVIES.PCX"
+          },
+          "008_OPTIONS.PCX": {
+            "path": "IMAGES\\STATES\\MENU\\MAIN\\008_OPTIONS.PCX"
+          },
+          "009_OPTIONS.PCX": {
+            "path": "IMAGES\\STATES\\MENU\\MAIN\\009_OPTIONS.PCX"
+          },
+          "010_HELP.PCX": {
+            "path": "IMAGES\\STATES\\MENU\\MAIN\\010_HELP.PCX"
+          },
+          "011_HELP.PCX": {
+            "path": "IMAGES\\STATES\\MENU\\MAIN\\011_HELP.PCX"
+          },
+          "012_QUIT.PCX": {
+            "path": "IMAGES\\STATES\\MENU\\MAIN\\012_QUIT.PCX"
+          },
+          "013_QUIT.PCX": {
+            "path": "IMAGES\\STATES\\MENU\\MAIN\\013_QUIT.PCX"
+          },
+          "014_TITLE.PCX": {
+            "path": "IMAGES\\STATES\\MENU\\MAIN\\014_TITLE.PCX"
+          },
+          "015_CREDITS.PCX": {
+            "path": "IMAGES\\STATES\\MENU\\MAIN\\015_CREDITS.PCX"
+          },
+          "016_CREDITS.PCX": {
+            "path": "IMAGES\\STATES\\MENU\\MAIN\\016_CREDITS.PCX"
+          },
+          "MULTIPLAYER": {
+            "001_LEVELRACING.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\MULTIPLAYER\\001_LEVELRACING.PCX"
+            },
+            "002_LEVELRACING.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\MULTIPLAYER\\002_LEVELRACING.PCX"
+            },
+            "003_GAMELOBBY.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\MULTIPLAYER\\003_GAMELOBBY.PCX"
+            },
+            "004_GAMELOBBY.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\MULTIPLAYER\\004_GAMELOBBY.PCX"
+            },
+            "005_GAMELOBBY.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\MULTIPLAYER\\005_GAMELOBBY.PCX"
+            },
+            "006_CHATMACROS.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\MULTIPLAYER\\006_CHATMACROS.PCX"
+            },
+            "007_CHATMACROS.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\MULTIPLAYER\\007_CHATMACROS.PCX"
+            },
+            "008_PREVIOUSMENU.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\MULTIPLAYER\\008_PREVIOUSMENU.PCX"
+            },
+            "009_PREVIOUSMENU.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\MULTIPLAYER\\009_PREVIOUSMENU.PCX"
+            },
+            "010_TITLE.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\MULTIPLAYER\\010_TITLE.PCX"
+            },
+            "011_ENGAGE.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\MULTIPLAYER\\011_ENGAGE.PCX"
+            },
+            "012_ENGAGE.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\MULTIPLAYER\\012_ENGAGE.PCX"
+            },
+            "GAMELOBBY": {
+              "001_YES.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\MULTIPLAYER\\GAMELOBBY\\001_YES.PCX"
+              },
+              "002_YES.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\MULTIPLAYER\\GAMELOBBY\\002_YES.PCX"
+              },
+              "003_NO.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\MULTIPLAYER\\GAMELOBBY\\003_NO.PCX"
+              },
+              "004_NO.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\MULTIPLAYER\\GAMELOBBY\\004_NO.PCX"
+              },
+              "005_AREYOUSURE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\MULTIPLAYER\\GAMELOBBY\\005_AREYOUSURE.PCX"
+              }
+            }
+          },
+          "OPTIONS": {
+            "001_EDITPLAYERS.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\001_EDITPLAYERS.PCX"
+            },
+            "002_EDITPLAYERS.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\002_EDITPLAYERS.PCX"
+            },
+            "003_DIFFICULTY.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\003_DIFFICULTY.PCX"
+            },
+            "004_DIFFICULTY.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\004_DIFFICULTY.PCX"
+            },
+            "005_CONTROLS.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\005_CONTROLS.PCX"
+            },
+            "006_CONTROLS.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\006_CONTROLS.PCX"
+            },
+            "007_AUDIO.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\007_AUDIO.PCX"
+            },
+            "008_AUDIO.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\008_AUDIO.PCX"
+            },
+            "009_AUDIO.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\009_AUDIO.PCX"
+            },
+            "010_DISPLAY.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\010_DISPLAY.PCX"
+            },
+            "011_DISPLAY.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\011_DISPLAY.PCX"
+            },
+            "012_PREVIOUSMENU.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\012_PREVIOUSMENU.PCX"
+            },
+            "013_PREVIOUSMENU.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\013_PREVIOUSMENU.PCX"
+            },
+            "014_TITLE.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\014_TITLE.PCX"
+            },
+            "AUDIO": {
+              "001_SOUNDON.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\001_SOUNDON.PCX"
+              },
+              "002_SOUNDOFF .PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\002_SOUNDOFF.PCX"
+              },
+              "002_SOUNDOFF.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\002_SOUNDOFF.PCX"
+              },
+              "003_SOUNDON.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\003_SOUNDON.PCX"
+              },
+              "004_SOUNDOFF.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\004_SOUNDOFF.PCX"
+              },
+              "005_VOICEON.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\005_VOICEON.PCX"
+              },
+              "006_VOICDOFF.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\006_VOICDOFF.PCX"
+              },
+              "007_VOICEON.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\007_VOICEON.PCX"
+              },
+              "008_VOICEOFF.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\008_VOICEOFF.PCX"
+              },
+              "009_AMBIENTON.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\009_AMBIENTON.PCX"
+              },
+              "010_AMBIENTOFF.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\010_AMBIENTOFF.PCX"
+              },
+              "011_AMBIENTON.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\011_AMBIENTON.PCX"
+              },
+              "012_AMBIENTOFF.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\012_AMBIENTOFF.PCX"
+              },
+              "013_MUSICON.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\013_MUSICON.PCX"
+              },
+              "014_MUSICOFF.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\014_MUSICOFF.PCX"
+              },
+              "015_MUSICON.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\015_MUSICON.PCX"
+              },
+              "016_MUSICOFF.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\016_MUSICOFF.PCX"
+              },
+              "017_PREVIOUSMENU.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\017_PREVIOUSMENU.PCX"
+              },
+              "018_PREVIOUSMENU.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\018_PREVIOUSMENU.PCX"
+              },
+              "019_TITLE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\019_TITLE.PCX"
+              },
+              "031_SOUNDOFF.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\031_SOUNDOFF.PCX"
+              },
+              "032_VOICEON.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\032_VOICEON.PCX"
+              },
+              "033_VOICEOFF.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\033_VOICEOFF.PCX"
+              },
+              "034_AMBIENTON.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\034_AMBIENTON.PCX"
+              },
+              "035_AMBIENTOFF.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\035_AMBIENTOFF.PCX"
+              },
+              "036_MUSICOFF.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\036_MUSICOFF.PCX"
+              },
+              "041_REDKNOB.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\041_REDKNOB.PCX"
+              },
+              "042_REDKNOB.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\042_REDKNOB.PCX"
+              },
+              "043_GREENKNOB.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\043_GREENKNOB.PCX"
+              },
+              "044_GREENKNOB.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\044_GREENKNOB.PCX"
+              },
+              "045_BLUEKNOB.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\045_BLUEKNOB.PCX"
+              },
+              "046_BLUEKNOB.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\046_BLUEKNOB.PCX"
+              },
+              "047_PURPLEKNOB.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\047_PURPLEKNOB.PCX"
+              },
+              "048_PURPLEKNOB.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\AUDIO\\048_PURPLEKNOB.PCX"
+              }
+            },
+            "DIFFICULTY": {
+              "001_PREVIOUSMENU.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DIFFICULTY\\001_PREVIOUSMENU.PCX"
+              },
+              "002_PREVIOUSMENU.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DIFFICULTY\\002_PREVIOUSMENU.PCX"
+              },
+              "003_TITLE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DIFFICULTY\\003_TITLE.PCX"
+              }
+            },
+            "DISPLAY": {
+              "001_DEPTH.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DISPLAY\\001_DEPTH.PCX"
+              },
+              "002_DEPTH.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DISPLAY\\002_DEPTH.PCX"
+              },
+              "003_DEPTH.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DISPLAY\\003_DEPTH.PCX"
+              },
+              "004_DEPTH.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DISPLAY\\004_DEPTH.PCX"
+              },
+              "005_DETAIL.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DISPLAY\\005_DETAIL.PCX"
+              },
+              "006_DETAIL.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DISPLAY\\006_DETAIL.PCX"
+              },
+              "007_DETAIL.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DISPLAY\\007_DETAIL.PCX"
+              },
+              "008_DETAIL.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DISPLAY\\008_DETAIL.PCX"
+              },
+              "009_FRONT.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DISPLAY\\009_FRONT.PCX"
+              },
+              "010_FRONT.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DISPLAY\\010_FRONT.PCX"
+              },
+              "011_FRONT.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DISPLAY\\011_FRONT.PCX"
+              },
+              "012_FRONT.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DISPLAY\\012_FRONT.PCX"
+              },
+              "013_AREA.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DISPLAY\\013_AREA.PCX"
+              },
+              "014_AREA.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DISPLAY\\014_AREA.PCX"
+              },
+              "015_MOVIES.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DISPLAY\\015_MOVIES.PCX"
+              },
+              "016_MOVIES.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DISPLAY\\016_MOVIES.PCX"
+              },
+              "017_MOVIES.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DISPLAY\\017_MOVIES.PCX"
+              },
+              "018_MOVIES.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DISPLAY\\018_MOVIES.PCX"
+              },
+              "019_PREVIOUSMENU.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DISPLAY\\019_PREVIOUSMENU.PCX"
+              },
+              "020_PREVIOUSMENU.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DISPLAY\\020_PREVIOUSMENU.PCX"
+              },
+              "021_TITLE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\DISPLAY\\021_TITLE.PCX"
+              }
+            },
+            "EDIT": {
+              "001_NEW.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\EDIT\\001_NEW.PCX"
+              },
+              "002_NEW.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\EDIT\\002_NEW.PCX"
+              },
+              "003_INFO.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\EDIT\\003_INFO.PCX"
+              },
+              "004_INFO.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\EDIT\\004_INFO.PCX"
+              },
+              "005_CHANGE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\EDIT\\005_CHANGE.PCX"
+              },
+              "006_CHANGE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\EDIT\\006_CHANGE.PCX"
+              },
+              "007_REMOVE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\EDIT\\007_REMOVE.PCX"
+              },
+              "008_REMOVE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\EDIT\\008_REMOVE.PCX"
+              },
+              "009_REMOVE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\EDIT\\009_REMOVE.PCX"
+              },
+              "010_PREVIOUSMENU.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\EDIT\\010_PREVIOUSMENU.PCX"
+              },
+              "011_PREVIOUSMENU.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\EDIT\\011_PREVIOUSMENU.PCX"
+              },
+              "012_TITLE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\OPTIONS\\EDIT\\012_TITLE.PCX"
+              }
+            }
+          },
+          "QUIT": {
+            "001_YES.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\QUIT\\001_YES.PCX"
+            },
+            "002_YES.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\QUIT\\002_YES.PCX"
+            },
+            "003_NO.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\QUIT\\003_NO.PCX"
+            },
+            "004_NO.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\QUIT\\004_NO.PCX"
+            },
+            "005_AREYOUSURE.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\QUIT\\005_AREYOUSURE.PCX"
+            }
+          },
+          "REPLAYMOVIES": {
+            "001_MOVIEONE.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\001_MOVIEONE.PCX"
+            },
+            "002_MOVIEONE.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\002_MOVIEONE.PCX"
+            },
+            "003_MOVIEONE.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\003_MOVIEONE.PCX"
+            },
+            "004_MOVIETWO.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\004_MOVIETWO.PCX"
+            },
+            "005_MOVIETWO.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\005_MOVIETWO.PCX"
+            },
+            "006_MOVIETWO.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\006_MOVIETWO.PCX"
+            },
+            "007_MOVIETHREE.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\007_MOVIETHREE.PCX"
+            },
+            "008_MOVIETHREE.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\008_MOVIETHREE.PCX"
+            },
+            "009_MOVIETHREE.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\009_MOVIETHREE.PCX"
+            },
+            "010_MOVIEFOUR.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\010_MOVIEFOUR.PCX"
+            },
+            "011_MOVIEFOUR.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\011_MOVIEFOUR.PCX"
+            },
+            "012_MOVIEFOUR.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\012_MOVIEFOUR.PCX"
+            },
+            "013_MOVIEFIVE.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\013_MOVIEFIVE.PCX"
+            },
+            "014_MOVIEFIVE.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\014_MOVIEFIVE.PCX"
+            },
+            "015_MOVIEFIVE.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\015_MOVIEFIVE.PCX"
+            },
+            "016_MOVIESIX.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\016_MOVIESIX.PCX"
+            },
+            "017_MOVIESIX.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\017_MOVIESIX.PCX"
+            },
+            "018_MOVIESIX.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\018_MOVIESIX.PCX"
+            },
+            "019_MOVIESEVEN.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\019_MOVIESEVEN.PCX"
+            },
+            "020_MOVIESEVEN.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\020_MOVIESEVEN.PCX"
+            },
+            "021_MOVIESEVEN.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\021_MOVIESEVEN.PCX"
+            },
+            "022_MOVIEEIGHT.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\022_MOVIEEIGHT.PCX"
+            },
+            "023_MOVIEEIGHT.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\023_MOVIEEIGHT.PCX"
+            },
+            "024_MOVIEEIGHT.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\024_MOVIEEIGHT.PCX"
+            },
+            "025_MOVIENINE.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\025_MOVIENINE.PCX"
+            },
+            "026_MOVIENINE.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\026_MOVIENINE.PCX"
+            },
+            "027_MOVIENINE.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\027_MOVIENINE.PCX"
+            },
+            "028_MOVIETEN.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\028_MOVIETEN.PCX"
+            },
+            "029_MOVIETEN.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\029_MOVIETEN.PCX"
+            },
+            "030_MOVIETEN.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\030_MOVIETEN.PCX"
+            },
+            "031_BACK.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\031_BACK.PCX"
+            },
+            "032_BACK.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\032_BACK.PCX"
+            },
+            "033_TITLE.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\REPLAYMOVIES\\033_TITLE.PCX"
+            }
+          },
+          "SINGLEPLAYER": {
+            "001_NEWGAME.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\001_NEWGAME.PCX"
+            },
+            "002_NEWGAME.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\002_NEWGAME.PCX"
+            },
+            "003_LOADGAME.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\003_LOADGAME.PCX"
+            },
+            "004_LOADGAME.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\004_LOADGAME.PCX"
+            },
+            "005_LOADCUSTOM.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\005_LOADCUSTOM.PCX"
+            },
+            "006_LOADCUSTOM.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\006_LOADCUSTOM.PCX"
+            },
+            "007_SAVEGAME.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\007_SAVEGAME.PCX"
+            },
+            "008_SAVEGAME.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\008_SAVEGAME.PCX"
+            },
+            "009_UPLOADSCORES.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\009_UPLOADSCORES.PCX"
+            },
+            "010_UPLOADSCORES.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\010_UPLOADSCORES.PCX"
+            },
+            "011_UPLOADSCORES.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\011_UPLOADSCORES.PCX"
+            },
+            "012_PREVIOUSMENU.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\012_PREVIOUSMENU.PCX"
+            },
+            "013_PREVIOUSMENU.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\013_PREVIOUSMENU.PCX"
+            },
+            "014_TITLE.PCX": {
+              "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\014_TITLE.PCX"
+            },
+            "LEVELS": {
+              "001_LEVELONE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\001_LEVELONE.PCX"
+              },
+              "002_LEVELONE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\002_LEVELONE.PCX"
+              },
+              "003_LEVELONE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\003_LEVELONE.PCX"
+              },
+              "004_LEVELTWO.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\004_LEVELTWO.PCX"
+              },
+              "005_LEVELTWO.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\005_LEVELTWO.PCX"
+              },
+              "006_LEVELTWO.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\006_LEVELTWO.PCX"
+              },
+              "007_LEVELTHREE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\007_LEVELTHREE.PCX"
+              },
+              "008_LEVELTHREE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\008_LEVELTHREE.PCX"
+              },
+              "009_LEVELTHREE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\009_LEVELTHREE.PCX"
+              },
+              "010_LEVELFOUR.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\010_LEVELFOUR.PCX"
+              },
+              "011_LEVELFOUR.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\011_LEVELFOUR.PCX"
+              },
+              "012_LEVELFOUR.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\012_LEVELFOUR.PCX"
+              },
+              "013_LEVELFIVE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\013_LEVELFIVE.PCX"
+              },
+              "014_LEVELFIVE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\014_LEVELFIVE.PCX"
+              },
+              "015_LEVELFIVE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\015_LEVELFIVE.PCX"
+              },
+              "016_LEVELSIX.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\016_LEVELSIX.PCX"
+              },
+              "017_LEVELSIX.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\017_LEVELSIX.PCX"
+              },
+              "018_LEVELSIX.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\018_LEVELSIX.PCX"
+              },
+              "019_LEVELSEVEN.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\019_LEVELSEVEN.PCX"
+              },
+              "020_LEVELSEVEN.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\020_LEVELSEVEN.PCX"
+              },
+              "021_LEVELSEVEN.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\021_LEVELSEVEN.PCX"
+              },
+              "022_LEVELEIGHT.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\022_LEVELEIGHT.PCX"
+              },
+              "023_LEVELEIGHT.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\023_LEVELEIGHT.PCX"
+              },
+              "024_LEVELEIGHT.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\024_LEVELEIGHT.PCX"
+              },
+              "025_LEVELNINE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\025_LEVELNINE.PCX"
+              },
+              "026_LEVELNINE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\026_LEVELNINE.PCX"
+              },
+              "027_LEVELNINE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\027_LEVELNINE.PCX"
+              },
+              "028_LEVELTEN.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\028_LEVELTEN.PCX"
+              },
+              "029_LEVELTEN.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\029_LEVELTEN.PCX"
+              },
+              "030_LEVELTEN.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\030_LEVELTEN.PCX"
+              },
+              "031_LEVELELEVEN.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\031_LEVELELEVEN.PCX"
+              },
+              "032_LEVELELEVEN.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\032_LEVELELEVEN.PCX"
+              },
+              "033_LEVELELEVEN.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\033_LEVELELEVEN.PCX"
+              },
+              "034_LEVELTWELVE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\034_LEVELTWELVE.PCX"
+              },
+              "035_LEVELTWELVE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\035_LEVELTWELVE.PCX"
+              },
+              "036_LEVELTWELVE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\036_LEVELTWELVE.PCX"
+              },
+              "037_LEVELTHIRTEEN.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\037_LEVELTHIRTEEN.PCX"
+              },
+              "038_LEVELTHIRTEEN.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\038_LEVELTHIRTEEN.PCX"
+              },
+              "039_LEVELTHIRTEEN.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\039_LEVELTHIRTEEN.PCX"
+              },
+              "040_LEVELFOURTEEN.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\040_LEVELFOURTEEN.PCX"
+              },
+              "041_LEVELFOURTEEN.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\041_LEVELFOURTEEN.PCX"
+              },
+              "042_LEVELFOURTEEN.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\042_LEVELFOURTEEN.PCX"
+              },
+              "043_BACK.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\043_BACK.PCX"
+              },
+              "044_BACK.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LEVELS\\044_BACK.PCX"
+              }
+            },
+            "LOAD": {
+              "001_TITLE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\001_TITLE.PCX"
+              },
+              "CHECKPOINTS": {
+                "001_START.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\001_START.PCX"
+                },
+                "002_START.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\002_START.PCX"
+                },
+                "003_SAVEONE.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\003_SAVEONE.PCX"
+                },
+                "004_SAVEONE.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\004_SAVEONE.PCX"
+                },
+                "005_SAVEONE.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\005_SAVEONE.PCX"
+                },
+                "006_SAVETWO.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\006_SAVETWO.PCX"
+                },
+                "007_SAVETWO.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\007_SAVETWO.PCX"
+                },
+                "008_SAVETWO.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\008_SAVETWO.PCX"
+                },
+                "009_PREVIOUSMENU.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\009_PREVIOUSMENU.PCX"
+                },
+                "010_PREVIOUSMENU.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\010_PREVIOUSMENU.PCX"
+                },
+                "011_TITLE.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\011_TITLE.PCX"
+                },
+                "012_TITLE.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\012_TITLE.PCX"
+                },
+                "013_TITLE.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\013_TITLE.PCX"
+                },
+                "014_TITLE.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\014_TITLE.PCX"
+                },
+                "015_TITLE.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\015_TITLE.PCX"
+                },
+                "016_TITLE.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\016_TITLE.PCX"
+                },
+                "017_TITLE.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\017_TITLE.PCX"
+                },
+                "018_TITLE.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\018_TITLE.PCX"
+                },
+                "019_TITLE.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\019_TITLE.PCX"
+                },
+                "020_TITLE.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\020_TITLE.PCX"
+                },
+                "021_TITLE.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\021_TITLE.PCX"
+                },
+                "022_TITLE.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\022_TITLE.PCX"
+                },
+                "023_TITLE.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\023_TITLE.PCX"
+                },
+                "024_TITLE.PCX": {
+                  "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\LOAD\\CHECKPOINTS\\024_TITLE.PCX"
+                }
+              }
+            },
+            "NEW": {
+              "001_TITLE.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\NEW\\001_TITLE.PCX"
+              }
+            },
+            "SAVE": {
+              "001_PREVIOUSMENU.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\SAVE\\001_PREVIOUSMENU.PCX"
+              },
+              "002_PREVIOUSMENU.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\SAVE\\002_PREVIOUSMENU.PCX"
+              },
+              "003_EXPLANATION.PCX": {
+                "path": "IMAGES\\STATES\\MENU\\MAIN\\SINGLEPLAYER\\SAVE\\003_EXPLANATION.PCX"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
