@@ -31511,5 +31511,20 @@
         "path": "WORLDS\\LEVEL14\\WORLD.WWD"
       }
     }
+  },
+  "ROLLER": {
+    "PALETTES": {
+      "ROLLER.CLT": {
+        "path": "ROLLER\\ROLLER.CLT"
+      },
+      "ROLLER.PAL": {
+        "path": "ROLLER\\ROLLER.PAL"
+      }
+    },
+    "SCREENS": {
+      "PAPER.PCX": {
+        "path": "ROLLER\\PAPER.PCX"
+      }
+    }
   }
 }
