@@ -5,7 +5,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = merge(common, {
     plugins: [
-        new UglifyJsPlugin({parallel: true, sourceMap: true, extractComments: true})
+        //new UglifyJsPlugin({parallel: true, sourceMap: true, extractComments: true})
     ],
     output: {
         path: path.resolve(__dirname, 'build'),

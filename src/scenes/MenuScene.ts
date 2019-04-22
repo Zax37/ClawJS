@@ -86,7 +86,7 @@ export class MenuScene extends SceneWithMenu {
     this.game.soundsManager.setScene(this);
     if (this.game.dataManager.get('lastPlayedVersion') !== p.version || p.version.endsWith('-RC')) {
       this.game.dataManager.set('lastPlayedVersion', p.version);
-      this.openPopup(new CreditsWindow(this));
+      this.openPopup(new ChangelogWindow(this));
     }
 
     /*let icons: Phaser.GameObjects.Image[] = [];

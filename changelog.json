@@ -6,7 +6,6 @@
     "added support for reusable warps and powerups",
     "added secondary weapon switching and ammo powerup effects",
     "added life powerup effect and same upon collecting 500000 points",
-    "added glitter effect for catnip powerup",
     "added text notifications after typing cheat code",
     "fixed counting total number of each treasure type in level summary",
     "fixed default powerup time added by cheats and upon collection",

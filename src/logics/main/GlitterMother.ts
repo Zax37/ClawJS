@@ -33,7 +33,7 @@ export class GlitterMother extends DynamicObject {
   preUpdate(time: number, delta: number) {
     if (this.source.powerup !== PowerupType.CATNIP) {
       this.destroy();
-    } else if (time >= this.nextSpawnTime) {
+    } else if (false && time >= this.nextSpawnTime) {
       for (let i = 0; i < this.amountOfGlittersToCreate; i++) {
         const height = this.source.body.height;
         const x = this.source.body.left + (this.source.flipX ? -2 : 2) + (this.source.body.width - 1) * Math.random();
