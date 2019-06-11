@@ -3,7 +3,7 @@
   "title": "ClawJS",
   "version": "1.1.1",
   "description": "Claw remake implemented in Phaser 3, served with node.js!",
-  "url": "http://clawjs.us.openode.io/",
+  "url": "http://clawjs.openode.io/",
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.prod.js",
@@ -26,7 +26,7 @@
     "awesome-typescript-loader": "5.2.1",
     "babel-core": "6.26.3",
     "binary-parser": "github:Zax37/binary-parser",
-    "browser-sync": "2.26.3",
+    "browser-sync": "^2.26.5",
     "buffer-reader": "^0.1.0",
     "html-webpack-plugin": "3.2.0",
     "pako": "1.0.6",
@@ -38,7 +38,7 @@
     "uglifyjs-webpack-plugin": "2.0.1",
     "webpack": "4.20.2",
     "webpack-cli": "3.1.2",
-    "webpack-dev-server": "^3.1.14",
+    "webpack-dev-server": "^3.6.0",
     "webpack-merge": "4.1.4"
   }
 }

@@ -1,13 +1,13 @@
 const fs = require('fs');
 const path = require('path');
-const pidParser = require("./pidParser");
+const pidParser = require("../parsers/pid-parser");
 
 function processImagesets(directory) {
   console.log("Parsing imagesets in: " + directory);
 
   const items = fs.readdirSync(directory);
   items.forEach(imageset => {
-    const imageSetFileName = path.join(__dirname, '../resources/imagesets', `${imageset}.json`);
+    const imageSetFileName = path.join(__dirname, '../../resources/imagesets', `${imageset}.json`);
     const mappingName = imageset.startsWith("LEVEL") ? "LEVEL" : imageset;
     try {
       const pidFilesPath = path.join(directory, imageset, 'IMAGES');

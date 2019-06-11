@@ -1,4 +1,13 @@
 {
+  "GAME": {
+    "IMAGES": {
+      "NINELIVESGEM": {
+        "NLGEM004.PID": {
+          "path": "IMAGES\\GAME\\NINELIVESGEM\\NLGEM004.PID"
+        }
+      }
+    }
+  },
   "LEVEL3": {
     "ANIS": {
       "CRATEBREAK.ANI": {

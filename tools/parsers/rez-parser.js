@@ -127,17 +127,4 @@ class RezParser {
     }
 }
 
-if (process.argv[2] && process.argv[3]) {
-    const rezPath = path.resolve(process.argv[2]);
-    const outPath = path.resolve(process.argv[3]);
-
-    const rezParser = new RezParser();
-    const rezFile = rezParser.parse(fs.readFileSync(rezPath));
-    //rezParser.dumpModel(path.resolve('rez-mapping-model.json'), rezFile);
-    const model = JSON.parse(fs.readFileSync(path.resolve('../rez-mapping-model.json')).toString());
-    rezParser.unpack(outPath, rezFile, model);
-} else {
-    console.log("Call arguments for rezParser: REZ_FILE_PATH, OUTPUT_DIRECTORY_PATH.")
-}
-
 module.exports = RezParser;

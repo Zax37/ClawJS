@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const WwdParser = require("./wwdParser");
+const WwdParser = require("../parsers/wwd-parser");
 
-const mapsDir = path.join(__dirname, '../resources/maps');
+const mapsDir = path.join(__dirname, '../../resources/maps');
 const wwdParser = new WwdParser();
 
 function processMaps(targetArray) {

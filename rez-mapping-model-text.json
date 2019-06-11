@@ -1,6 +1,96 @@
 {
   "GAME": {
     "IMAGES": {
+      "GAMEOVERMENU": {
+        "MAIN": {
+          "001_YES.PCX": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\MAIN\\001_YES.PCX"
+          },
+          "002_YES.PCX": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\MAIN\\002_YES.PCX"
+          },
+          "003_NO.PCX": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\MAIN\\003_NO.PCX"
+          },
+          "004_NO.PCX": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\MAIN\\004_NO.PCX"
+          },
+          "005_TRANSACTION.PCX": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\MAIN\\005_TRANSACTION.PCX"
+          },
+          "006_TRANSACTION.PCX": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\MAIN\\006_TRANSACTION.PCX"
+          },
+          "007_CONTINUE.PCX": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\MAIN\\007_CONTINUE.PCX"
+          }
+        },
+        "TIME": {
+          "001.PID": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\001.PID"
+          },
+          "002.PID": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\002.PID"
+          },
+          "003.PID": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\003.PID"
+          },
+          "004.PID": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\004.PID"
+          },
+          "005.PID": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\005.PID"
+          },
+          "006.PID": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\006.PID"
+          },
+          "007.PID": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\007.PID"
+          },
+          "008.PID": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\008.PID"
+          },
+          "009.PID": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\009.PID"
+          },
+          "010.PID": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\010.PID"
+          },
+          "011.PID": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\011.PID"
+          },
+          "012.PID": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\012.PID"
+          },
+          "013.PID": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\013.PID"
+          },
+          "014.PID": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\014.PID"
+          },
+          "015.PID": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\015.PID"
+          },
+          "016.PID": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\016.PID"
+          },
+          "017.PID": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\017.PID"
+          },
+          "018.PID": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\018.PID"
+          },
+          "019.PID": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\019.PID"
+          },
+          "020.PID": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\020.PID"
+          },
+          "021.PID": {
+            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\021.PID"
+          }
+        }
+      },
       "INGAMEMENU": {
         "MAIN": {
           "001_RETURN.PCX": {
@@ -241,6 +331,23 @@
               }
             }
           }
+        }
+      },
+      "MESSAGES": {
+        "CHEAT3.PCX": {
+          "path": "IMAGES\\GAME\\MESSAGES\\CHEAT3.PCX"
+        },
+        "GAMEOVER4.PCX": {
+          "path": "IMAGES\\GAME\\MESSAGES\\GAMEOVER4.PCX"
+        },
+        "PAUSE2.PCX": {
+          "path": "IMAGES\\GAME\\MESSAGES\\PAUSE2.PCX"
+        },
+        "RECEIVE5.PCX": {
+          "path": "IMAGES\\GAME\\MESSAGES\\RECEIVE5.PCX"
+        },
+        "WAITING1.PCX": {
+          "path": "IMAGES\\GAME\\MESSAGES\\WAITING1.PCX"
         }
       }
     }

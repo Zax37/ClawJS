@@ -1059,17 +1059,6 @@
           "path": "IMAGES\\GAME\\CLAWHIT\\FRAME005.PID"
         }
       },
-      "CONFIGCONTROLS": {
-        "001_BACK .PID": {
-          "path": "IMAGES\\GAME\\CONFIGCONTROLS\\001_BACK.PID"
-        },
-        "002_KEYBOARD.PID": {
-          "path": "IMAGES\\GAME\\CONFIGCONTROLS\\002_KEYBOARD.PID"
-        },
-        "003_JOYSTICK.PID": {
-          "path": "IMAGES\\GAME\\CONFIGCONTROLS\\003_JOYSTICK.PID"
-        }
-      },
       "CURSES": {
         "AMMO": {
           "AMMO001.PID": {
@@ -1213,17 +1202,6 @@
         },
         "CURSOR19.PID": {
           "path": "IMAGES\\GAME\\CURSOR\\CURSOR19.PID"
-        }
-      },
-      "DEVHEADS": {
-        "GOBLE0.PID": {
-          "path": "IMAGES\\GAME\\DEVHEADS\\GOBLE0.PID"
-        },
-        "JPL1.PID": {
-          "path": "IMAGES\\GAME\\DEVHEADS\\JPL1.PID"
-        },
-        "STEPH2.PID": {
-          "path": "IMAGES\\GAME\\DEVHEADS\\STEPH2.PID"
         }
       },
       "DYNAMITE": {
@@ -1610,96 +1588,6 @@
         },
         "DF9.PID": {
           "path": "IMAGES\\GAME\\FONT\\DF9.PID"
-        }
-      },
-      "GAMEOVERMENU": {
-        "MAIN": {
-          "001_YES.PCX": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\MAIN\\001_YES.PCX"
-          },
-          "002_YES.PCX": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\MAIN\\002_YES.PCX"
-          },
-          "003_NO.PCX": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\MAIN\\003_NO.PCX"
-          },
-          "004_NO.PCX": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\MAIN\\004_NO.PCX"
-          },
-          "005_TRANSACTION.PCX": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\MAIN\\005_TRANSACTION.PCX"
-          },
-          "006_TRANSACTION.PCX": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\MAIN\\006_TRANSACTION.PCX"
-          },
-          "007_CONTINUE.PCX": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\MAIN\\007_CONTINUE.PCX"
-          }
-        },
-        "TIME": {
-          "001.PID": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\001.PID"
-          },
-          "002.PID": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\002.PID"
-          },
-          "003.PID": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\003.PID"
-          },
-          "004.PID": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\004.PID"
-          },
-          "005.PID": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\005.PID"
-          },
-          "006.PID": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\006.PID"
-          },
-          "007.PID": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\007.PID"
-          },
-          "008.PID": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\008.PID"
-          },
-          "009.PID": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\009.PID"
-          },
-          "010.PID": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\010.PID"
-          },
-          "011.PID": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\011.PID"
-          },
-          "012.PID": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\012.PID"
-          },
-          "013.PID": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\013.PID"
-          },
-          "014.PID": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\014.PID"
-          },
-          "015.PID": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\015.PID"
-          },
-          "016.PID": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\016.PID"
-          },
-          "017.PID": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\017.PID"
-          },
-          "018.PID": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\018.PID"
-          },
-          "019.PID": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\019.PID"
-          },
-          "020.PID": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\020.PID"
-          },
-          "021.PID": {
-            "path": "IMAGES\\GAME\\GAMEOVERMENU\\TIME\\021.PID"
-          }
         }
       },
       "GLITTER": {
@@ -2305,36 +2193,9 @@
           "path": "IMAGES\\GAME\\MAPPIECE\\MAPFRAG1.PID"
         }
       },
-      "MESSAGE": {
-        "001_BACK .PID": {
-          "path": "IMAGES\\GAME\\MESSAGE\\001_BACK.PID"
-        }
-      },
-      "MESSAGES": {
-        "CHEAT3.PCX": {
-          "path": "IMAGES\\GAME\\MESSAGES\\CHEAT3.PCX"
-        },
-        "GAMEOVER4.PCX": {
-          "path": "IMAGES\\GAME\\MESSAGES\\GAMEOVER4.PCX"
-        },
-        "PAUSE2.PCX": {
-          "path": "IMAGES\\GAME\\MESSAGES\\PAUSE2.PCX"
-        },
-        "RECEIVE5.PCX": {
-          "path": "IMAGES\\GAME\\MESSAGES\\RECEIVE5.PCX"
-        },
-        "WAITING1.PCX": {
-          "path": "IMAGES\\GAME\\MESSAGES\\WAITING1.PCX"
-        }
-      },
       "MONOLITH": {
         "LOGO0.PID": {
           "path": "IMAGES\\GAME\\MONOLITH\\LOGO0.PID"
-        }
-      },
-      "NINELIVESGEM": {
-        "NLGEM004.PID": {
-          "path": "IMAGES\\GAME\\NINELIVESGEM\\NLGEM004.PID"
         }
       },
       "POINTS": {
@@ -2605,11 +2466,6 @@
           },
           "FRAME024.PID": {
             "path": "IMAGES\\GAME\\POWERUPS\\LIGHTNINGSWORD\\FRAME024.PID"
-          }
-        },
-        "PLASMASWORD": {
-          "FIRE1.PID": {
-            "path": "IMAGES\\GAME\\POWERUPS\\PLASMASWORD\\FIRE1.PID"
           }
         }
       },
@@ -3102,9 +2958,6 @@
       }
     },
     "SOUNDS": {
-      "1055.WAV": {
-        "path": "SOUNDS\\GAME\\1055.WAV"
-      },
       "AMMUNITION.WAV": {
         "path": "SOUNDS\\GAME\\AMMUNITION.WAV"
       },
@@ -3308,204 +3161,184 @@
   "LEVEL1": {
     "ANIS": {
       "CRATEBREAK.ANI": {
-        "path": "ANIS\\LEVEL1\\CRATEBREAK.ANI"
+        "path": "ANIS\\LEVEL\\CRATEBREAK.ANI"
       },
       "EYES": {
         "BLINK1.ANI": {
-          "path": "ANIS\\LEVEL1\\EYES\\BLINK1.ANI"
+          "path": "ANIS\\LEVEL\\EYES\\BLINK1.ANI"
         },
         "BLINK2.ANI": {
-          "path": "ANIS\\LEVEL1\\EYES\\BLINK2.ANI"
+          "path": "ANIS\\LEVEL\\EYES\\BLINK2.ANI"
         },
         "BLINK3.ANI": {
-          "path": "ANIS\\LEVEL1\\EYES\\BLINK3.ANI"
-        }
-      },
-      "GUARD": {
-        "DBLLEFT.ANI": {
-          "path": "ANIS\\LEVEL1\\GUARD\\DBLLEFT.ANI"
-        },
-        "DBLRGHT.ANI": {
-          "path": "ANIS\\LEVEL1\\GUARD\\DBLRGHT.ANI"
-        },
-        "LOOKLEFT.ANI": {
-          "path": "ANIS\\LEVEL1\\GUARD\\LOOKLEFT.ANI"
-        },
-        "LOOKRGHT.ANI": {
-          "path": "ANIS\\LEVEL1\\GUARD\\LOOKRGHT.ANI"
-        },
-        "STAND.ANI": {
-          "path": "ANIS\\LEVEL1\\GUARD\\STAND.ANI"
-        },
-        "WALK.ANI": {
-          "path": "ANIS\\LEVEL1\\GUARD\\WALK.ANI"
+          "path": "ANIS\\LEVEL\\EYES\\BLINK3.ANI"
         }
       },
       "HAND": {
         "HAND1.ANI": {
-          "path": "ANIS\\LEVEL1\\HAND\\HAND1.ANI"
+          "path": "ANIS\\LEVEL\\HAND\\HAND1.ANI"
         }
       },
       "MANICLES": {
         "MANICAL.ANI": {
-          "path": "ANIS\\LEVEL1\\MANICLES\\MANICAL.ANI"
+          "path": "ANIS\\LEVEL\\MANICLES\\MANICAL.ANI"
         }
       },
       "OFFICER": {
         "ADVANCE.ANI": {
-          "path": "ANIS\\LEVEL1\\OFFICER\\ADVANCE.ANI"
+          "path": "ANIS\\LEVEL\\OFFICER\\ADVANCE.ANI"
         },
         "FALL.ANI": {
-          "path": "ANIS\\LEVEL1\\OFFICER\\FALL.ANI"
+          "path": "ANIS\\LEVEL\\OFFICER\\FALL.ANI"
         },
         "FASTADVANCE.ANI": {
-          "path": "ANIS\\LEVEL1\\OFFICER\\FASTADVANCE.ANI"
+          "path": "ANIS\\LEVEL\\OFFICER\\FASTADVANCE.ANI"
         },
         "HITHIGH.ANI": {
-          "path": "ANIS\\LEVEL1\\OFFICER\\HITHIGH.ANI"
+          "path": "ANIS\\LEVEL\\OFFICER\\HITHIGH.ANI"
         },
         "HITLOW.ANI": {
-          "path": "ANIS\\LEVEL1\\OFFICER\\HITLOW.ANI"
+          "path": "ANIS\\LEVEL\\OFFICER\\HITLOW.ANI"
         },
         "HOME.ANI": {
-          "path": "ANIS\\LEVEL1\\OFFICER\\HOME.ANI"
+          "path": "ANIS\\LEVEL\\OFFICER\\HOME.ANI"
         },
         "JUMP.ANI": {
-          "path": "ANIS\\LEVEL1\\OFFICER\\JUMP.ANI"
+          "path": "ANIS\\LEVEL\\OFFICER\\JUMP.ANI"
         },
         "LIFTED.ANI": {
-          "path": "ANIS\\LEVEL1\\OFFICER\\LIFTED.ANI"
+          "path": "ANIS\\LEVEL\\OFFICER\\LIFTED.ANI"
         },
         "LIFTED2.ANI": {
-          "path": "ANIS\\LEVEL1\\OFFICER\\LIFTED2.ANI"
+          "path": "ANIS\\LEVEL\\OFFICER\\LIFTED2.ANI"
         },
         "STAND1.ANI": {
-          "path": "ANIS\\LEVEL1\\OFFICER\\STAND1.ANI"
+          "path": "ANIS\\LEVEL\\OFFICER\\STAND1.ANI"
         },
         "STAND2.ANI": {
-          "path": "ANIS\\LEVEL1\\OFFICER\\STAND2.ANI"
+          "path": "ANIS\\LEVEL\\OFFICER\\STAND2.ANI"
         },
         "STAND3.ANI": {
-          "path": "ANIS\\LEVEL1\\OFFICER\\STAND3.ANI"
+          "path": "ANIS\\LEVEL\\OFFICER\\STAND3.ANI"
         },
         "STAND4.ANI": {
-          "path": "ANIS\\LEVEL1\\OFFICER\\STAND4.ANI"
+          "path": "ANIS\\LEVEL\\OFFICER\\STAND4.ANI"
         },
         "STAND5.ANI": {
-          "path": "ANIS\\LEVEL1\\OFFICER\\STAND5.ANI"
+          "path": "ANIS\\LEVEL\\OFFICER\\STAND5.ANI"
         },
         "STRIKE.ANI": {
-          "path": "ANIS\\LEVEL1\\OFFICER\\STRIKE.ANI"
+          "path": "ANIS\\LEVEL\\OFFICER\\STRIKE.ANI"
         },
         "STRIKE1.ANI": {
-          "path": "ANIS\\LEVEL1\\OFFICER\\STRIKE1.ANI"
+          "path": "ANIS\\LEVEL\\OFFICER\\STRIKE1.ANI"
         },
         "STRIKE2.ANI": {
-          "path": "ANIS\\LEVEL1\\OFFICER\\STRIKE2.ANI"
+          "path": "ANIS\\LEVEL\\OFFICER\\STRIKE2.ANI"
         },
         "THROWN.ANI": {
-          "path": "ANIS\\LEVEL1\\OFFICER\\THROWN.ANI"
+          "path": "ANIS\\LEVEL\\OFFICER\\THROWN.ANI"
         }
       },
       "POWDERKEG": {
         "EXPLODE.ANI": {
-          "path": "ANIS\\LEVEL1\\POWDERKEG\\EXPLODE.ANI"
+          "path": "ANIS\\LEVEL\\POWDERKEG\\EXPLODE.ANI"
         },
         "LIFTED.ANI": {
-          "path": "ANIS\\LEVEL1\\POWDERKEG\\LIFTED.ANI"
+          "path": "ANIS\\LEVEL\\POWDERKEG\\LIFTED.ANI"
         },
         "LIFTED2.ANI": {
-          "path": "ANIS\\LEVEL1\\POWDERKEG\\LIFTED2.ANI"
+          "path": "ANIS\\LEVEL\\POWDERKEG\\LIFTED2.ANI"
         },
         "THROWN.ANI": {
-          "path": "ANIS\\LEVEL1\\POWDERKEG\\THROWN.ANI"
+          "path": "ANIS\\LEVEL\\POWDERKEG\\THROWN.ANI"
         }
       },
       "RAT": {
         "DEAD.ANI": {
-          "path": "ANIS\\LEVEL1\\RAT\\DEAD.ANI"
+          "path": "ANIS\\LEVEL\\RAT\\DEAD.ANI"
         },
         "IDLE.ANI": {
-          "path": "ANIS\\LEVEL1\\RAT\\IDLE.ANI"
+          "path": "ANIS\\LEVEL\\RAT\\IDLE.ANI"
         },
         "THROWEASTWEST.ANI": {
-          "path": "ANIS\\LEVEL1\\RAT\\THROWEASTWEST.ANI"
+          "path": "ANIS\\LEVEL\\RAT\\THROWEASTWEST.ANI"
         },
         "THROWSOUTH.ANI": {
-          "path": "ANIS\\LEVEL1\\RAT\\THROWSOUTH.ANI"
+          "path": "ANIS\\LEVEL\\RAT\\THROWSOUTH.ANI"
         },
         "WALK.ANI": {
-          "path": "ANIS\\LEVEL1\\RAT\\WALK.ANI"
+          "path": "ANIS\\LEVEL\\RAT\\WALK.ANI"
         }
       },
       "RATBOMB": {
         "BOUNCE.ANI": {
-          "path": "ANIS\\LEVEL1\\RATBOMB\\BOUNCE.ANI"
+          "path": "ANIS\\LEVEL\\RATBOMB\\BOUNCE.ANI"
         },
         "EXPLODE.ANI": {
-          "path": "ANIS\\LEVEL1\\RATBOMB\\EXPLODE.ANI"
+          "path": "ANIS\\LEVEL\\RATBOMB\\EXPLODE.ANI"
         },
         "FALL.ANI": {
-          "path": "ANIS\\LEVEL1\\RATBOMB\\FALL.ANI"
+          "path": "ANIS\\LEVEL\\RATBOMB\\FALL.ANI"
         },
         "FALLEASTWEST.ANI": {
-          "path": "ANIS\\LEVEL1\\RATBOMB\\FALLEASTWEST.ANI"
+          "path": "ANIS\\LEVEL\\RATBOMB\\FALLEASTWEST.ANI"
         }
       },
       "SOLDIER": {
         "ADVANCE.ANI": {
-          "path": "ANIS\\LEVEL1\\SOLDIER\\ADVANCE.ANI"
+          "path": "ANIS\\LEVEL\\SOLDIER\\ADVANCE.ANI"
         },
         "FALL.ANI": {
-          "path": "ANIS\\LEVEL1\\SOLDIER\\FALL.ANI"
+          "path": "ANIS\\LEVEL\\SOLDIER\\FALL.ANI"
         },
         "FASTADVANCE.ANI": {
-          "path": "ANIS\\LEVEL1\\SOLDIER\\FASTADVANCE.ANI"
+          "path": "ANIS\\LEVEL\\SOLDIER\\FASTADVANCE.ANI"
         },
         "HITDUCK.ANI": {
-          "path": "ANIS\\LEVEL1\\SOLDIER\\HITDUCK.ANI"
+          "path": "ANIS\\LEVEL\\SOLDIER\\HITDUCK.ANI"
         },
         "HITHIGH.ANI": {
-          "path": "ANIS\\LEVEL1\\SOLDIER\\HITHIGH.ANI"
+          "path": "ANIS\\LEVEL\\SOLDIER\\HITHIGH.ANI"
         },
         "HITLOW.ANI": {
-          "path": "ANIS\\LEVEL1\\SOLDIER\\HITLOW.ANI"
+          "path": "ANIS\\LEVEL\\SOLDIER\\HITLOW.ANI"
         },
         "HOME.ANI": {
-          "path": "ANIS\\LEVEL1\\SOLDIER\\HOME.ANI"
+          "path": "ANIS\\LEVEL\\SOLDIER\\HOME.ANI"
         },
         "JUMP.ANI": {
-          "path": "ANIS\\LEVEL1\\SOLDIER\\JUMP.ANI"
+          "path": "ANIS\\LEVEL\\SOLDIER\\JUMP.ANI"
         },
         "KILLFALL.ANI": {
-          "path": "ANIS\\LEVEL1\\SOLDIER\\KILLFALL.ANI"
+          "path": "ANIS\\LEVEL\\SOLDIER\\KILLFALL.ANI"
         },
         "LIFTED.ANI": {
-          "path": "ANIS\\LEVEL1\\SOLDIER\\LIFTED.ANI"
+          "path": "ANIS\\LEVEL\\SOLDIER\\LIFTED.ANI"
         },
         "LIFTED2.ANI": {
-          "path": "ANIS\\LEVEL1\\SOLDIER\\LIFTED2.ANI"
+          "path": "ANIS\\LEVEL\\SOLDIER\\LIFTED2.ANI"
         },
         "STAND.ANI": {
-          "path": "ANIS\\LEVEL1\\SOLDIER\\STAND.ANI"
+          "path": "ANIS\\LEVEL\\SOLDIER\\STAND.ANI"
         },
         "STAND1.ANI": {
-          "path": "ANIS\\LEVEL1\\SOLDIER\\STAND1.ANI"
+          "path": "ANIS\\LEVEL\\SOLDIER\\STAND1.ANI"
         },
         "STAND2.ANI": {
-          "path": "ANIS\\LEVEL1\\SOLDIER\\STAND2.ANI"
+          "path": "ANIS\\LEVEL\\SOLDIER\\STAND2.ANI"
         },
         "STRIKE.ANI": {
-          "path": "ANIS\\LEVEL1\\SOLDIER\\STRIKE.ANI"
+          "path": "ANIS\\LEVEL\\SOLDIER\\STRIKE.ANI"
         },
         "STRIKE1.ANI": {
-          "path": "ANIS\\LEVEL1\\SOLDIER\\STRIKE1.ANI"
+          "path": "ANIS\\LEVEL\\SOLDIER\\STRIKE1.ANI"
         },
         "STRIKE2.ANI": {
-          "path": "ANIS\\LEVEL1\\SOLDIER\\STRIKE2.ANI"
+          "path": "ANIS\\LEVEL\\SOLDIER\\STRIKE2.ANI"
         },
         "THROWN.ANI": {
-          "path": "ANIS\\LEVEL1\\SOLDIER\\THROWN.ANI"
+          "path": "ANIS\\LEVEL\\SOLDIER\\THROWN.ANI"
         }
       }
     },
@@ -3581,9 +3414,6 @@
         },
         "FRAME008.PID": {
           "path": "IMAGES\\LEVEL1\\CRATES\\FRAME008.PID"
-        },
-        "PSPBRWSE.JBF": {
-          "path": "IMAGES\\LEVEL1\\CRATES\\PSPBRWSE.JBF"
         }
       },
       "CRUMBLINGPEG": {
@@ -3622,9 +3452,6 @@
         },
         "FRAME012.PID": {
           "path": "IMAGES\\LEVEL1\\CRUMBLINGPEG\\FRAME012.PID"
-        },
-        "PSPBRWSE.JBF": {
-          "path": "IMAGES\\LEVEL1\\CRUMBLINGPEG\\PSPBRWSE.JBF"
         }
       },
       "ELEVATORS": {
@@ -3812,12 +3639,6 @@
         },
         "FRAME950.PID": {
           "path": "IMAGES\\LEVEL1\\OFFICER\\FRAME950.PID"
-        },
-        "OFFICER.DIR": {
-          "path": "IMAGES\\LEVEL1\\OFFICER\\OFFICER.DIR"
-        },
-        "PSPBRWSE.JBF": {
-          "path": "IMAGES\\LEVEL1\\OFFICER\\PSPBRWSE.JBF"
         }
       },
       "PEG": {
@@ -3909,9 +3730,6 @@
         },
         "FRAME017.PID": {
           "path": "IMAGES\\LEVEL1\\POWDERKEG\\FRAME017.PID"
-        },
-        "PSPBRWSE.JBF": {
-          "path": "IMAGES\\LEVEL1\\POWDERKEG\\PSPBRWSE.JBF"
         }
       },
       "RAT": {
@@ -3959,15 +3777,9 @@
         },
         "FRAME560.PID": {
           "path": "IMAGES\\LEVEL1\\RAT\\FRAME560.PID"
-        },
-        "PSPBRWSE.JBF": {
-          "path": "IMAGES\\LEVEL1\\RAT\\PSPBRWSE.JBF"
         }
       },
       "RATBOMB": {
-        "ANIMATIONS.TXT": {
-          "path": "IMAGES\\LEVEL1\\RATBOMB\\ANIMATIONS.TXT"
-        },
         "FRAME001.PID": {
           "path": "IMAGES\\LEVEL1\\RATBOMB\\FRAME001.PID"
         },
@@ -4036,9 +3848,6 @@
         },
         "FRAME023.PID": {
           "path": "IMAGES\\LEVEL1\\RATBOMB\\FRAME023.PID"
-        },
-        "PSPBRWSE.JBF": {
-          "path": "IMAGES\\LEVEL1\\RATBOMB\\PSPBRWSE.JBF"
         }
       },
       "SKULL": {
@@ -4178,12 +3987,6 @@
         },
         "FRAME904.PID": {
           "path": "IMAGES\\LEVEL1\\SOLDIER\\FRAME904.PID"
-        },
-        "PSPBRWSE.JBF": {
-          "path": "IMAGES\\LEVEL1\\SOLDIER\\PSPBRWSE.JBF"
-        },
-        "SOLDIER.DIR": {
-          "path": "IMAGES\\LEVEL1\\SOLDIER\\SOLDIER.DIR"
         }
       },
       "TORCH": {
@@ -4773,279 +4576,119 @@
     "ANIS": {
       "CANNON": {
         "FIRING.ANI": {
-          "path": "ANIS\\LEVEL2\\CANNON\\FIRING.ANI"
+          "path": "ANIS\\LEVEL\\CANNON\\FIRING.ANI"
         },
         "HOME.ANI": {
-          "path": "ANIS\\LEVEL2\\CANNON\\HOME.ANI"
+          "path": "ANIS\\LEVEL\\CANNON\\HOME.ANI"
         }
       },
       "CANNONBALL": {
         "FALL.ANI": {
-          "path": "ANIS\\LEVEL2\\CANNONBALL\\FALL.ANI"
-        }
-      },
-      "CRATEBREAK.ANI": {
-        "path": "ANIS\\LEVEL2\\CRATEBREAK.ANI"
-      },
-      "OFFICER": {
-        "ADVANCE.ANI": {
-          "path": "ANIS\\LEVEL2\\OFFICER\\ADVANCE.ANI"
-        },
-        "FALL.ANI": {
-          "path": "ANIS\\LEVEL2\\OFFICER\\FALL.ANI"
-        },
-        "FASTADVANCE.ANI": {
-          "path": "ANIS\\LEVEL2\\OFFICER\\FASTADVANCE.ANI"
-        },
-        "HITHIGH.ANI": {
-          "path": "ANIS\\LEVEL2\\OFFICER\\HITHIGH.ANI"
-        },
-        "HITLOW.ANI": {
-          "path": "ANIS\\LEVEL2\\OFFICER\\HITLOW.ANI"
-        },
-        "HOME.ANI": {
-          "path": "ANIS\\LEVEL2\\OFFICER\\HOME.ANI"
-        },
-        "JUMP.ANI": {
-          "path": "ANIS\\LEVEL2\\OFFICER\\JUMP.ANI"
-        },
-        "KILLFALL.ANI": {
-          "path": "ANIS\\LEVEL2\\OFFICER\\KILLFALL.ANI"
-        },
-        "LIFTED.ANI": {
-          "path": "ANIS\\LEVEL2\\OFFICER\\LIFTED.ANI"
-        },
-        "LIFTED2.ANI": {
-          "path": "ANIS\\LEVEL2\\OFFICER\\LIFTED2.ANI"
-        },
-        "STAND1.ANI": {
-          "path": "ANIS\\LEVEL2\\OFFICER\\STAND1.ANI"
-        },
-        "STAND2.ANI": {
-          "path": "ANIS\\LEVEL2\\OFFICER\\STAND2.ANI"
-        },
-        "STAND3.ANI": {
-          "path": "ANIS\\LEVEL2\\OFFICER\\STAND3.ANI"
-        },
-        "STAND4.ANI": {
-          "path": "ANIS\\LEVEL2\\OFFICER\\STAND4.ANI"
-        },
-        "STAND5.ANI": {
-          "path": "ANIS\\LEVEL2\\OFFICER\\STAND5.ANI"
-        },
-        "STRIKE.ANI": {
-          "path": "ANIS\\LEVEL2\\OFFICER\\STRIKE.ANI"
-        },
-        "STRIKE1.ANI": {
-          "path": "ANIS\\LEVEL2\\OFFICER\\STRIKE1.ANI"
-        },
-        "STRIKE2.ANI": {
-          "path": "ANIS\\LEVEL2\\OFFICER\\STRIKE2.ANI"
-        },
-        "THROWN.ANI": {
-          "path": "ANIS\\LEVEL2\\OFFICER\\THROWN.ANI"
-        }
-      },
-      "POWDERKEG": {
-        "EXPLODE.ANI": {
-          "path": "ANIS\\LEVEL2\\POWDERKEG\\EXPLODE.ANI"
-        },
-        "LIFTED.ANI": {
-          "path": "ANIS\\LEVEL2\\POWDERKEG\\LIFTED.ANI"
-        },
-        "LIFTED2.ANI": {
-          "path": "ANIS\\LEVEL2\\POWDERKEG\\LIFTED2.ANI"
-        },
-        "THROWN.ANI": {
-          "path": "ANIS\\LEVEL2\\POWDERKEG\\THROWN.ANI"
+          "path": "ANIS\\LEVEL\\CANNONBALL\\FALL.ANI"
         }
       },
       "PUNKRAT": {
         "HOME.ANI": {
-          "path": "ANIS\\LEVEL2\\PUNKRAT\\HOME.ANI"
+          "path": "ANIS\\LEVEL\\PUNKRAT\\HOME.ANI"
         },
         "IDLE.ANI": {
-          "path": "ANIS\\LEVEL2\\PUNKRAT\\IDLE.ANI"
+          "path": "ANIS\\LEVEL\\PUNKRAT\\IDLE.ANI"
         },
         "RECOIL.ANI": {
-          "path": "ANIS\\LEVEL2\\PUNKRAT\\RECOIL.ANI"
+          "path": "ANIS\\LEVEL\\PUNKRAT\\RECOIL.ANI"
         },
         "STAND.ANI": {
-          "path": "ANIS\\LEVEL2\\PUNKRAT\\STAND.ANI"
+          "path": "ANIS\\LEVEL\\PUNKRAT\\STAND.ANI"
         },
         "STRIKE.ANI": {
-          "path": "ANIS\\LEVEL2\\PUNKRAT\\STRIKE.ANI"
+          "path": "ANIS\\LEVEL\\PUNKRAT\\STRIKE.ANI"
         },
         "WALK.ANI": {
-          "path": "ANIS\\LEVEL2\\PUNKRAT\\WALK.ANI"
-        }
-      },
-      "RAT": {
-        "DEAD.ANI": {
-          "path": "ANIS\\LEVEL2\\RAT\\DEAD.ANI"
-        },
-        "IDLE.ANI": {
-          "path": "ANIS\\LEVEL2\\RAT\\IDLE.ANI"
-        },
-        "THROWDOWN.ANI": {
-          "path": "ANIS\\LEVEL2\\RAT\\THROWDOWN.ANI"
-        },
-        "WALK.ANI": {
-          "path": "ANIS\\LEVEL2\\RAT\\WALK.ANI"
-        }
-      },
-      "RATBOMB": {
-        "BOUNCE.ANI": {
-          "path": "ANIS\\LEVEL2\\RATBOMB\\BOUNCE.ANI"
-        },
-        "EXPLODE.ANI": {
-          "path": "ANIS\\LEVEL2\\RATBOMB\\EXPLODE.ANI"
-        },
-        "FALL.ANI": {
-          "path": "ANIS\\LEVEL2\\RATBOMB\\FALL.ANI"
-        },
-        "FALLEASTWEST.ANI": {
-          "path": "ANIS\\LEVEL2\\RATBOMB\\FALLEASTWEST.ANI"
+          "path": "ANIS\\LEVEL\\PUNKRAT\\WALK.ANI"
         }
       },
       "RAUX": {
         "ADVANCE.ANI": {
-          "path": "ANIS\\LEVEL2\\RAUX\\ADVANCE.ANI"
-        },
-        "ANIMATIONS.TXT": {
-          "path": "ANIS\\LEVEL2\\RAUX\\ANIMATIONS.TXT"
+          "path": "ANIS\\LEVEL\\RAUX\\ADVANCE.ANI"
         },
         "BLOCKHIGH.ANI": {
-          "path": "ANIS\\LEVEL2\\RAUX\\BLOCKHIGH.ANI"
+          "path": "ANIS\\LEVEL\\RAUX\\BLOCKHIGH.ANI"
         },
         "BLOCKLOW.ANI": {
-          "path": "ANIS\\LEVEL2\\RAUX\\BLOCKLOW.ANI"
+          "path": "ANIS\\LEVEL\\RAUX\\BLOCKLOW.ANI"
         },
         "DEAD.ANI": {
-          "path": "ANIS\\LEVEL2\\RAUX\\DEAD.ANI"
+          "path": "ANIS\\LEVEL\\RAUX\\DEAD.ANI"
         },
         "FALL.ANI": {
-          "path": "ANIS\\LEVEL2\\RAUX\\FALL.ANI"
+          "path": "ANIS\\LEVEL\\RAUX\\FALL.ANI"
         },
         "FASTADVANCE.ANI": {
-          "path": "ANIS\\LEVEL2\\RAUX\\FASTADVANCE.ANI"
+          "path": "ANIS\\LEVEL\\RAUX\\FASTADVANCE.ANI"
         },
         "FIRESWORD.ANI": {
-          "path": "ANIS\\LEVEL2\\RAUX\\FIRESWORD.ANI"
+          "path": "ANIS\\LEVEL\\RAUX\\FIRESWORD.ANI"
         },
         "HITHIGH.ANI": {
-          "path": "ANIS\\LEVEL2\\RAUX\\HITHIGH.ANI"
+          "path": "ANIS\\LEVEL\\RAUX\\HITHIGH.ANI"
         },
         "HITLOW.ANI": {
-          "path": "ANIS\\LEVEL2\\RAUX\\HITLOW.ANI"
+          "path": "ANIS\\LEVEL\\RAUX\\HITLOW.ANI"
         },
         "HOME.ANI": {
-          "path": "ANIS\\LEVEL2\\RAUX\\HOME.ANI"
+          "path": "ANIS\\LEVEL\\RAUX\\HOME.ANI"
         },
         "HOME1.ANI": {
-          "path": "ANIS\\LEVEL2\\RAUX\\HOME1.ANI"
+          "path": "ANIS\\LEVEL\\RAUX\\HOME1.ANI"
         },
         "ICESWORD.ANI": {
-          "path": "ANIS\\LEVEL2\\RAUX\\ICESWORD.ANI"
+          "path": "ANIS\\LEVEL\\RAUX\\ICESWORD.ANI"
         },
         "IDLE.ANI": {
-          "path": "ANIS\\LEVEL2\\RAUX\\IDLE.ANI"
+          "path": "ANIS\\LEVEL\\RAUX\\IDLE.ANI"
         },
         "JUMP.ANI": {
-          "path": "ANIS\\LEVEL2\\RAUX\\JUMP.ANI"
+          "path": "ANIS\\LEVEL\\RAUX\\JUMP.ANI"
         },
         "JUMPBACK.ANI": {
-          "path": "ANIS\\LEVEL2\\RAUX\\JUMPBACK.ANI"
+          "path": "ANIS\\LEVEL\\RAUX\\JUMPBACK.ANI"
         },
         "KILLFALL.ANI": {
-          "path": "ANIS\\LEVEL2\\RAUX\\KILLFALL.ANI"
+          "path": "ANIS\\LEVEL\\RAUX\\KILLFALL.ANI"
         },
         "LIFTED.ANI": {
-          "path": "ANIS\\LEVEL2\\RAUX\\LIFTED.ANI"
+          "path": "ANIS\\LEVEL\\RAUX\\LIFTED.ANI"
         },
         "LIFTED2.ANI": {
-          "path": "ANIS\\LEVEL2\\RAUX\\LIFTED2.ANI"
+          "path": "ANIS\\LEVEL\\RAUX\\LIFTED2.ANI"
         },
         "STAB.ANI": {
-          "path": "ANIS\\LEVEL2\\RAUX\\STAB.ANI"
+          "path": "ANIS\\LEVEL\\RAUX\\STAB.ANI"
         },
         "STRIKE.ANI": {
-          "path": "ANIS\\LEVEL2\\RAUX\\STRIKE.ANI"
+          "path": "ANIS\\LEVEL\\RAUX\\STRIKE.ANI"
         },
         "THROWN.ANI": {
-          "path": "ANIS\\LEVEL2\\RAUX\\THROWN.ANI"
-        }
-      },
-      "SOLDIER": {
-        "ADVANCE.ANI": {
-          "path": "ANIS\\LEVEL2\\SOLDIER\\ADVANCE.ANI"
-        },
-        "FALL.ANI": {
-          "path": "ANIS\\LEVEL2\\SOLDIER\\FALL.ANI"
-        },
-        "FASTADVANCE.ANI": {
-          "path": "ANIS\\LEVEL2\\SOLDIER\\FASTADVANCE.ANI"
-        },
-        "HITDUCK.ANI": {
-          "path": "ANIS\\LEVEL2\\SOLDIER\\HITDUCK.ANI"
-        },
-        "HITHIGH.ANI": {
-          "path": "ANIS\\LEVEL2\\SOLDIER\\HITHIGH.ANI"
-        },
-        "HITLOW.ANI": {
-          "path": "ANIS\\LEVEL2\\SOLDIER\\HITLOW.ANI"
-        },
-        "HOME.ANI": {
-          "path": "ANIS\\LEVEL2\\SOLDIER\\HOME.ANI"
-        },
-        "JUMP.ANI": {
-          "path": "ANIS\\LEVEL2\\SOLDIER\\JUMP.ANI"
-        },
-        "LIFTED.ANI": {
-          "path": "ANIS\\LEVEL2\\SOLDIER\\LIFTED.ANI"
-        },
-        "LIFTED2.ANI": {
-          "path": "ANIS\\LEVEL2\\SOLDIER\\LIFTED2.ANI"
-        },
-        "STAND.ANI": {
-          "path": "ANIS\\LEVEL2\\SOLDIER\\STAND.ANI"
-        },
-        "STAND1.ANI": {
-          "path": "ANIS\\LEVEL2\\SOLDIER\\STAND1.ANI"
-        },
-        "STAND2.ANI": {
-          "path": "ANIS\\LEVEL2\\SOLDIER\\STAND2.ANI"
-        },
-        "STRIKE.ANI": {
-          "path": "ANIS\\LEVEL2\\SOLDIER\\STRIKE.ANI"
-        },
-        "STRIKE1.ANI": {
-          "path": "ANIS\\LEVEL2\\SOLDIER\\STRIKE1.ANI"
-        },
-        "STRIKE2.ANI": {
-          "path": "ANIS\\LEVEL2\\SOLDIER\\STRIKE2.ANI"
-        },
-        "THROWN.ANI": {
-          "path": "ANIS\\LEVEL2\\SOLDIER\\THROWN.ANI"
+          "path": "ANIS\\LEVEL\\RAUX\\THROWN.ANI"
         }
       },
       "TARSPLASH.ANI": {
-        "path": "ANIS\\LEVEL2\\TARSPLASH.ANI"
+        "path": "ANIS\\LEVEL\\TARSPLASH.ANI"
       },
       "TOWERCANNONLEFT": {
         "FIRING.ANI": {
-          "path": "ANIS\\LEVEL2\\TOWERCANNONLEFT\\FIRING.ANI"
+          "path": "ANIS\\LEVEL\\TOWERCANNONLEFT\\FIRING.ANI"
         },
         "HOME.ANI": {
-          "path": "ANIS\\LEVEL2\\TOWERCANNONLEFT\\HOME.ANI"
+          "path": "ANIS\\LEVEL\\TOWERCANNONLEFT\\HOME.ANI"
         }
       },
       "TOWERCANNONRIGHT": {
         "FIRING.ANI": {
-          "path": "ANIS\\LEVEL2\\TOWERCANNONRIGHT\\FIRING.ANI"
+          "path": "ANIS\\LEVEL\\TOWERCANNONRIGHT\\FIRING.ANI"
         },
         "HOME.ANI": {
-          "path": "ANIS\\LEVEL2\\TOWERCANNONRIGHT\\HOME.ANI"
+          "path": "ANIS\\LEVEL\\TOWERCANNONRIGHT\\HOME.ANI"
         }
       }
     },
@@ -5111,9 +4754,6 @@
         }
       },
       "CANNON": {
-        "ANIMATIONS.TXT": {
-          "path": "IMAGES\\LEVEL2\\CANNON\\ANIMATIONS.TXT"
-        },
         "FRAME001.PID": {
           "path": "IMAGES\\LEVEL2\\CANNON\\FRAME001.PID"
         },
@@ -5153,9 +4793,6 @@
         }
       },
       "CRATES": {
-        "ANIMATIONS.TXT": {
-          "path": "IMAGES\\LEVEL2\\CRATES\\ANIMATIONS.TXT"
-        },
         "FRAME001.PID": {
           "path": "IMAGES\\LEVEL2\\CRATES\\FRAME001.PID"
         },
@@ -5187,9 +4824,6 @@
         }
       },
       "FLAGSSMALL": {
-        "ANIMATIONS.TXT": {
-          "path": "IMAGES\\LEVEL2\\FLAGSSMALL\\ANIMATIONS.TXT"
-        },
         "FRAME001.PID": {
           "path": "IMAGES\\LEVEL2\\FLAGSSMALL\\FRAME001.PID"
         },
@@ -5249,9 +4883,6 @@
         }
       },
       "OFFICER": {
-        "ANIMATIONS.TXT": {
-          "path": "IMAGES\\LEVEL2\\OFFICER\\ANIMATIONS.TXT"
-        },
         "FRAME001.PID": {
           "path": "IMAGES\\LEVEL2\\OFFICER\\FRAME001.PID"
         },
@@ -5374,12 +5005,6 @@
         },
         "FRAME950.PID": {
           "path": "IMAGES\\LEVEL2\\OFFICER\\FRAME950.PID"
-        },
-        "OFFICER.DIR": {
-          "path": "IMAGES\\LEVEL2\\OFFICER\\OFFICER.DIR"
-        },
-        "PSPBRWSE.JBF": {
-          "path": "IMAGES\\LEVEL2\\OFFICER\\PSPBRWSE.JBF"
         }
       },
       "PEGSLIDER": {
@@ -5400,9 +5025,6 @@
         }
       },
       "POWDERKEG": {
-        "ANIMATIONS.TXT": {
-          "path": "IMAGES\\LEVEL2\\POWDERKEG\\ANIMATIONS.TXT"
-        },
         "FRAME001.PID": {
           "path": "IMAGES\\LEVEL2\\POWDERKEG\\FRAME001.PID"
         },
@@ -5453,15 +5075,9 @@
         },
         "FRAME017.PID": {
           "path": "IMAGES\\LEVEL2\\POWDERKEG\\FRAME017.PID"
-        },
-        "PSPBRWSE.JBF": {
-          "path": "IMAGES\\LEVEL2\\POWDERKEG\\PSPBRWSE.JBF"
         }
       },
       "PUNKRAT": {
-        "ANIMATIONS.TXT": {
-          "path": "IMAGES\\LEVEL2\\PUNKRAT\\ANIMATIONS.TXT"
-        },
         "FRAME001.PID": {
           "path": "IMAGES\\LEVEL2\\PUNKRAT\\FRAME001.PID"
         },
@@ -5512,9 +5128,6 @@
         }
       },
       "RAUX": {
-        "ANIMATIONS.TXT": {
-          "path": "IMAGES\\LEVEL2\\RAUX\\ANIMATIONS.TXT"
-        },
         "FRAME001.PID": {
           "path": "IMAGES\\LEVEL2\\RAUX\\FRAME001.PID"
         },
@@ -5655,12 +5268,6 @@
         },
         "FRAME904.PID": {
           "path": "IMAGES\\LEVEL2\\RAUX\\FRAME904.PID"
-        },
-        "LERAUXE.DIR": {
-          "path": "IMAGES\\LEVEL2\\RAUX\\LERAUXE.DIR"
-        },
-        "PSPBRWSE.JBF": {
-          "path": "IMAGES\\LEVEL2\\RAUX\\PSPBRWSE.JBF"
         }
       },
       "RAUXPAINTING": {
@@ -5689,12 +5296,6 @@
         }
       },
       "SOLDIER": {
-        "ANIMATIONS.TXT": {
-          "path": "IMAGES\\LEVEL2\\SOLDIER\\ANIMATIONS.TXT"
-        },
-        "CSPSOLDIER.TXT": {
-          "path": "IMAGES\\LEVEL2\\SOLDIER\\CSPSOLDIER.TXT"
-        },
         "FRAME001.PID": {
           "path": "IMAGES\\LEVEL2\\SOLDIER\\FRAME001.PID"
         },
@@ -5826,12 +5427,6 @@
         },
         "FRAME904.PID": {
           "path": "IMAGES\\LEVEL2\\SOLDIER\\FRAME904.PID"
-        },
-        "PSPBRWSE.JBF": {
-          "path": "IMAGES\\LEVEL2\\SOLDIER\\PSPBRWSE.JBF"
-        },
-        "SOLDIER.DIR": {
-          "path": "IMAGES\\LEVEL2\\SOLDIER\\SOLDIER.DIR"
         }
       },
       "SPLASH": {
@@ -5858,9 +5453,6 @@
         }
       },
       "TORCHSTAND": {
-        "ANIMATIONS.TXT": {
-          "path": "IMAGES\\LEVEL2\\TORCHSTAND\\ANIMATIONS.TXT"
-        },
         "FRAME001.PID": {
           "path": "IMAGES\\LEVEL2\\TORCHSTAND\\FRAME001.PID"
         },
@@ -6365,9 +5957,6 @@
         },
         "511.PID": {
           "path": "TILES\\LEVEL2\\ACTION\\511.PID"
-        },
-        "PSPBRWSE.JBF": {
-          "path": "TILES\\LEVEL2\\ACTION\\PSPBRWSE.JBF"
         }
       },
       "BACK": {
@@ -6772,9 +6361,6 @@
         },
         "134.PID": {
           "path": "TILES\\LEVEL2\\BACK\\134.PID"
-        },
-        "PSPBRWSE.JBF": {
-          "path": "TILES\\LEVEL2\\BACK\\PSPBRWSE.JBF"
         }
       },
       "FRONT": {
@@ -6837,9 +6423,6 @@
         },
         "032.PID": {
           "path": "TILES\\LEVEL2\\FRONT\\032.PID"
-        },
-        "PSPBRWSE.JBF": {
-          "path": "TILES\\LEVEL2\\FRONT\\PSPBRWSE.JBF"
         }
       }
     },
