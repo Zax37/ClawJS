@@ -48,7 +48,7 @@ export class Collectible extends DynamicObject {
 
   private specialPowerup() {
     let value = 0;
-    let greenGlitter;
+    let addGlitter = true;
     switch (this.object.image) {
       case 'GAME_CATNIPS_NIP1':
       case 'GAME_CATNIPS_NIP2':
@@ -115,7 +115,6 @@ export class Collectible extends DynamicObject {
         break;
       case 'LEVEL_GEM':
       case 'GAME_MAPPIECE':
-        greenGlitter = true;
         this.sound = 'GAME_MAPPIECE';
         this.collectableEffect = () => {
           this.scene.game.dataManager.setPlayerData(this.scene.claw.playerData);
@@ -125,6 +124,7 @@ export class Collectible extends DynamicObject {
       case 'GAME_WARP':
       case 'GAME_VERTWARP':
       case 'GAME_BOSSWARP':
+        addGlitter = false;
         if (this.object.smarts === 1 || this.object.image === 'GAME_BOSSWARP') {
           this.reusable = true;
         }
@@ -141,8 +141,8 @@ export class Collectible extends DynamicObject {
         console.log('Unknown special powerup: ' + this.object.image);
     }
 
-    if (this.object.image !== 'GAME_BOSSWARP' && !this.fromContainer) {
-      this.glitter = new PowerupGlitter(this.scene, this.mainLayer, this.object, greenGlitter);
+    if (addGlitter && !this.fromContainer) {
+      this.glitter = new PowerupGlitter(this.scene, this.mainLayer, this.object);
     }
   }
 

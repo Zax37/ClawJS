@@ -1,4 +1,7 @@
 {
+  "1.1.2": [
+    "removed warp glitters"
+  ],
   "1.1.1": [
     "added changelog message displayed on first launch of new update or [u]upon clicking on version number[/u]",
     "added scroll support so user can browse windows with longer contents, like this one",
