@@ -102,9 +102,9 @@ class RezParser {
 
     unpack(outputPath, rezFile, outputModel) {
         function unpackRezData(reader, rezStructure, output, model) {
-            /*if (!fs.existsSync(output)) {
+            if (!outputModel && !fs.existsSync(output)) {
                 fs.mkdirSync(output);
-            }*/
+            }
 
             for (let i = 0; i < rezStructure.length; i++) {
                 if (outputModel && !model[rezStructure[i].name]) {
@@ -113,9 +113,9 @@ class RezParser {
                 }
 
                 if (rezStructure[i].type === EntryType.DIRECTORY) {
-                    unpackRezData(reader, rezStructure[i].contents, /*path.resolve(output, rezStructure[i].name)*/output, outputModel && model[rezStructure[i].name]);
+                    unpackRezData(reader, rezStructure[i].contents, outputModel ? output : path.resolve(output, rezStructure[i].name), outputModel && model[rezStructure[i].name]);
                 } else if (rezStructure[i].type === EntryType.FILE) {
-                    const outputFilepath = path.resolve(output, model[rezStructure[i].name].path);
+                    const outputFilepath = path.resolve(output, outputModel ? model[rezStructure[i].name].path : rezStructure[i].name);
                     ensurePath(path.dirname(outputFilepath));
                     reader.seek(rezStructure[i].offset);
                     fs.writeFileSync(outputFilepath, reader.nextBuffer(rezStructure[i].length));
