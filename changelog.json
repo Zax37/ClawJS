@@ -1,6 +1,9 @@
 {
   "1.1.2": [
-    "removed warp glitters"
+    "added support for mouse and touch control in menus",
+    "added experimental, minimal touch controls",
+    "removed warp glitters",
+    "fixed out of place comma appearing between each version changelogs"
   ],
   "1.1.1": [
     "added changelog message displayed on first launch of new update or [u]upon clicking on version number[/u]",

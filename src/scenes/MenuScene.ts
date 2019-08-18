@@ -110,7 +110,7 @@ export class MenuScene extends SceneWithMenu {
   menuConfirm() {
     if (this.scrollableWindow) {
       this.scrollableWindow.destroy();
-    } else if (this.isMenuOn) {
+    } else if (!this.menu.disabled) {
       super.menuConfirm();
     } else {
       this.setState(MenuSceneState.MAIN);
@@ -120,7 +120,7 @@ export class MenuScene extends SceneWithMenu {
   menuBack() {
     if (this.scrollableWindow) {
       this.scrollableWindow.destroy();
-    } else if (this.isMenuOn) {
+    } else if (!this.menu.disabled) {
       super.menuBack();
     } else {
       this.setState(MenuSceneState.MAIN);
@@ -145,7 +145,7 @@ export class MenuScene extends SceneWithMenu {
         break;
     }
     this.state = state;
-    this.isMenuOn = state === MenuSceneState.MAIN;
+    this.menu.disabled = state !== MenuSceneState.MAIN;
   }
 
   createSocialIcons() {
@@ -181,11 +181,11 @@ export class MenuScene extends SceneWithMenu {
   openPopup(popupWindow: CreditsWindow) {
     if (!this.scrollableWindow) {
       this.version.disableInteractive();
-      this.isMenuOn = false;
+      this.menu.disabled = true;
       this.scrollableWindow = popupWindow;
       this.scrollableWindow.once('destroy', () => {
         this.scrollableWindow = undefined;
-        this.isMenuOn = this.state === MenuSceneState.MAIN;
+        this.menu.disabled = this.state !== MenuSceneState.MAIN;
         this.version.setInteractive({ useHandCursor: true });
       });
     }

@@ -51,7 +51,7 @@ export class OptionsMenu extends Menu {
   }
 
   leftPress() {
-    switch (this.selected) {
+    switch (this.selectedOption) {
       case 0:
         this.scene.game.musicManager.setVolume(Math.max(this.scene.game.musicManager.getVolume() - 0.1, 0));
         this.options[0].setText('MUSIC: ' + this.scene.game.musicManager.getVolume().toFixed(1));
@@ -75,7 +75,7 @@ export class OptionsMenu extends Menu {
   }
 
   rightPress() {
-    switch (this.selected) {
+    switch (this.selectedOption) {
       case 0:
         this.scene.game.musicManager.setVolume(Math.min(this.scene.game.musicManager.getVolume() + 0.1, 1));
         this.options[0].setText('MUSIC: ' + this.scene.game.musicManager.getVolume().toFixed(1));

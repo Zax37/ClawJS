@@ -1,8 +1,10 @@
+import { CANVAS_WIDTH } from '../config';
 import { CaptainClaw } from '../logics/main/CaptainClaw';
 import { LEVEL_DEFAULTS, LevelData } from '../model/LevelDefaults';
 import { MapFactory } from '../tilemap/MapFactory';
 import { GameHUD } from './GameHUD';
 import { Scene } from './Scene';
+import Pointer = Phaser.Input.Pointer;
 
 export class MapDisplay extends Scene {
   private camera: Phaser.Cameras.Scene2D.Camera;
@@ -130,6 +132,29 @@ export class MapDisplay extends Scene {
         this.claw.inputs.SECONDARY_ATTACK = true
       }
     });*/
+
+    let leftPointerId: number | undefined;
+    let rightPointerId: number | undefined;
+
+    this.input.on('pointerdown', (pointer: Pointer) => {
+      if (pointer.x > CANVAS_WIDTH / 2) {
+        rightPointerId = pointer.id;
+        this.claw.inputs.RIGHT = true;
+      } else {
+        leftPointerId = pointer.id;
+        this.claw.inputs.LEFT = true;
+      }
+    });
+
+    this.input.on('pointerup', (pointer: Pointer) => {
+      if (leftPointerId !== undefined && pointer.id === leftPointerId) {
+        leftPointerId = undefined;
+        this.claw.inputs.LEFT = false;
+      } else if (rightPointerId !== undefined && pointer.id === rightPointerId) {
+        rightPointerId = undefined;
+        this.claw.inputs.RIGHT = false;
+      }
+    });
 
     window.addEventListener('popstate', () => this.game.goToMainMenu());
     this.events.emit('load');

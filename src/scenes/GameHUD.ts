@@ -20,8 +20,6 @@ export class GameHUD extends SceneWithMenu {
   private level: number;
   showFPS = false;
 
-  isMenuOn = false;
-
   constructor() {
     super({ key: GameHUD.key });
   }
@@ -120,12 +118,13 @@ export class GameHUD extends SceneWithMenu {
 
     this.input.keyboard.on('keydown_ESC', () => this.togglePause());
     this.input.keyboard.on('keydown_M', () => {
-      if (this.isMenuOn) {
+      if (!this.menu.disabled) {
         this.game.dataManager.set('musicVolume', '0.0');
       }
     });
 
     this.menu = new InGameMenu(this);
+    this.menu.disabled = true;
     super.create();
 
     if (!this.mapDisplay.ready) {
@@ -145,7 +144,7 @@ export class GameHUD extends SceneWithMenu {
     }
 
     if (this.powerupTime > 0) {
-      if (!this.isMenuOn) {
+      if (this.menu.disabled) {
         this.powerupTime -= delta;
         this.powerupFrame.setValue(Math.round(this.powerupTime / 1000));
 
@@ -173,10 +172,17 @@ export class GameHUD extends SceneWithMenu {
   }
 
   togglePause(skipSound?: boolean) {
-    this.isMenuOn = !this.isMenuOn;
-    this.fade.alpha = this.isMenuOn ? 0.5 : 0;
+    this.menu.disabled = !this.menu.disabled;
+    this.fade.alpha = this.menu.disabled ? 0 : 0.5;
 
-    if (this.isMenuOn) {
+    if (this.menu.disabled) {
+      this.game.soundsManager.setScene(this.mapDisplay);
+      this.scene.resume(MapDisplay.key);
+      while (!(this.menu instanceof InGameMenu)) {
+        this.menu.back();
+      }
+      this.menu.hide();
+    } else {
       this.mapDisplay.claw.inputs = {
         LEFT: false,
         RIGHT: false,
@@ -189,13 +195,6 @@ export class GameHUD extends SceneWithMenu {
       this.game.soundsManager.setScene(this);
       this.scene.pause(MapDisplay.key);
       this.menu.show();
-    } else {
-      this.game.soundsManager.setScene(this.mapDisplay);
-      this.scene.resume(MapDisplay.key);
-      while (!(this.menu instanceof InGameMenu)) {
-        this.menu.back();
-      }
-      this.menu.hide();
     }
 
     if (!skipSound) {

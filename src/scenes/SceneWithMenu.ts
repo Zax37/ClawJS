@@ -3,28 +3,27 @@ import { Scene } from './Scene';
 
 export class SceneWithMenu extends Scene {
   menu: Menu;
-  isMenuOn = true;
 
   create() {
     this.input.keyboard.on('keydown_UP', () => {
-      if (this.isMenuOn) {
+      if (!this.menu.disabled) {
         this.menu.upPress();
         this.game.soundsManager.playSound('GAME_CLICK');
       }
     });
     this.input.keyboard.on('keydown_DOWN', () => {
-      if (this.isMenuOn) {
+      if (!this.menu.disabled) {
         this.menu.downPress();
         this.game.soundsManager.playSound('GAME_CLICK');
       }
     });
     this.input.keyboard.on('keydown_LEFT', () => {
-      if (this.isMenuOn) {
+      if (!this.menu.disabled) {
         this.menu.leftPress();
       }
     });
     this.input.keyboard.on('keydown_RIGHT', () => {
-      if (this.isMenuOn) {
+      if (!this.menu.disabled) {
         this.menu.rightPress();
       }
     });
@@ -34,8 +33,8 @@ export class SceneWithMenu extends Scene {
   }
 
   protected menuConfirm() {
-    if (this.isMenuOn) {
-      this.menu.confirm(this.menu.selected);
+    if (!this.menu.disabled) {
+      this.menu.confirm(this.menu.selectedOption);
       this.game.soundsManager.playSound('GAME_SELECT');
     }
   }
