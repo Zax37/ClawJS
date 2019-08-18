@@ -82,6 +82,7 @@ export class MenuScene extends SceneWithMenu {
     this.version.setPadding(20, 24, 20, 24);
     this.version.setInteractive({ useHandCursor: true });
 
+    this.menu = new MainMenu(this);
     this.version.on('pointerup', () => this.openPopup(new ChangelogWindow(this)));
     this.game.soundsManager.setScene(this);
     if (this.game.dataManager.get('lastPlayedVersion') !== p.version || p.version.endsWith('-RC')) {
@@ -101,7 +102,6 @@ export class MenuScene extends SceneWithMenu {
       icons.push(this.add.image(x, y, 'icons', `${i + 1}.png`).setInteractive({ useHandCursor: true }));
     }*/
 
-    this.menu = new MainMenu(this);
     this.game.soundsManager.setScene(this);
     this.game.musicManager.play(this.sound.add('menu_music'));
     super.create();
