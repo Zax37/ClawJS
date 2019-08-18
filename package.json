@@ -6,7 +6,7 @@
   "url": "http://clawjs.openode.io/",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack.prod.js",
+    "build": "webpack --config webpack.prod.js & cp build/* resources",
     "dev": "webpack-dev-server --config webpack.dev.js",
     "start": "node .",
     "tslint": "tslint src/**/*.ts"

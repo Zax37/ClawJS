@@ -1,6 +1,7 @@
 .awcache
 .env
 .idea
+.netlify
 build
 dist
 node_modules

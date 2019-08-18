@@ -9,6 +9,12 @@ served to play in browser on any device, possibly with several multiplayer modes
 
 ### Resources
 
+**Note:** I'm currently working on full pipeline for resources processing.
+For now, if you're interested in participating, please contact me first
+and I'll help getting them ready.
+
+--- 
+
 First, you need to prepare all your resources to be served. Steps I took:
 
 - get the original Claw resources
@@ -49,4 +55,12 @@ node .
 
 See the results locally: http://localhost:3000/
 
-Enjoy!
+### Deploying
+
+I'm currently using netlify for hosting the application.
+CI/CD is probably not an option until I finish the resources pipeline, so I use
+manual deploy, **after doing production build**:
+
+```
+netlify deploy -p
+```

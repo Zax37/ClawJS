@@ -1,9 +1,0 @@
-.awcache
-.idea
-node_modules
-src
-tools
-
-phaser.d.ts
-tsconfig.json
-webpack.*
