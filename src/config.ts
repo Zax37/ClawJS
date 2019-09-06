@@ -1,5 +1,6 @@
 export const CANVAS_WIDTH = 800;
 export const CANVAS_HEIGHT = 600;
+export const GAMEPAD_INTERACTION_DELAY = 200;
 import { Plugin as NineSlicePlugin } from 'phaser3-nineslice';
 import { BBCodeTextPlugin } from 'phaser3-rex-plugins';
 import p from '../package.json';
@@ -31,4 +32,7 @@ export const config: GameConfig = {
       },
     ],
   },
+  input: {
+    gamepad: true,
+  }
 };

@@ -133,26 +133,24 @@ export class MapDisplay extends Scene {
       }
     });*/
 
-    let leftPointerId: number | undefined;
-    let rightPointerId: number | undefined;
-
     this.input.on('pointerdown', (pointer: Pointer) => {
-      if (pointer.x > CANVAS_WIDTH / 2) {
-        rightPointerId = pointer.id;
-        this.claw.inputs.RIGHT = true;
-      } else {
-        leftPointerId = pointer.id;
-        this.claw.inputs.LEFT = true;
+      if (pointer.id === 0) {
+        if (pointer.x > CANVAS_WIDTH / 2) {
+          this.claw.inputs.RIGHT = true;
+        } else {
+          this.claw.inputs.LEFT = true;
+        }
+      } else if (pointer.id === 1) {
+        this.claw.inputs.JUMP = true;
       }
     });
 
     this.input.on('pointerup', (pointer: Pointer) => {
-      if (leftPointerId !== undefined && pointer.id === leftPointerId) {
-        leftPointerId = undefined;
+      if (pointer.id === 0) {
         this.claw.inputs.LEFT = false;
-      } else if (rightPointerId !== undefined && pointer.id === rightPointerId) {
-        rightPointerId = undefined;
         this.claw.inputs.RIGHT = false;
+      } else if (pointer.id === 1) {
+        this.claw.inputs.JUMP = false;
       }
     });
 
@@ -164,6 +162,18 @@ export class MapDisplay extends Scene {
   update(time: number, delta: number) {
     if (this.map) {
       this.map.update(this.camera);
+
+      if (this.input.gamepad.total) {
+        //for (let i = 0; i < this.input.gamepad.total; i++) {
+          const pad = this.input.gamepad.getPad(0);
+
+          this.claw.inputs.LEFT = pad.leftStick.x < -0.5;
+          this.claw.inputs.RIGHT = pad.leftStick.x > 0.5;
+          this.claw.inputs.UP = pad.leftStick.y < -0.5;
+          this.claw.inputs.DOWN = pad.leftStick.y > 0.5;
+          this.claw.inputs.JUMP = pad.A;
+        //}
+      }
     }
   }
 

@@ -1,7 +1,8 @@
 {
   "1.1.2": [
     "added support for mouse and touch control in menus",
-    "added experimental, minimal touch controls",
+    "added experimental, minimal touch controls support",
+    "added experimental, minimal gamepad support",
     "removed warp glitters",
     "fixed out of place comma appearing between each version changelogs"
   ],

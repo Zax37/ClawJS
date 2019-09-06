@@ -163,6 +163,8 @@ export class GameHUD extends SceneWithMenu {
     } else {
       this.fpsText.visible = false;
     }
+
+    super.update(time, delta);
   }
 
   textOut(text: string) {

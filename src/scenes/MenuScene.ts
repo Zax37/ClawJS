@@ -1,5 +1,5 @@
 import { MouseWheelToUpDown } from 'phaser3-rex-plugins';
-import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../config';
+import { CANVAS_HEIGHT, CANVAS_WIDTH, GAMEPAD_INTERACTION_DELAY } from '../config';
 import { TextWindow } from '../logics/abstract/TextWindow';
 import { ChangelogWindow } from '../logics/menu/ChangelogWindow';
 import { CreditsWindow } from '../logics/menu/CreditsWindow';
@@ -60,7 +60,22 @@ export class MenuScene extends SceneWithMenu {
         this.scrollableWindow.scrollUp();
       } else if (this.keyboardCursors.down.isDown) {
         this.scrollableWindow.scrollDown();
+      } else if (this.input.gamepad.total && time > this.lastPadInteraction + GAMEPAD_INTERACTION_DELAY) {
+        for (let i = 0; i < this.input.gamepad.total; i++) {
+          const pad = this.input.gamepad.getPad(i);
+
+          if (pad.up || pad.leftStick.y < -0.1) {
+            this.scrollableWindow.scrollUp();
+          } else if (pad.down || pad.leftStick.y > 0.1) {
+            this.scrollableWindow.scrollDown();
+          } else if (pad.A || pad.B) {
+            this.scrollableWindow.destroy();
+            this.lastPadInteraction = time;
+          }
+        }
       }
+    } else {
+      super.update(time, delta);
     }
   }
 
