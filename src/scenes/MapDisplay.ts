@@ -134,23 +134,33 @@ export class MapDisplay extends Scene {
     });*/
 
     this.input.on('pointerdown', (pointer: Pointer) => {
-      if (pointer.id === 0) {
-        if (pointer.x > CANVAS_WIDTH / 2) {
-          this.claw.inputs.RIGHT = true;
-        } else {
-          this.claw.inputs.LEFT = true;
-        }
-      } else if (pointer.id === 1) {
-        this.claw.inputs.JUMP = true;
+      switch (pointer.id) {
+        case 1:
+          if (pointer.x > CANVAS_WIDTH / 2) {
+            this.claw.inputs.RIGHT = true;
+          } else {
+            this.claw.inputs.LEFT = true;
+          }
+        break;
+        case 2:
+          this.claw.inputs.JUMP = true;
+        break;
+        default:
+        break;
       }
     });
 
     this.input.on('pointerup', (pointer: Pointer) => {
-      if (pointer.id === 0) {
-        this.claw.inputs.LEFT = false;
-        this.claw.inputs.RIGHT = false;
-      } else if (pointer.id === 1) {
-        this.claw.inputs.JUMP = false;
+      switch (pointer.id) {
+        case 1:
+          this.claw.inputs.LEFT = false;
+          this.claw.inputs.RIGHT = false;
+        break;
+        case 2:
+          this.claw.inputs.JUMP = false;
+          break;
+        default:
+          break;
       }
     });
 
