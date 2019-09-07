@@ -1,4 +1,4 @@
-import { CANVAS_WIDTH } from '../config';
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from '../config';
 import { CaptainClaw } from '../logics/main/CaptainClaw';
 import { LEVEL_DEFAULTS, LevelData } from '../model/LevelDefaults';
 import { MapFactory } from '../tilemap/MapFactory';
@@ -133,8 +133,9 @@ export class MapDisplay extends Scene {
       }
     });*/
 
+    this.input.addPointer(1);
     this.input.on('pointerdown', (pointer: Pointer) => {
-      switch (pointer.pointerId) {
+      switch (pointer.id) {
         case 1:
           if (pointer.x > CANVAS_WIDTH / 2) {
             this.claw.inputs.RIGHT = true;
@@ -150,8 +151,31 @@ export class MapDisplay extends Scene {
       }
     });
 
+    let upDownPointerId: number | undefined;
+    this.input.on('pointermove', (pointer: Pointer) => {
+      if (!upDownPointerId) {
+        if (pointer.y < CANVAS_HEIGHT * 0.2 && pointer.downY > pointer.y) {
+          this.claw.inputs.UP = true;
+          upDownPointerId = pointer.id;
+        } else if (pointer.y > CANVAS_HEIGHT * 0.8 && pointer.downY < pointer.y) {
+          this.claw.inputs.DOWN = true;
+          upDownPointerId = pointer.id;
+        }
+      } else if (pointer.id === upDownPointerId && pointer.y > CANVAS_HEIGHT * 0.2 && pointer.y < CANVAS_HEIGHT * 0.8) {
+        this.claw.inputs.UP = false;
+        this.claw.inputs.DOWN = false;
+        upDownPointerId = undefined;
+      }
+    });
+
     this.input.on('pointerup', (pointer: Pointer) => {
-      switch (pointer.pointerId) {
+      if (pointer.id === upDownPointerId) {
+        this.claw.inputs.UP = false;
+        this.claw.inputs.DOWN = false;
+        upDownPointerId = undefined;
+      }
+
+      switch (pointer.id) {
         case 1:
           this.claw.inputs.LEFT = false;
           this.claw.inputs.RIGHT = false;
