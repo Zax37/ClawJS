@@ -134,7 +134,7 @@ export class MapDisplay extends Scene {
     });*/
 
     this.input.on('pointerdown', (pointer: Pointer) => {
-      switch (pointer.id) {
+      switch (pointer.pointerId) {
         case 1:
           if (pointer.x > CANVAS_WIDTH / 2) {
             this.claw.inputs.RIGHT = true;
@@ -151,7 +151,7 @@ export class MapDisplay extends Scene {
     });
 
     this.input.on('pointerup', (pointer: Pointer) => {
-      switch (pointer.id) {
+      switch (pointer.pointerId) {
         case 1:
           this.claw.inputs.LEFT = false;
           this.claw.inputs.RIGHT = false;
