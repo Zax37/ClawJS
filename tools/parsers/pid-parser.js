@@ -24,23 +24,66 @@ const pidParser = new Parser()
   .int32("offsetX")
   .int32("offsetY")
   .int32("reserved1")
-  .int32("reserved2");
+  .int32("reserved2")
+  .buffer("rest", { readUntil: "eof" });
 
 class PidParser {
     parse(buffer) {
-        return pidParser.parse(buffer);
+        const { rest, ...pid } = pidParser.parse(buffer);
+        pid.data = Buffer.alloc(pid.width * pid.height);
+
+        let x = 0, y = 0;
+        if (pid.flags.compression) {
+            for (let i = 0; i < rest.length;) {
+                let num = rest.readUInt8(i++);
+                if (num > 128) {
+                    let spacing = num - 128;
+                    for (let iter = 0; iter < spacing; iter++) {
+                        pid.data[y * pid.width + x++] = 0;
+                        if (x === pid.width) break;
+                    }
+                    if (x === pid.width) {
+                        x = 0;
+                        y++;
+                    }
+                    if (y >= pid.height) break;
+                    continue;
+                }
+                for (let j = 0; j < num; j++) {
+                    pid.data[y * pid.width + x++] = rest.readUInt8(i++);
+                    if (x === pid.width) {
+                        x = 0;
+                        y++;
+                    }
+                    if (y >= pid.height) break;
+                }
+                if (y >= pid.height) break;
+            }
+        } else {
+            for (let i = 0; i < rest.length;) {
+                let num, pixel = rest.readUInt8(i++);
+                if (pixel > 192) {
+                    num = pixel - 192;
+                    pixel = rest.readUInt8(i++);
+                    pid.data[y * pid.width + x] = pixel;
+                } else {
+                    num = 1;
+                }
+                for (let j = 0; j < num; j++) {
+                    pid.data[y * pid.width + x] = pixel;
+                    x++;
+                    if (x === pid.width) {
+                        x = 0;
+                        y++;
+                    }
+                    if (y >= pid.height) break;
+                }
+                if (y >= pid.height) break;
+            }
+        }
+
+        return pid;
     }
 }
 
-if (process.argv[2]) {
-    const pidPath = path.resolve(process.argv[2]);
-
-    const pidParser = new PidParser();
-    const pidFile = pidParser.parse(fs.readFileSync(pidPath));
-
-    console.log(pidFile);
-} else {
-    console.log("Call arguments for pidParser: PID_FILE_PATH.")
-}
-
-module.exports = pidParser;
+module.exports = PidParser;

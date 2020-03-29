@@ -1,10 +1,11 @@
 const fs = require('fs');
 const path = require('path');
-const pidParser = require("../parsers/pid-parser");
+const PidParser = require("../parsers/pid-parser");
 
 function processImagesets(directory) {
   console.log("Parsing imagesets in: " + directory);
 
+  const pidParser = new PidParser();
   const items = fs.readdirSync(directory);
   items.forEach(imageset => {
     const imageSetFileName = path.join(__dirname, '../../resources/imagesets', `${imageset}.json`);

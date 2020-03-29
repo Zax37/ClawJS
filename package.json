@@ -30,6 +30,7 @@
     "browser-sync": "^2.26.7",
     "buffer-reader": "^0.1.0",
     "html-webpack-plugin": "3.2.0",
+    "node-libpng": "^0.2.13",
     "pako": "1.0.6",
     "phaser": "github:Zax37/phaser",
     "phaser3-nineslice": "github:jdotrjs/phaser3-nineslice",
