@@ -11,8 +11,12 @@ if (process.argv[2] && process.argv[3]) {
 
   for (const frame of data.frames) {
     const pidPath = path.join(imgSetPath, frame.filename.replace(/_/g, "\\") + ".PID");
-    const pid = pidParser.parse(fs.readFileSync(pidPath));
-    frame.offset = {x: pid.offsetX, y: pid.offsetY};
+    try {
+      const pid = pidParser.parse(fs.readFileSync(pidPath));
+      frame.offset = {x: pid.offsetX, y: pid.offsetY};
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   if (data.meta) delete data.meta;

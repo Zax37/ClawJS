@@ -1,6 +1,4 @@
 const Parser = require("binary-parser").Parser;
-const path = require('path');
-const fs = require('fs');
 
 const emptyParser = new Parser();
 const soundStringParser = new Parser().string("sound", { encoding: "ascii", zeroTerminated: true });
@@ -37,8 +35,4 @@ const aniParser = new Parser()
     length: "length"
   });
 
-if (process.argv[2]) {
-  const filePath = path.resolve(process.argv[2]);
-  const animation = aniParser.parse(fs.readFileSync(filePath));
-  console.log(animation);
-}
+module.exports = aniParser;
