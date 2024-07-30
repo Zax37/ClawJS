@@ -6,6 +6,11 @@ const port = process.env.PORT || 3000;
 
 // Start minimal UI endpoint
 http.createServer(function (req, res) {
+    if (path.normalize(decodeURI(req.url)) !== decodeURI(req.url)) {
+        res.statusCode = 403;
+        res.end();
+        return;
+    }
   if (req.url === '/') {
     serveFile(path.join(__dirname, 'build/index.html'), res);
   } else if (req.url === '/app.js') {
